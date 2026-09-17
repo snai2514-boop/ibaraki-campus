@@ -13,3 +13,4 @@ xcodebuild -project CampusAssistant.xcodeproj -scheme CampusAssistant -configura
 ditto -c -k --sequesterRsrc --keepParent build/simulator/Build/Products/Debug-iphonesimulator/CampusAssistant.app build/dist/CampusAssistant-Simulator.zip
 shasum -a 256 build/dist/* > build/dist/SHA256SUMS.txt
 echo 'Device IPA (unsigned) and simulator app built. IPA requires personal Apple signing before installation.'
+
