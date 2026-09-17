@@ -88,6 +88,7 @@ async function sync(registrationOnly=false){
     }else{
      if(task==='grades'||task==='Q1')await bridge('home');let lastNav=0;
      const t=await poll(async()=>{const e=await read('extract');if(e.needsLogin)throw new Error('学校登录已失效');let parsed;try{parsed=C.parse(e.text);}catch(_){}if(parsed&&(task==='grades'?parsed.key==='grades':parsed.quarter===Number(task.slice(1)))){if(C.identity(e.text)!==state.profile.student)throw new Error('学校账户已变化');return parsed;}if(Date.now()-lastNav>4000){await read('school-sync-navigation',{target:task});lastNav=Date.now();}return null;},stamp);
+     if(t.lessons&&!t.lessons.length){results.push(task+' 学校暂无课程，保留原记录');continue;}
      t.at=Date.now();t.student=state.profile.student;if(task==='grades'){const diff=C.changes(state.snapshots.grades,t);if(diff.length)announce(diff.join('；'));}else{const capture=await read('school-course-modes',{capture:true,year:t.year,codes:t.lessons.map(l=>l.code)});links.push(...capture.links);}
      state.snapshots[t.key]=t;results.push(task+' 已更新 '+(t.rows||t.lessons).length+' 门');
     }
