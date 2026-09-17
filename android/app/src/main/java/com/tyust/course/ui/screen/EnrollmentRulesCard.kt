@@ -18,24 +18,35 @@ import androidx.compose.ui.unit.dp
 import com.tyust.course.academic.*
 
 @Composable
-fun EnrollmentRulesCard(grades: List<PortalGrade> = emptyList()) {
+fun EnrollmentRulesCard(grades: List<PortalGrade>? = null, scope: CurriculumScope = CurriculumScope("工学部", "情報工学科", 2026)) {
+    val rules = remember(scope) { CurriculumConstraints.rules(scope) }
+    if (rules.isEmpty()) return
     val context = LocalContext.current
     var expanded by rememberSaveable { mutableStateOf(false) }
-    var index by rememberSaveable { mutableIntStateOf(0) }
+    var showChecks by rememberSaveable { mutableStateOf(false) }
+    var index by rememberSaveable(scope) { mutableIntStateOf(0) }
     var menu by remember { mutableStateOf(false) }
     var existing by rememberSaveable(index) { mutableStateOf("") }
     var planned by rememberSaveable(index) { mutableStateOf("") }
-    val rule = EnrollmentRules.all[index]
+    val rule = rules[index.coerceIn(rules.indices)]
     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("选课规则", style = MaterialTheme.typography.titleLarge)
-        Text("限修、先修、重修等 ${EnrollmentRules.all.size} 项规则。")
+        Text("限修、先修、必修组合等 ${rules.size} 项规则。")
+        TextButton(onClick = { showChecks = !showChecks }) { Text(if (showChecks) "收起自动核对" else "按已同步成绩核对必修") }
+        if (showChecks) {
+            Text("仅计已合格、分类明确的成绩；预计新增不计入。学分满足不代表审批、指定班级等条件已满足。", style = MaterialTheme.typography.bodySmall)
+            CurriculumConstraintChecks.evaluate(scope, grades).forEach { check ->
+                Text("${check.spec.title}：${if (grades == null) "—" else check.earned.stripTrailingZeros().toPlainString()}/${check.spec.minimum} · ${check.status}")
+                Text(check.note, style = MaterialTheme.typography.bodySmall)
+            }
+        }
         TextButton(onClick = { expanded = !expanded }) { Text(if (expanded) "收起规则" else "查看规则") }
         if (expanded) {
-            Text("适用：2026 入学工学部。", style = MaterialTheme.typography.bodySmall)
+            Text("适用：${scope.cohort} 入学 · ${scope.faculty} · ${scope.department}", style = MaterialTheme.typography.bodySmall)
             Box {
                 OutlinedButton(onClick = { menu = true }) { Row { RawText("${index + 1}. "); Text(rule.title); RawText(" ▾") } }
                 DropdownMenu(expanded = menu, onDismissRequest = { menu = false }, modifier = Modifier.heightIn(max = 360.dp)) {
-                    EnrollmentRules.all.forEachIndexed { i, r -> DropdownMenuItem(text = { Row { RawText("${i + 1}. "); Text(r.title) } }, onClick = { index = i; menu = false }) }
+                    rules.forEachIndexed { i, r -> DropdownMenuItem(text = { Row { RawText("${i + 1}. "); Text(r.title) } }, onClick = { index = i; menu = false }) }
                 }
             }
             Text("核对范围：${rule.scope}", style = MaterialTheme.typography.titleSmall)
@@ -53,8 +64,8 @@ fun EnrollmentRulesCard(grades: List<PortalGrade> = emptyList()) {
                 else if (existing.isNotBlank() || planned.isNotBlank()) Text("请填写两个非负数；门数必须为整数。", color = MaterialTheme.colorScheme.error)
                 Text("按对应学期、学年或累计范围填写；不会把成绩发布学季当作实际履修学期。重修、审批例外需按学校结果核对。", style = MaterialTheme.typography.bodySmall)
             }
-            if (rule.id == "english_prerequisite") Text(EnrollmentRules.englishStatus(grades))
-            TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(EnrollmentRules.source))) }) { Text("查看依据：共通教育履修案内第 ${rule.page} 页") }
+            if (rule.id == "english_prerequisite") Text(EnrollmentRules.englishStatus(grades.orEmpty()))
+            TextButton(onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(rule.source))) }) { Text("查看依据：第 ${rule.page} 页") }
         }
     } }
 }

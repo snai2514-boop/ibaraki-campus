@@ -12,6 +12,7 @@ class CourseApplication : Application() {
         com.tyust.course.i18n.AppLanguage.initialize(this)
         GlassRuntimeGuard.initialize(this)
         AppearanceSettingsManager.initialize(this)
+        com.tyust.course.manager.ThemePackManager.initialize(this)
         AppThemeCoordinator.initialize(this)
         val processName = if (android.os.Build.VERSION.SDK_INT >= 28) getProcessName() else {
             getSystemService(android.app.ActivityManager::class.java).runningAppProcesses

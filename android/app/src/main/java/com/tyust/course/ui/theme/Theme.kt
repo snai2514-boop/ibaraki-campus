@@ -114,7 +114,7 @@ fun CourseSelectorTheme(
         else -> LightColorScheme
     }
 
-    val colorScheme = baseColorScheme
+    val colorScheme = com.tyust.course.manager.ThemePackManager.colors(baseColorScheme, resolvedDarkTheme)
 
     val view = LocalView.current
     val rootWallpaperColors = rememberWallpaperRegionAppearance(darkTheme = resolvedDarkTheme)

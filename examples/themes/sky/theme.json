@@ -1,0 +1,39 @@
+{
+  "format": "ibaraki-campus-theme",
+  "version": 1,
+  "name": "青空 / Sky",
+  "author": "YIN",
+  "light": {
+    "primary": "#1768AC",
+    "onPrimary": "#FFFFFF",
+    "background": "#F2F8FF",
+    "surface": "#FFFFFF",
+    "text": "#172D50",
+    "muted": "#526A86",
+    "accent": "#DEEEFF",
+    "dialog": "#F4F0FF"
+  },
+  "dark": {
+    "primary": "#9DCAFF",
+    "onPrimary": "#102A43",
+    "background": "#101A29",
+    "surface": "#18283B",
+    "text": "#EDF5FF",
+    "muted": "#B6C9DE",
+    "accent": "#263E58",
+    "dialog": "#262039"
+  },
+  "background": "background.png",
+  "appIcon": "sky",
+  "startup": {
+    "frames": [
+      "startup-1.png",
+      "startup-2.png",
+      "startup-3.png",
+      "startup-4.png",
+      "startup-5.png",
+      "startup-6.png"
+    ],
+    "frameDurationMs": 150
+  }
+}

@@ -2,3 +2,21 @@
 html{scroll-padding-bottom:140px}button,input{scroll-margin-block:100px}
 
 .credit-node{border-left:2px solid #dbeafd;padding:10px 0 8px 12px;margin-top:8px}.credit-node .credit-node{margin-left:4px}progress{width:100%;height:8px;accent-color:var(--blue)}input[type=number]{width:100px;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:8px}#dialog-body label{display:block;margin:10px 0}#dialog-body select{max-width:100%;min-height:44px;width:100%}.warning{color:#a14b13}select{max-width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px} .credit-node strong{overflow-wrap:anywhere}
+
+/* Validated theme data sets only these variables; layout is owned by the app. */
+html[data-theme-pack]{background:var(--pack-bg);color:var(--ink)}
+html[data-theme-pack] body{background:transparent;position:relative;isolation:isolate}
+html[data-theme-pack] body::before{content:"";position:fixed;inset:0;z-index:-1;background-image:var(--pack-image);background-size:cover;background-position:center;opacity:.22;pointer-events:none}
+html[data-theme-pack] .card,html[data-theme-pack] nav,html[data-theme-pack] dialog,html[data-theme-pack] .secondary,html[data-theme-pack] .footer-action{background:var(--pack-surface);color:var(--ink);border-color:var(--line)}
+html[data-theme-pack] .hero,html[data-theme-pack] .primary,html[data-theme-pack] .segments .active{background:var(--blue);color:var(--pack-button-text)}
+html[data-theme-pack] .hero p,html[data-theme-pack] .hero h2{color:var(--pack-button-text)}
+html[data-theme-pack] .stat,html[data-theme-pack] button,html[data-theme-pack] .tag{background:var(--pack-accent);color:var(--ink)}
+html[data-theme-pack] button.primary,html[data-theme-pack] .segments button.active{background:var(--blue);color:var(--pack-button-text)}
+html[data-theme-pack] input,html[data-theme-pack] select{background:var(--pack-surface);color:var(--ink)}
+#dialog-actions{flex-wrap:wrap}
+
+html[data-theme-pack] dialog{background:var(--pack-dialog)}
+html[data-theme-pack] .segments,html[data-theme-pack] nav button.active{background:var(--pack-accent)}
+html[data-theme-pack] .month button,html[data-theme-pack] .cell,html[data-theme-pack] textarea{background:var(--pack-surface);color:var(--ink)}
+#theme-startup{position:fixed;inset:0;z-index:100;background:var(--pack-bg,#f1f7fd);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+#theme-startup img{width:min(75vw,360px);height:min(75vw,360px);object-fit:contain}#theme-startup button{min-width:100px}

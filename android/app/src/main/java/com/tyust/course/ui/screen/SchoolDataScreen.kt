@@ -97,7 +97,7 @@ fun SchoolDataScreen(grades: Boolean, onManual: () -> Unit, onBack: (() -> Unit)
                 selectionRevision++
             } }
             if (grades && detailedRules) item { EnrollmentCapCard() }
-            if (grades && detailedRules) item { EnrollmentRulesCard(item?.grades.orEmpty()) }
+            if (grades && ruleScope != null) item { EnrollmentRulesCard(item?.grades.orEmpty(), ruleScope) }
             error?.let { item { Text(it, color = MaterialTheme.colorScheme.error) } }
             if (!loading && snapshots.isEmpty() && error == null) item { Text("暂无数据，请点击“资料更新”。") }
             items(snapshots.indices.toList()) { i ->

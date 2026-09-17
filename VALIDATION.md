@@ -11,3 +11,8 @@ No physical Apple device is available. Therefore identical behavior on real devi
 Rules cover reviewed 2024–2026 curriculum cohorts; calendar data covers the reviewed 2026 academic year. Unknown dates, unrecognized categories and individual graduation conditions are not guessed. iOS classroom reads cover the currently available school calendar page. Academic forecasts assume pending courses are passed.
 
 The IPA is unsigned and requires personal Apple signing; no signing key, provisioning profile, school account, real grades or device logs are distributed. Maintainer YIN explicitly authorized publishing snai2514@gmail.com as the contact address.
+
+
+## 1.0.82 validation
+
+Android release build and lint passed (0 lint errors). JVM suite: 526 tests, 0 failures/errors, 3 skips. iOS Node suite: 31 tests passed, including faculty/cohort checks and theme ZIP validation. Browser preview imported and applied the sample ZIP with a separately colored dialog. Android 1.0.82 was installed as an in-place upgrade on the maintainer device and cold-launched without a new AndroidRuntime crash. These checks do not establish live school registration or all professional graduation conditions. See CREDIT-RULE-AUDIT.md and THEME-PACKS.md.

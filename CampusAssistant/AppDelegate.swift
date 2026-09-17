@@ -23,6 +23,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 /// Only bundled UI has a native bridge. School documents never receive a message handler.
 final class CampusController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, UIDocumentPickerDelegate {
     private var evidenceRequest: (id: String, scope: String)?
+    private var themeRequest: String?
     private var interface: WKWebView!
     private var school: WKWebView!
     private var toolbar: UIToolbar!
@@ -178,11 +179,25 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
                 present(sheet, animated: true); reply(id, result: true)
             } catch { reply(id, error: "日历导出失败") }
         case "importEvidence":
-            guard evidenceRequest == nil, let scope = payload["scope"] as? String, scope.utf8.count < 2000 else {
+            guard evidenceRequest == nil, themeRequest == nil, let scope = payload["scope"] as? String, scope.utf8.count < 2000 else {
                 reply(id, error: "请先完成当前文件选择"); return
             }
             evidenceRequest = (id, scope)
             let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf], asCopy: true)
+            picker.delegate = self; picker.allowsMultipleSelection = false
+            present(picker, animated: true)
+        case "setAppIcon":
+            guard let icon = payload["icon"] as? String, ["default", "sky", "night"].contains(icon) else { reply(id, error: "不支持的图标"); return }
+            let name: String? = icon == "default" ? nil : (icon == "sky" ? "Sky" : "Night")
+            if UIApplication.shared.alternateIconName == name { reply(id, result: true); return }
+            guard UIApplication.shared.supportsAlternateIcons else { reply(id, error: "此设备不支持替换图标"); return }
+            UIApplication.shared.setAlternateIconName(name) { error in
+                DispatchQueue.main.async { if let error = error { self.reply(id, error: error.localizedDescription) } else { self.reply(id, result: true) } }
+            }
+        case "importTheme":
+            guard themeRequest == nil, evidenceRequest == nil else { reply(id, error: "请先完成当前文件选择"); return }
+            themeRequest = id
+            let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.zip], asCopy: true)
             picker.delegate = self; picker.allowsMultipleSelection = false
             present(picker, animated: true)
         case "notify":
@@ -208,9 +223,24 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
         }
     }
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        if let id = themeRequest { themeRequest = nil; reply(id, error: "已取消文件选择") }
         if let request = evidenceRequest { evidenceRequest = nil; reply(request.id, error: "已取消文件选择") }
     }
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        if let id = themeRequest {
+            themeRequest = nil
+            do {
+                guard let source = urls.first else { throw NSError(domain: "ThemeMissing", code: 1) }
+                let access = source.startAccessingSecurityScopedResource()
+                defer { if access { source.stopAccessingSecurityScopedResource() } }
+                let size = try source.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? Int.max
+                guard size <= 2_000_000 else { throw NSError(domain: "ThemeTooLarge", code: 1) }
+                let bytes = try Data(contentsOf: source)
+                guard bytes.count <= 2_000_000 else { throw NSError(domain: "ThemeTooLarge", code: 1) }
+                reply(id, result: bytes.base64EncodedString())
+            } catch { reply(id, error: "美化包读取失败，请选择 2 MB 以内的 ZIP") }
+            return
+        }
         guard let request = evidenceRequest else { return }; evidenceRequest = nil
         do {
             guard let source = urls.first else { throw NSError(domain: "MissingPDF", code: 1) }

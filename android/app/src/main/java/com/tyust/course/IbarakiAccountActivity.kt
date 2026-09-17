@@ -54,7 +54,7 @@ class IbarakiAccountActivity : ComponentActivity() {
             if (entered && !previewLogin) {
                 com.tyust.course.ui.screen.CampusHomeScreen()
             } else {
-                Column(Modifier.fillMaxSize().background(if (MaterialTheme.colorScheme.background.red < .4f) MaterialTheme.colorScheme.background else androidx.compose.ui.graphics.Color(0xFFF2F8FF)).safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp),
+                Column(Modifier.fillMaxSize().background(if (com.tyust.course.manager.ThemePackManager.active != null || MaterialTheme.colorScheme.background.red < .4f) MaterialTheme.colorScheme.background else androidx.compose.ui.graphics.Color(0xFFF2F8FF)).safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)) {
                     Spacer(Modifier.height(24.dp))
                     Row(Modifier.fillMaxWidth(), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {

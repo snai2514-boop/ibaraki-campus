@@ -41,6 +41,36 @@ object StartupLogoAnimation {
             if (!animationsEnabled) { provider.remove(); return@setOnExitAnimationListener }
             val root = activity.window.decorView as? ViewGroup
             if (root == null) { provider.remove(); return@setOnExitAnimationListener }
+            val pack = com.tyust.course.manager.ThemePackManager.active
+            if (pack != null && pack.frames.isNotEmpty()) {
+                val overlay = android.widget.FrameLayout(activity)
+                val dark = com.tyust.course.manager.resolveDarkTheme(com.tyust.course.manager.AppearanceSettingsManager.themeMode, com.tyust.course.manager.AppThemeCoordinator.systemNight)
+                overlay.setBackgroundColor(android.graphics.Color.parseColor((if (dark) pack.dark else pack.light).getValue("background")))
+                val image = android.widget.ImageView(activity).apply { scaleType = android.widget.ImageView.ScaleType.FIT_CENTER }
+                val size = (280 * activity.resources.displayMetrics.density).toInt()
+                overlay.addView(image, android.widget.FrameLayout.LayoutParams(size, size, android.view.Gravity.CENTER))
+                val skip = android.widget.Button(activity).apply { text = "跳过" }
+                overlay.addView(skip, android.widget.FrameLayout.LayoutParams(-2, -2, android.view.Gravity.BOTTOM or android.view.Gravity.CENTER_HORIZONTAL).apply { bottomMargin = (72 * activity.resources.displayMetrics.density).toInt() })
+                val handler = android.os.Handler(android.os.Looper.getMainLooper())
+                var frame = 0
+                val next = object : Runnable {
+                    override fun run() {
+                        if (!overlay.isAttachedToWindow) return
+                        if (frame >= pack.frames.size) { root.removeView(overlay); return }
+                        val bytes = pack.frames[frame++]
+                        image.setImageBitmap(android.graphics.BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
+                        handler.postDelayed(this, pack.frameDurationMs.toLong())
+                    }
+                }
+                skip.setOnClickListener { handler.removeCallbacks(next); root.removeView(overlay) }
+                overlay.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View) {}
+                    override fun onViewDetachedFromWindow(v: View) { handler.removeCallbacks(next); image.setImageDrawable(null) }
+                })
+                root.addView(overlay, ViewGroup.LayoutParams(-1, -1))
+                overlay.doOnPreDraw { provider.remove(); next.run() }
+                return@setOnExitAnimationListener
+            }
             val location = IntArray(2)
             provider.iconView.getLocationInWindow(location)
             val rootLocation = IntArray(2)

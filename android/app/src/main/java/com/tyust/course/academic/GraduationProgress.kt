@@ -20,7 +20,10 @@ data class CreditProgress(
 ) {
     val remaining: BigDecimal get() = (requirement.required - earned).max(BigDecimal.ZERO)
     val satisfied: Boolean get() = remaining.signum() == 0 && children.all { it.satisfied }
-    val display: String get() = "${earned.stripTrailingZeros().toPlainString()}/${requirement.required.stripTrailingZeros().toPlainString()}"
+    // Graduation minimums are not registration caps. Zero means no individual minimum.
+    val display: String get() = if (requirement.required.signum() > 0)
+        "${earned.stripTrailingZeros().toPlainString()}/${requirement.required.stripTrailingZeros().toPlainString()}"
+    else "已修 ${earned.stripTrailingZeros().toPlainString()} 学分"
 }
 
 data class GraduationProgress(val categories: List<CreditProgress>, val unassigned: BigDecimal)

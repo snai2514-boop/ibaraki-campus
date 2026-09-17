@@ -96,13 +96,17 @@ fun CampusHomeScreen() {
     fun update() { if (!syncing) context.startActivity(Intent(context, IbarakiPortalActivity::class.java).putExtra("backgroundSync", true).putExtra("gradesOnly", page == "学分")) }
     BackHandler(page != "首页" || detail) { if (detail) detail = false else page = "首页" }
     val dark = MaterialTheme.colorScheme.background.luminanceForCampus() < .4f
-    val colors = if (dark) MaterialTheme.colorScheme else MaterialTheme.colorScheme.copy(
+    val colors = if (dark || com.tyust.course.manager.ThemePackManager.active != null) MaterialTheme.colorScheme else MaterialTheme.colorScheme.copy(
         background = Color(0xFFF2F8FF), surface = Color.White,
         surfaceVariant = Color(0xFFEAF3FC), primary = Color(0xFF147DF1),
         onSurface = Color(0xFF172D50), onBackground = Color(0xFF172D50),
         primaryContainer = Color(0xFFDEEEFF), onSurfaceVariant = Color(0xFF526A86))
     MaterialTheme(colorScheme = colors) {
-        Scaffold(containerColor = colors.background,
+        Box(Modifier.fillMaxSize().background(colors.background)) {
+        val themeImage = com.tyust.course.manager.ThemePackManager.active?.image
+        if (themeImage != null) coil.compose.AsyncImage(model = themeImage, contentDescription = null,
+            modifier = Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop, alpha = 0.22f)
+        Scaffold(containerColor = Color.Transparent,
             bottomBar = {
                 NavigationBar(containerColor = colors.surface, tonalElevation = 0.dp) {
                     tabs.forEach { name -> NavigationBarItem(selected = page == name,
@@ -249,6 +253,7 @@ fun CampusHomeScreen() {
                                 } }
                                 item { CampusCard {
                                     Text("分类进度", fontWeight = FontWeight.SemiBold)
+                                    Text("分母为毕业最低要求；选课上限与必修组合见下方规则。", fontSize = 12.sp)
                                     val palette = listOf(Color(0xFF6FAAFF), Color(0xFF49C5B3), Color(0xFFFFBD48), Color(0xFFA080F5))
                                     if (branches.isNotEmpty()) branches.forEachIndexed { index, branch ->
                                         var expanded by rememberSaveable(profile?.studentNumber, scope.toString(), branch.requirement.id) { mutableStateOf(false) }
@@ -281,6 +286,7 @@ fun CampusHomeScreen() {
                                         }
                                     }
                                 } }
+                                if (scope != null) item { EnrollmentRulesCard(grades = grades?.grades, scope = scope) }
                                 item { CampusRow("学分详情与成绩", Icons.Outlined.Description) { detail = true } }
                                 item { CampusRow("课程成绩", Icons.Outlined.Description) { navigate("成绩") } }
                                 item { CampusRow("资料更新", Icons.Outlined.Refresh) { update() } }
@@ -331,6 +337,7 @@ fun CampusHomeScreen() {
                     }
                 }
             }
+        }
         }
         if (theme) AppThemeSettingsDialog { theme = false }
         if (syncInfo) AlertDialog(onDismissRequest = { syncInfo = false }, title = { Text("同步状态") }, text = { androidx.compose.foundation.lazy.LazyColumn { item { Text(syncMessage) }; if (syncDetail.isNotBlank()) item { Text(syncDetail) } } }, confirmButton = { TextButton(onClick = { syncInfo = false }) { Text("关闭") } })

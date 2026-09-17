@@ -52,6 +52,11 @@ object UniversityCourseClassification {
         "nature" to listOf("自然・環境と人間", "物質と生命", "技術と社会", "環境と人間"),
         "society" to listOf("グローバル化と人間社会", "法律・政治", "経済・経営", "日本国憲法", "公共社会", "グローバル・スタディーズ")
     )
+    fun generalCategory(name: String, schoolCategory: String): String? {
+        val path = schoolCategory.split('/').map(::normalize)
+        return general.entries.singleOrNull { (_, names) -> names.any { normalize(it) == normalize(name) || normalize(it) in path } }?.key
+            ?: "english".takeIf { Regex("(?:IntegratedEnglish[1-3][ABCD]|CommunicativeEnglish[1-3][AB])").matches(normalize(name)) }
+    }
     fun requirements(scope: CurriculumScope): List<CreditRequirement> {
         val summary = UniversityCurricula.summary(scope) ?: return emptyList()
         if (summary.detailedInformation2026) return IbarakiCurriculum.requirements

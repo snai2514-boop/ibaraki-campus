@@ -5,7 +5,7 @@ const preview=!native&&(window.__CAMPUS_PREVIEW__||new URLSearchParams(location.
 const empty=()=>({version:1,profile:null,snapshots:{},modes:{},rooms:{},registration:null,inbox:[],personal:[],pending:null});
 let state=empty(),page='home',date=C.dateString(new Date()),view='week',selected=[],busy=false,generation=0,status='登录学校账户后同步课程、成绩和履修状况。',sequence=0;
 const pending=new Map(),$=id=>document.getElementById(id),h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function bridge(action,payload={}){if(!native)return Promise.reject(new Error('电脑预览不连接学校；请在苹果客户端使用此功能。'));return new Promise((resolve,reject)=>{const id=String(++sequence),timer=setTimeout(()=>{pending.delete(id);reject(new Error('操作超时，保留原记录'));},action==='importEvidence'?300000:20000);pending.set(id,{resolve,reject,timer});window.webkit.messageHandlers.campus.postMessage({id,action,payload});});}
+function bridge(action,payload={}){if(!native)return Promise.reject(new Error('电脑预览不连接学校；请在苹果客户端使用此功能。'));return new Promise((resolve,reject)=>{const id=String(++sequence),timer=setTimeout(()=>{pending.delete(id);reject(new Error('操作超时，保留原记录'));},['importEvidence','importTheme'].includes(action)?300000:20000);pending.set(id,{resolve,reject,timer});window.webkit.messageHandlers.campus.postMessage({id,action,payload});});}
 window.nativeReply=(id,result,error)=>{const p=pending.get(id);if(!p)return;clearTimeout(p.timer);pending.delete(id);error?p.reject(new Error(error)):p.resolve(result);};
 window.nativeForeground=()=>{if(state.profile&&!busy)sync();};
 window.nativeBackground=()=>{generation++;busy=false;status=state.pending?'提交结果尚未确认，重新打开后请核对学校结果。':'同步已暂停，已读取的数据保留。';render();};
@@ -38,12 +38,13 @@ function render(){
   main.innerHTML=state.inbox.map(n=>`<section class="card"><p class="small">${new Date(n.at).toLocaleString()}</p><div class="notice">${h(n.message)}</div></section>`).join('')+'<h2>学校公告</h2>'+(state.notices?.rows||[]).map(n=>`<section class="card"><h3>${h(n.title)}</h3><p class="small">${h(n.published)}</p><button class="notice-open" data-id="${h(n.id)}">阅读公告</button></section>`).join('');
   document.querySelectorAll('.notice-open').forEach(b=>b.onclick=()=>notice(b.dataset.id));
  }else if(page==='settings'){
-  main.innerHTML=`<section class="card"><h2>学校账户</h2><p>${state.profile?h(state.profile.name)+' · '+h(state.profile.student):'未登录'}</p><button id="login">打开学校登录</button><p class="small">账号密码只在学校网页输入，应用不读取或保存密码。</p></section><section class="card"><h2>同步与通知</h2><p>每次回到应用，同步资料、成绩、Q1—Q4 课表、公告和履修状况。读取失败保留原记录。</p><button id="notify">允许系统通知</button><p class="small">通知包含学分、GPA 变化和新出现的可登记课程。</p></section><section class="card"><h2>隐私</h2><p>学校会话和个人数据保存在当前设备。没有数据上传服务，也不上传至 GitHub。</p><button id="logout" class="danger">退出并清除本机学校数据</button></section><p class="small">教务助手 iOS 1.0.81 · 茨城大学专用<br>校历仅含已核对的 2026 学年度；无法确认的课程日期不会猜测。</p>`;
+  main.innerHTML=`<section class="card"><h2>学校账户</h2><p>${state.profile?h(state.profile.name)+' · '+h(state.profile.student):'未登录'}</p><button id="login">打开学校登录</button><p class="small">账号密码只在学校网页输入，应用不读取或保存密码。</p></section><section class="card"><h2>同步与通知</h2><p>每次回到应用，同步资料、成绩、Q1—Q4 课表、公告和履修状况。读取失败保留原记录。</p><button id="notify">允许系统通知</button><p class="small">通知包含学分、GPA 变化和新出现的可登记课程。</p></section><section class="card"><h2>隐私</h2><p>学校会话和个人数据保存在当前设备。没有数据上传服务，也不上传至 GitHub。</p><button id="logout" class="danger">退出并清除本机学校数据</button></section><p class="small">教务助手 iOS 1.0.82 · 茨城大学专用<br>校历仅含已核对的 2026 学年度；无法确认的课程日期不会猜测。</p>`;
   $('login').onclick=()=>{if(busy)return toast('请等待当前操作完成');bridge('login').catch(e=>toast(e.message));};$('notify').onclick=()=>bridge('permission').then(()=>toast('通知设置已请求')).catch(e=>toast(e.message));$('logout').onclick=()=>modal('退出学校账户','<p>将清除本机课程、成绩、会话和个人安排。学校记录不会改变。</p>',[['取消',()=>{}],['退出并清除',async()=>{generation++;busy=false;await bridge('logout');state=empty();selected=[];status='已退出';go('home');}]]);
  }
  if(page==='grades')showAcademic();
  if(page==='calendar')enhanceCalendar();
  if(page==='settings')enhanceSettings();
+ try{applyThemePack();}catch(e){applyThemePack(null);}
  localize();
 }
 function go(next){page=next;render();window.scrollTo(0,0);}
@@ -115,7 +116,7 @@ async function notice(id){if(busy)return toast('正在同步，请稍后');busy=
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
 $('dialog').addEventListener('close',()=>{if(page==='registration')render();});
 async function start(){
- if(native){try{state=(await bridge('load'))||empty();}catch(e){status=e.message;}render();if(state.profile)sync();}
+ if(native){try{state=(await bridge('load'))||empty();}catch(e){status=e.message;}render();playThemeStartup();if(state.profile)sync();}
  else{if(preview){$('preview').hidden=false;state.profile={student:'DEMO0000',name:'预览同学',affiliation:'人文社会科学部 法律経済学科',curriculumYear:2026,program:''};state.snapshots.grades={student:'DEMO0000',earned:2,gpa:3.2,at:Date.now(),rows:[{name:'大学入門ゼミ',credits:2,score:85,grade:'A',passed:true,year:'2026',term:'前期',category:'基盤教育科目'}]};const names=['共生とコミュニケーション【3Q】','経済・経営【3Q】'];state.snapshots['timetable-2026-Q3']={key:'timetable-2026-Q3',student:'DEMO0000',year:2026,quarter:3,at:Date.now(),lessons:names.map((name,i)=>({code:'DEMO'+i,name,description:name,credits:2,day:5,period:i+1}))};D.offerings.DEMO0=D.offerings.DEMO1={term:'3Q',campus:'MITO',irregular:false};state.modes['2026/DEMO0']=state.modes['2026/DEMO1']={delivery:'オンライン授業（リアルタイム配信型）'};state.registration={student:'DEMO0000',scope:'demo',at:Date.now(),message:'虚构预览数据：勾选课程后查看二次确认。',rows:[['a','法学入门','月1'],['b','经济学基础','火2'],['c','统计学基础','火2'],['d','信息与社会','金3']].map(([id,name,schedule])=>({id,name,schedule,credits:'2',available:true}))};date='2026-09-21';status='电脑预览 · 示例数据，不代表真实学校记录。';}render();}
 }
 start();

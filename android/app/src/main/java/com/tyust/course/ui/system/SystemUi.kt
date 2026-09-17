@@ -1114,7 +1114,8 @@ private fun SystemDialogContent(
         role = GlassMaterialRole.Modal,
         accessibility = accessibility
     )
-    val glassBackdrop = backdrop?.takeIf { useVisualEffects && isBackdropSupported() }
+    val customTheme = com.tyust.course.manager.ThemePackManager.active != null
+    val glassBackdrop = backdrop?.takeIf { !customTheme && useVisualEffects && isBackdropSupported() }
     val regionState = rememberWallpaperRegionState()
     val appearance = rememberWallpaperRegionAppearance(regionState)
     val isLightTheme = appearance.usesDarkForeground
@@ -1239,7 +1240,7 @@ private fun SystemDialogContent(
                         spotColor = dialogShadowColor
                     )
                     .clip(dialogShape)
-                    .background(appearance.solidSurface)
+                    .background(if (customTheme) MaterialTheme.colorScheme.surfaceContainerHigh else appearance.solidSurface)
                     .border(0.75.dp, dialogBorderColor, dialogShape)
             )
         }
@@ -1259,7 +1260,7 @@ private fun SystemDialogContent(
             }
             if (title != null) {
                 CompositionLocalProvider(
-                    androidx.compose.material3.LocalContentColor provides appearance.onSurface
+                    androidx.compose.material3.LocalContentColor provides if (customTheme) MaterialTheme.colorScheme.onSurface else appearance.onSurface
                 ) {
                     Box(
                         modifier = Modifier.fillMaxWidth(),

@@ -38,9 +38,10 @@ internal fun rememberPhoneDate(): String {
 
 @Composable
 internal fun ForecastBar(earned: Float, added: Float, total: Float, tint: Color, modifier: Modifier = Modifier) {
+    // No standalone graduation minimum: retain credit text without a false completion bar.
+    if (total <= 0f) return
     val track = MaterialTheme.colorScheme.surfaceVariant
     Canvas(modifier.fillMaxWidth().height(10.dp)) {
-        // Optional subcategories have no individual minimum; still show their credits.
         // Expand the scale for overflow so additional credits never disappear at 100%.
         val scale = maxOf(total, earned + added, 1f)
         val start = (earned / scale).coerceIn(0f, 1f) * size.width

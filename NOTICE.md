@@ -19,3 +19,5 @@ Authenticity is established by the release signing certificate and published
 SHA-256 file hashes, not merely by the visible name or this notice.
 A third party can change open-source code; a written signature is not DRM.
 Private signing keys must never be included in source archives or APKs.
+
+Theme ZIP decompression includes fflate 0.8.3 (MIT). Copyright and license: CampusAssistant/Web/vendor/fflate-LICENSE.txt.

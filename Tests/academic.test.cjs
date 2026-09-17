@@ -22,3 +22,25 @@ test('ICS escapes injection, preserves Tokyo times, folds Unicode by bytes',()=>
 test("Android and iOS course classification produce identical reference results",()=>{const cases=require("./classification-parity.json");a.ok(cases.length>300);for(const x of cases){const c=A.classify(x.scope,x.course,D);a.deepEqual({id:c.id,label:c.label,excluded:c.excluded},x.expected,JSON.stringify(x));}});
 
 test("manual GPA counts failed grades, excludes recognized credit and rejects duplicates",()=>{const rows=[{id:"a",name:"a",credits:2,kind:"SCORED",score:85},{id:"b",name:"b",credits:2,kind:"SCORED",score:59},{id:"c",name:"c",credits:2,kind:"RECOGNIZED"}];a.equal(A.manualGpa(rows),1.5);a.throws(()=>A.manualGpa([...rows,rows[0]]));a.equal(A.manualGpa([]),null);});
+
+
+test('optional credit rows retain credits and forecast without zero ratios or completion bars',()=>{
+ const vm=require('node:vm'),fs=require('node:fs');
+ const context=vm.createContext({CampusAcademic:A,CampusAcademicData:D,h:s=>String(s)});
+ vm.runInContext(fs.readFileSync(require('node:path').join(__dirname,'../CampusAssistant/Web/academic-ui.js'),'utf8'),context);
+ const optional={label:'Optional',earned:2,required:0,remaining:0,added:1,projectedRemaining:0,children:[]};
+ const html=context.renderCreditTree([optional,{...optional,earned:0,added:0}]);
+ a.match(html,/已修 2 学分/);a.match(html,/已修 0 学分/);a.match(html,/预计新增 \+1/);
+ a.doesNotMatch(html,/<progress|\/ 0|还需/);
+ const parent=context.renderCreditTree([{...optional,required:3,remaining:1,projectedRemaining:0,children:[optional]}]);
+ a.match(parent,/2 \/ 3/);a.equal((parent.match(/<progress/g)||[]).length,1);a.match(parent,/还需 1 学分/);
+});
+
+test('scoped awarded-credit checks preserve missing data and reject failed or excluded grades',()=>{
+ const s={faculty:'教育学部',department:'養護教諭養成課程',cohort:2026,program:''},g={name:'日本国憲法',category:'基盤教育科目',credits:2,passed:true};
+ const check=rows=>A.constraintChecks(s,rows,D).find(x=>x.id==='constitution');
+ a.equal(check(null).status,'尚未同步');a.equal(check([g]).status,'已满足学分数');a.equal(check([{...g,passed:false}]).status,'已保存成绩尚不足');a.equal(check([{...g,category:'卒業要件外'}]).earned,0);
+ a.ok(!A.constraintChecks({faculty:'工学部',department:'情報工学科',cohort:2026,program:''},[g],D).some(x=>x.id==='constitution'));
+});
+
+test('unclassified awards are distinguished from a simple saved-credit deficit',()=>{const r=A.constraintChecks(scope,[{name:'未知通识课程',category:'基盤教育科目',credits:2,passed:true}],D);a.equal(r[0].status,'待核对分类');a.match(r[0].note,/另有 2 学分/);a.equal(A.constraintChecks(scope,[],D)[0].status,'已保存成绩尚不足');});

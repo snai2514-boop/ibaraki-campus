@@ -34,6 +34,12 @@ class ExportAppleParityTest {
                         .put("detail", summary?.detail ?: "毕业要求待核对")
                         .put("page", summary?.page ?: 0)
                         .put("detailed", summary?.detailedInformation2026 ?: false)
+                        .put("checks", JSONArray(CurriculumConstraintChecks.specs(scope).map { c -> JSONObject()
+                            .put("id",c.id).put("title",c.title).put("minimum",c.minimum)
+                            .put("categories",JSONArray(c.categories)).put("names",JSONArray(c.names)) }))
+                        .put("constraints", JSONArray(CurriculumConstraints.rules(scope).map { r -> JSONObject()
+                            .put("id",r.id).put("title",r.title).put("scope",r.scope).put("detail",r.detail)
+                            .put("page",r.page).put("source",r.source).put("limit",r.limit ?: JSONObject.NULL).put("unit",r.unit) }))
                         .put("requirements", JSONArray(UniversityCourseClassification.requirements(scope).map(::node))))
                 }
             }

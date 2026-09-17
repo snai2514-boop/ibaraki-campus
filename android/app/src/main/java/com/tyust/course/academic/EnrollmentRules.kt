@@ -3,7 +3,7 @@ package com.tyust.course.academic
 import java.math.BigDecimal
 
 data class EnrollmentRule(val id: String, val title: String, val scope: String, val detail: String,
-    val page: String, val limit: BigDecimal? = null, val unit: String = "学分")
+    val page: String, val limit: BigDecimal? = null, val unit: String = "学分", val source: String = EnrollmentRules.source)
 
 /** Rules scoped to 2026-entry engineering students, not other faculties' requirements. */
 object EnrollmentRules {

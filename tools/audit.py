@@ -2,11 +2,11 @@
 from pathlib import Path
 import re, json, hashlib, sys
 root=Path(__file__).resolve().parents[1]
-roots=['CampusAssistant','CampusAssistant.xcodeproj','Tests','tools','ci','.github']
+roots=['CampusAssistant','CampusAssistant.xcodeproj','Tests','tools','ci','.github','docs']
 allowed=[]
 for dirname in roots:
     allowed.extend(p for p in (root/dirname).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
-allowed.extend(root/name for name in ['README.md','LICENSE','NOTICE.md','.gitignore','DATA-SOURCES.md','VALIDATION.md'] if (root/name).exists())
+allowed.extend(root/name for name in ['README.md','LICENSE','NOTICE.md','.gitignore','DATA-SOURCES.md','VALIDATION.md','THEME-PACKS.md','CREDIT-RULE-AUDIT.md','IOS-INSTALL.md','FEATURE-PREVIEW.md'] if (root/name).exists())
 errors=[]
 for path in allowed:
     rel=path.relative_to(root).as_posix()
