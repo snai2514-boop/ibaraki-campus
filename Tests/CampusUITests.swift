@@ -8,6 +8,7 @@ final class CampusUITests: XCTestCase {
         app.launch()
         let web = app.webViews.firstMatch
         XCTAssertTrue(web.buttons["查看 →"].waitForExistence(timeout: 15))
+        if !web.buttons["查看 →"].isHittable { web.swipeUp() }
         web.buttons["查看 →"].tap()
         let multiple = web.buttons.containing(NSPredicate(format: "label CONTAINS %@", "2 门可选")).firstMatch
         XCTAssertTrue(multiple.waitForExistence(timeout: 10))
