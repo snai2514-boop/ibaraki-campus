@@ -1,0 +1,2392 @@
+{
+  "网络连接失败": {
+    "en": "Network connection failed",
+    "ja": "ネットワーク接続に失敗",
+    "ko": "네트워크 연결 실패"
+  },
+  "读取超时": {
+    "en": "Reading timed out",
+    "ja": "読み取りがタイムアウト",
+    "ko": "읽기 시간 초과"
+  },
+  "学校登录已过期": {
+    "en": "School session expired",
+    "ja": "学校のログイン期限切れ",
+    "ko": "학교 로그인 만료"
+  },
+  "数据读取或校验失败": {
+    "en": "Data reading or validation failed",
+    "ja": "データの読み取り・検証に失敗",
+    "ko": "데이터 읽기 또는 검증 실패"
+  },
+  "本机保存失败": {
+    "en": "Local save failed",
+    "ja": "端末への保存に失敗",
+    "ko": "기기 저장 실패"
+  },
+  "程序异常": {
+    "en": "Application error",
+    "ja": "アプリの異常",
+    "ko": "앱 오류"
+  },
+  "学校网站证书异常": {
+    "en": "School website certificate error",
+    "ja": "学校サイトの証明書エラー",
+    "ko": "학교 사이트 인증서 오류"
+  },
+  "系统释放了网页进程": {
+    "en": "The system stopped the web process",
+    "ja": "システムがウェブプロセスを終了しました",
+    "ko": "시스템이 웹 프로세스를 종료했습니다"
+  },
+  "未能确认失败原因": {
+    "en": "The cause could not be confirmed",
+    "ja": "失敗の原因を特定できませんでした",
+    "ko": "실패 원인을 확인하지 못했습니다"
+  },
+  "已成功读取的数据已保存，可继续使用。失败项目可稍后重试。": {
+    "en": "Successfully read data has been saved and remains available. Retry failed items later.",
+    "ja": "取得済みのデータは保存され、引き続き利用できます。失敗した項目は後で再試行できます。",
+    "ko": "읽기에 성공한 데이터는 저장되어 계속 이용할 수 있습니다. 실패한 항목은 나중에 다시 시도할 수 있습니다."
+  },
+  "同步失败：{0}": {
+    "en": "Sync failed: {0}",
+    "ja": "同期失敗：{0}",
+    "ko": "동기화 실패: {0}"
+  },
+  "{0}\n\n已成功读取的数据已保存，可继续使用。失败项目可稍后重试。": {
+    "en": "{0}\n\nSuccessfully read data has been saved and is available. Retry the failed items later.",
+    "ja": "{0}\n\n取得済みのデータは保存され、引き続き利用できます。失敗した項目は後で再試行できます。",
+    "ko": "{0}\n\n읽기에 성공한 데이터는 저장되어 계속 이용할 수 있습니다. 실패한 항목은 나중에 다시 시도할 수 있습니다."
+  },
+  "更新成绩与学分": {
+    "en": "Update grades and credits",
+    "ja": "成績・単位を更新",
+    "ko": "성적 및 학점 업데이트"
+  },
+  "学校同步超时，已保存的资料可继续使用。请稍后点击更新资料重试。": {
+    "en": "School sync timed out. Saved information is still available. Tap Update information to retry later.",
+    "ja": "学校との同期がタイムアウトしました。保存済みの情報は引き続き利用できます。後で情報を更新して再試行してください。",
+    "ko": "학교 동기화 시간이 초과되었습니다. 저장된 정보는 계속 이용할 수 있습니다. 나중에 정보 업데이트를 눌러 다시 시도하세요."
+  },
+  "后台同步中": {
+    "en": "Syncing in background",
+    "ja": "バックグラウンドで同期中",
+    "ko": "백그라운드 동기화 중"
+  },
+  "后台同步中，可正常使用 · 查看详情": {
+    "en": "Syncing in background. You can keep using the app · Details",
+    "ja": "バックグラウンドで同期中。そのまま利用できます · 詳細",
+    "ko": "백그라운드 동기화 중. 계속 이용할 수 있습니다 · 상세"
+  },
+  "后台同步学生资料中，可正常使用": {
+    "en": "Syncing student information in background. You can keep using the app.",
+    "ja": "学生情報をバックグラウンドで同期中。そのまま利用できます",
+    "ko": "학생 정보를 백그라운드에서 동기화 중입니다. 계속 이용할 수 있습니다"
+  },
+  "尚未获取学生资料，请点击更新资料": {
+    "en": "Student information is unavailable. Tap Update information.",
+    "ja": "学生情報は未取得です。「情報を更新」をタップしてください",
+    "ko": "학생 정보를 아직 가져오지 못했습니다. 정보 업데이트를 눌러 주세요"
+  },
+  "预备日": {
+    "en": "Reserve day",
+    "ja": "予備日",
+    "ko": "예비일"
+  },
+  "季度课程预备日": {
+    "en": "Quarter-course reserve day",
+    "ja": "クォーター科目の予備日",
+    "ko": "쿼터 과목 예비일"
+  },
+  "学期课程预备日": {
+    "en": "Semester-course reserve day",
+    "ja": "セメスター科目の予備日",
+    "ko": "학기 과목 예비일"
+  },
+  "课程预备日": {
+    "en": "Course reserve day",
+    "ja": "授業予備日",
+    "ko": "수업 예비일"
+  },
+  "是否上课或考试，以教师通知为准。": {
+    "en": "Classes or exams take place only as announced by the instructor.",
+    "ja": "授業・試験の実施は担当教員の通知に従ってください。",
+    "ko": "수업이나 시험 실시 여부는 담당 교원의 공지를 확인하세요."
+  },
+  "所选学年度尚无已同步课表。": {
+    "en": "No timetables have been synced for the selected academic year.",
+    "ja": "選択した年度の時間割はまだ同期されていません。",
+    "ko": "선택한 학년도의 시간표가 아직 동기화되지 않았습니다."
+  },
+  "暂无课程，请同步所选学年度的课表和成绩。": {
+    "en": "No courses available. Sync timetables and grades for the selected academic year.",
+    "ja": "科目がありません。選択した年度の時間割と成績を同期してください。",
+    "ko": "과목이 없습니다. 선택한 학년도의 시간표와 성적을 동기화해 주세요."
+  },
+  "茨城大学": {
+    "en": "Ibaraki University",
+    "ja": "茨城大学",
+    "ko": "이바라키대학교"
+  },
+  "校园助手": {
+    "en": "Campus assistant",
+    "ja": "キャンパスアシスタント",
+    "ko": "캠퍼스 도우미"
+  },
+  "切换语言": {
+    "en": "Change language",
+    "ja": "言語を変更",
+    "ko": "언어 변경"
+  },
+  "语言": {
+    "en": "Language",
+    "ja": "言語",
+    "ko": "언어"
+  },
+  "关闭": {
+    "en": "Close",
+    "ja": "閉じる",
+    "ko": "닫기"
+  },
+  "学校账户登录": {
+    "en": "Sign in with university account",
+    "ja": "大学アカウントでログイン",
+    "ko": "학교 계정으로 로그인"
+  },
+  "正在同步…": {
+    "en": "Syncing…",
+    "ja": "同期中…",
+    "ko": "동기화 중…"
+  },
+  "登录后自动同步课表、日历、学分与 GPA。": {
+    "en": "Sign in to sync your timetable, calendar, credits and GPA.",
+    "ja": "ログイン後、時間割・カレンダー・単位・GPAを同期します。",
+    "ko": "로그인 후 시간표, 일정, 학점 및 GPA를 동기화합니다."
+  },
+  "日历": {
+    "en": "Calendar",
+    "ja": "カレンダー",
+    "ko": "캘린더"
+  },
+  "GPA / 学分": {
+    "en": "GPA / Credits",
+    "ja": "GPA・単位",
+    "ko": "GPA / 학점"
+  },
+  "更新资料": {
+    "en": "Update",
+    "ja": "データ更新",
+    "ko": "자료 업데이트"
+  },
+  "资料更新": {
+    "en": "Update data",
+    "ja": "データ更新",
+    "ko": "자료 업데이트"
+  },
+  "学号：{0}": {
+    "en": "Student ID: {0}",
+    "ja": "学生番号：{0}",
+    "ko": "학번: {0}"
+  },
+  "正在读取学生资料…": {
+    "en": "Loading student profile…",
+    "ja": "学籍情報を取得中…",
+    "ko": "학생 정보 불러오는 중…"
+  },
+  "正在自动更新…": {
+    "en": "Updating…",
+    "ja": "自動更新中…",
+    "ko": "자동 업데이트 중…"
+  },
+  "今日学校数据已更新 · 查看详情": {
+    "en": "Updated today · Details",
+    "ja": "本日更新済み・詳細",
+    "ko": "오늘 업데이트 완료 · 상세"
+  },
+  "更新提示 · 点击查看": {
+    "en": "Update status · Details",
+    "ja": "更新状況・詳細",
+    "ko": "업데이트 상태 · 상세"
+  },
+  "选择学季": {
+    "en": "Select quarter",
+    "ja": "クォーターを選択",
+    "ko": "쿼터 선택"
+  },
+  "第 {0} 周 ▾": {
+    "en": "Week {0} ▾",
+    "ja": "第{0}週 ▾",
+    "ko": "{0}주차 ▾"
+  },
+  "第 {0} 周": {
+    "en": "Week {0}",
+    "ja": "第{0}週",
+    "ko": "{0}주차"
+  },
+  "第 {0} 周  {1} – {2}": {
+    "en": "Week {0}  {1} – {2}",
+    "ja": "第{0}週  {1} – {2}",
+    "ko": "{0}주차  {1} – {2}"
+  },
+  "周课表": {
+    "en": "Week",
+    "ja": "週間",
+    "ko": "주간"
+  },
+  "月日历": {
+    "en": "Month",
+    "ja": "月間",
+    "ko": "월간"
+  },
+  "+ 课程": {
+    "en": "+ Course",
+    "ja": "＋授業",
+    "ko": "+ 수업"
+  },
+  "+ 事件": {
+    "en": "+ Event",
+    "ja": "＋予定",
+    "ko": "+ 일정"
+  },
+  "选择具体周次": {
+    "en": "Select week",
+    "ja": "週を選択",
+    "ko": "주차 선택"
+  },
+  "学校课程": {
+    "en": "University course",
+    "ja": "大学の授業",
+    "ko": "학교 수업"
+  },
+  "教室待确认": {
+    "en": "Room pending",
+    "ja": "教室未確認",
+    "ko": "강의실 미확인"
+  },
+  "线上上课": {
+    "en": "Online",
+    "ja": "オンライン",
+    "ko": "온라인 수업"
+  },
+  "補充": {
+    "en": "Add",
+    "ja": "追加",
+    "ko": "추가"
+  },
+  "补充已确认的教室": {
+    "en": "Confirmed classroom",
+    "ja": "確認済みの教室",
+    "ko": "확인된 강의실"
+  },
+  "学校未提供教室时，可在此补充；仅保存到本机。": {
+    "en": "Add a confirmed room here. Saved on this device only.",
+    "ja": "教室が未掲載の場合に入力できます。この端末にのみ保存します。",
+    "ko": "학교에 강의실이 없으면 입력하세요. 기기에만 저장됩니다."
+  },
+  "确定": {
+    "en": "OK",
+    "ja": "確定",
+    "ko": "확인"
+  },
+  "保存": {
+    "en": "Save",
+    "ja": "保存",
+    "ko": "저장"
+  },
+  "取消": {
+    "en": "Cancel",
+    "ja": "キャンセル",
+    "ko": "취소"
+  },
+  "删除": {
+    "en": "Delete",
+    "ja": "削除",
+    "ko": "삭제"
+  },
+  "上月": {
+    "en": "Previous",
+    "ja": "前月",
+    "ko": "이전 달"
+  },
+  "下月": {
+    "en": "Next",
+    "ja": "翌月",
+    "ko": "다음 달"
+  },
+  "{0} 项": {
+    "en": "{0} items",
+    "ja": "{0}件",
+    "ko": "{0}개"
+  },
+  "一": {
+    "en": "Mon",
+    "ja": "月",
+    "ko": "월"
+  },
+  "二": {
+    "en": "Tue",
+    "ja": "火",
+    "ko": "화"
+  },
+  "三": {
+    "en": "Wed",
+    "ja": "水",
+    "ko": "수"
+  },
+  "四": {
+    "en": "Thu",
+    "ja": "木",
+    "ko": "목"
+  },
+  "五": {
+    "en": "Fri",
+    "ja": "金",
+    "ko": "금"
+  },
+  "六": {
+    "en": "Sat",
+    "ja": "土",
+    "ko": "토"
+  },
+  "日": {
+    "en": "Sun",
+    "ja": "日",
+    "ko": "일"
+  },
+  "查看这一周的课表": {
+    "en": "View this week",
+    "ja": "この週の時間割",
+    "ko": "이 주 시간표 보기"
+  },
+  "当天没有安排": {
+    "en": "No events this day",
+    "ja": "この日の予定はありません",
+    "ko": "이날 일정 없음"
+  },
+  "全天": {
+    "en": "All day",
+    "ja": "終日",
+    "ko": "종일"
+  },
+  "课程": {
+    "en": "Courses",
+    "ja": "履修",
+    "ko": "수강"
+  },
+  "事件": {
+    "en": "Event",
+    "ja": "予定",
+    "ko": "일정"
+  },
+  "添加课程": {
+    "en": "Add course",
+    "ja": "授業を追加",
+    "ko": "수업 추가"
+  },
+  "添加事件": {
+    "en": "Add event",
+    "ja": "予定を追加",
+    "ko": "일정 추가"
+  },
+  "编辑课程": {
+    "en": "Edit course",
+    "ja": "授業を編集",
+    "ko": "수업 수정"
+  },
+  "编辑事件": {
+    "en": "Edit event",
+    "ja": "予定を編集",
+    "ko": "일정 수정"
+  },
+  "删除课程？": {
+    "en": "Delete course?",
+    "ja": "授業を削除しますか？",
+    "ko": "수업을 삭제할까요?"
+  },
+  "删除事件？": {
+    "en": "Delete event?",
+    "ja": "予定を削除しますか？",
+    "ko": "일정을 삭제할까요?"
+  },
+  "名称": {
+    "en": "Title",
+    "ja": "名称",
+    "ko": "이름"
+  },
+  "日期 YYYY-MM-DD": {
+    "en": "Date YYYY-MM-DD",
+    "ja": "日付 YYYY-MM-DD",
+    "ko": "날짜 YYYY-MM-DD"
+  },
+  "开始时间 HH:mm": {
+    "en": "Start HH:mm",
+    "ja": "開始 HH:mm",
+    "ko": "시작 HH:mm"
+  },
+  "结束时间 HH:mm": {
+    "en": "End HH:mm",
+    "ja": "終了 HH:mm",
+    "ko": "종료 HH:mm"
+  },
+  "每周同一天重复": {
+    "en": "Repeat weekly",
+    "ja": "毎週繰り返す",
+    "ko": "매주 반복"
+  },
+  "重复至 YYYY-MM-DD": {
+    "en": "Repeat until YYYY-MM-DD",
+    "ja": "繰り返し終了日 YYYY-MM-DD",
+    "ko": "반복 종료 YYYY-MM-DD"
+  },
+  "教室 / 地点（或填写线上上课）": {
+    "en": "Room / location (or Online)",
+    "ja": "教室・場所（オンラインも入力可）",
+    "ko": "강의실 / 장소 (또는 온라인)"
+  },
+  "备注": {
+    "en": "Notes",
+    "ja": "メモ",
+    "ko": "메모"
+  },
+  "删除整个重复系列": {
+    "en": "Delete all occurrences",
+    "ja": "繰り返し予定をすべて削除",
+    "ko": "반복 일정 전체 삭제"
+  },
+  "删除此记录": {
+    "en": "Delete this entry",
+    "ja": "この予定を削除",
+    "ko": "이 기록 삭제"
+  },
+  "将删除此记录的所有重复日期。": {
+    "en": "All occurrences will be deleted.",
+    "ja": "繰り返し予定をすべて削除します。",
+    "ko": "모든 반복 일정이 삭제됩니다."
+  },
+  "请填写名称（最多 100 字）": {
+    "en": "Enter a title (up to 100 characters).",
+    "ja": "名称を100文字以内で入力してください。",
+    "ko": "이름을 100자 이내로 입력하세요."
+  },
+  "请填写有效日期，结束日期不能早于开始日期": {
+    "en": "Enter valid dates; the end cannot precede the start.",
+    "ja": "正しい日付を入力してください。終了日は開始日以降にしてください。",
+    "ko": "유효한 날짜를 입력하세요. 종료일은 시작일 이후여야 합니다."
+  },
+  "重复范围最多一年": {
+    "en": "Repeat range is limited to one year.",
+    "ja": "繰り返し期間は最長1年です。",
+    "ko": "반복 기간은 최대 1년입니다."
+  },
+  "请填写有效时间 HH:mm，结束时间应晚于开始时间": {
+    "en": "Use HH:mm; end must be later than start.",
+    "ja": "HH:mm形式で、終了時刻を開始時刻より後にしてください。",
+    "ko": "HH:mm 형식으로 입력하세요. 종료 시간은 시작 이후여야 합니다."
+  },
+  "保存失败，原记录已保留": {
+    "en": "Save failed. Existing records kept.",
+    "ja": "保存できませんでした。元の記録は保持されています。",
+    "ko": "저장 실패. 기존 기록은 유지됩니다."
+  },
+  "删除失败，原记录已保留": {
+    "en": "Delete failed. Existing records kept.",
+    "ja": "削除できませんでした。元の記録は保持されています。",
+    "ko": "삭제 실패. 기존 기록은 유지됩니다."
+  },
+  "本周暂无课程": {
+    "en": "No classes this week",
+    "ja": "今週の授業はありません",
+    "ko": "이번 주 수업 없음"
+  },
+  "可以切换周次、学期，或在设置中管理自定义课程。": {
+    "en": "Select another week or term, or add a course.",
+    "ja": "週・学期を切り替えるか、授業を追加してください。",
+    "ko": "주차나 학기를 바꾸거나 수업을 추가하세요."
+  },
+  "正在同步课表…": {
+    "en": "Syncing timetable…",
+    "ja": "時間割を同期中…",
+    "ko": "시간표 동기화 중…"
+  },
+  "重新同步": {
+    "en": "Sync again",
+    "ja": "再同期",
+    "ko": "다시 동기화"
+  },
+  "本周 {0} 门课程": {
+    "en": "{0} classes this week",
+    "ja": "今週は{0}科目",
+    "ko": "이번 주 {0}개 수업"
+  },
+  "含自定义课程": {
+    "en": "Includes custom courses",
+    "ja": "追加した授業を含む",
+    "ko": "추가한 수업 포함"
+  },
+  "上一周": {
+    "en": "Previous week",
+    "ja": "前の週",
+    "ko": "이전 주"
+  },
+  "下一周": {
+    "en": "Next week",
+    "ja": "次の週",
+    "ko": "다음 주"
+  },
+  "导出": {
+    "en": "Export",
+    "ja": "エクスポート",
+    "ko": "내보내기"
+  },
+  "设置": {
+    "en": "Settings",
+    "ja": "設定",
+    "ko": "설정"
+  },
+  "返回": {
+    "en": "Back",
+    "ja": "戻る",
+    "ko": "뒤로"
+  },
+  "此学季尚无学校课表，点击同步更新。": {
+    "en": "No timetable for this quarter. Update to check.",
+    "ja": "このクォーターの時間割はありません。更新してください。",
+    "ko": "이 쿼터 시간표가 없습니다. 업데이트하세요."
+  },
+  "授课日期尚未适配，暂不能显示该学季日历。": {
+    "en": "Dates for this quarter are not supported yet.",
+    "ja": "このクォーターの授業日程は未対応です。",
+    "ko": "이 쿼터 수업 날짜는 아직 지원되지 않습니다."
+  },
+  "学校已保存 {0} 条课程安排。": {
+    "en": "{0} timetable entries saved.",
+    "ja": "時間割を{0}件保存済みです。",
+    "ko": "시간표 {0}개 저장됨."
+  },
+  "学校课表读取失败，已保留原记录。": {
+    "en": "Could not load timetable. Existing records kept.",
+    "ja": "時間割を読み込めませんでした。元の記録は保持されています。",
+    "ko": "시간표 불러오기 실패. 기존 기록은 유지됩니다."
+  },
+  "导出失败，请重试。": {
+    "en": "Export failed. Try again.",
+    "ja": "出力できませんでした。再試行してください。",
+    "ko": "내보내기 실패. 다시 시도하세요."
+  },
+  "导出学季日历": {
+    "en": "Export quarter calendar",
+    "ja": "クォーターの予定を出力",
+    "ko": "쿼터 일정 내보내기"
+  },
+  "考试可能日，以教师通知为准": {
+    "en": "Possible exam date; check instructor notices.",
+    "ja": "試験予定日。教員の連絡を確認してください。",
+    "ko": "시험 가능일. 담당 교수의 공지를 확인하세요."
+  },
+  "学分与 GPA": {
+    "en": "Credits & GPA",
+    "ja": "単位・GPA",
+    "ko": "학점 및 GPA"
+  },
+  "已保存到本机": {
+    "en": "Saved on this device",
+    "ja": "この端末に保存済み",
+    "ko": "기기에 저장됨"
+  },
+  "更新失败时保留上次数据。": {
+    "en": "Previous data is kept if an update fails.",
+    "ja": "更新に失敗しても前回のデータを保持します。",
+    "ko": "업데이트 실패 시 이전 자료를 유지합니다."
+  },
+  "暂无数据，请点击“资料更新”。": {
+    "en": "No data yet. Tap Update data.",
+    "ja": "データがありません。「データ更新」を押してください。",
+    "ko": "자료가 없습니다. '자료 업데이트'를 누르세요."
+  },
+  "上次同步：{0}": {
+    "en": "Last synced: {0}",
+    "ja": "最終同期：{0}",
+    "ko": "마지막 동기화: {0}"
+  },
+  "累计 GPA：{0}": {
+    "en": "Cumulative GPA: {0}",
+    "ja": "通算GPA：{0}",
+    "ko": "누적 GPA: {0}"
+  },
+  "已修学分：{0}": {
+    "en": "Earned credits: {0}",
+    "ja": "修得単位：{0}",
+    "ko": "취득 학점: {0}"
+  },
+  "毕业要求：124 学分 + 分类与必修要求。": {
+    "en": "Graduation: 124 credits plus category and required-course requirements.",
+    "ja": "卒業要件：124単位＋区分・必修要件。",
+    "ko": "졸업 요건: 124학점 및 영역별·필수 과목 요건."
+  },
+  "毕业进度": {
+    "en": "Graduation progress",
+    "ja": "卒業要件の進捗",
+    "ko": "졸업 이수 현황"
+  },
+  "已分类 {0} 学分 · 待分类 {1} 学分": {
+    "en": "Classified: {0} credits · Unclassified: {1}",
+    "ja": "分類済み {0}単位・未分類 {1}単位",
+    "ko": "분류 완료 {0}학점 · 미분류 {1}학점"
+  },
+  "待分类学分已计入总分，类别尚待确认。": {
+    "en": "Unclassified credits are included in the total; category pending.",
+    "ja": "未分類の単位も合計に含まれます。区分は未確認です。",
+    "ko": "미분류 학점도 총점에 포함되며 영역은 확인 중입니다."
+  },
+  "适用：2026 入学 · 情報工学科。": {
+    "en": "For 2026 entrants in Information Engineering.",
+    "ja": "2026年度入学・情報工学科向け。",
+    "ko": "2026학년도 입학 정보공학과 기준."
+  },
+  "待分类课程": {
+    "en": "Unclassified courses",
+    "ja": "未分類の科目",
+    "ko": "미분류 과목"
+  },
+  "课程成绩": {
+    "en": "Course results",
+    "ja": "成績一覧",
+    "ko": "과목 성적"
+  },
+  "未通过 · 不计学分": {
+    "en": "Not passed · No credits",
+    "ja": "不合格・単位なし",
+    "ko": "미이수 · 학점 없음"
+  },
+  "通过": {
+    "en": "Passed",
+    "ja": "合格",
+    "ko": "이수"
+  },
+  "未通过": {
+    "en": "Not passed",
+    "ja": "不合格",
+    "ko": "미이수"
+  },
+  "毕业类别：{0}": {
+    "en": "Graduation category: {0}",
+    "ja": "卒業要件区分：{0}",
+    "ko": "졸업 영역: {0}"
+  },
+  "待分类（已计总分）": {
+    "en": "Unclassified (included in total)",
+    "ja": "未分類（合計に算入済み）",
+    "ko": "미분류 (총점 포함)"
+  },
+  "数量已达标": {
+    "en": "Credit minimum met",
+    "ja": "必要単位数に到達",
+    "ko": "학점 수 충족"
+  },
+  "计入上级类别": {
+    "en": "Included in parent category",
+    "ja": "上位区分に算入",
+    "ko": "상위 영역에 포함"
+  },
+  "还差 {0} 学分": {
+    "en": "{0} credits remaining",
+    "ja": "あと{0}単位",
+    "ko": "{0}학점 부족"
+  },
+  "还差 {0} 学分，子项未达标": {
+    "en": "{0} credits remaining; subrequirements unmet",
+    "ja": "あと{0}単位・内訳の要件が未達",
+    "ko": "{0}학점 부족 · 세부 요건 미충족"
+  },
+  "学分预览": {
+    "en": "Credit forecast",
+    "ja": "単位の見込み",
+    "ko": "예상 학점"
+  },
+  "{0} 学年度": {
+    "en": "Academic year {0}",
+    "ja": "{0}年度",
+    "ko": "{0}학년도"
+  },
+  "前期 Q1+Q2": {
+    "en": "First half Q1+Q2",
+    "ja": "前期 Q1+Q2",
+    "ko": "전기 Q1+Q2"
+  },
+  "后期 Q3+Q4": {
+    "en": "Second half Q3+Q4",
+    "ja": "後期 Q3+Q4",
+    "ko": "후기 Q3+Q4"
+  },
+  "跨学季课程仅计一次。": {
+    "en": "Courses spanning quarters count once.",
+    "ja": "複数クォーターの授業は一度だけ計上。",
+    "ko": "여러 쿼터에 걸친 과목은 한 번만 계산합니다."
+  },
+  "尚缺 {0} 课表，仅预览已有课程。": {
+    "en": "Missing {0}; forecast covers saved courses only.",
+    "ja": "{0}の時間割が未取得。保存済み科目のみ試算。",
+    "ko": "{0} 시간표 없음. 저장된 과목만 예상합니다."
+  },
+  "暂无课程，等待学校发布。": {
+    "en": "No courses yet. Awaiting university publication.",
+    "ja": "科目未登録。大学の公開待ちです。",
+    "ko": "과목이 없습니다. 학교 발표 대기 중입니다."
+  },
+  "当前已修 {0} 学分，预计总分待定。": {
+    "en": "Earned: {0} credits. Forecast not yet available.",
+    "ja": "修得済み{0}単位。見込み合計は未定。",
+    "ko": "현재 {0}학점 취득. 예상 총학점 미정."
+  },
+  "本期课程：{0} 学分": {
+    "en": "Courses this term: {0} credits",
+    "ja": "今期の科目：{0}単位",
+    "ko": "이번 학기 과목: {0}학점"
+  },
+  "待出成绩课程全通过：新增 {0} 学分。": {
+    "en": "If all pending courses pass: +{0} credits.",
+    "ja": "成績未確定科目がすべて合格なら＋{0}単位。",
+    "ko": "성적 미확정 과목을 모두 이수하면 +{0}학점."
+  },
+  "预计总分：{0} + {1} = {2} 学分": {
+    "en": "Projected total: {0} + {1} = {2} credits",
+    "ja": "見込み合計：{0}＋{1}＝{2}単位",
+    "ko": "예상 총학점: {0} + {1} = {2}학점"
+  },
+  "仅为预估，以学校认定为准。": {
+    "en": "Estimate only; university decisions apply.",
+    "ja": "試算です。大学の認定が優先されます。",
+    "ko": "예상치이며 학교의 인정 기준이 우선합니다."
+  },
+  "收起明细": {
+    "en": "Hide details",
+    "ja": "明細を閉じる",
+    "ko": "상세 접기"
+  },
+  "课程明细": {
+    "en": "Course details",
+    "ja": "科目明細",
+    "ko": "과목 상세"
+  },
+  "已修得不重复增加；已出未通过成绩不算新增。跨学季课程在结束学季计分。": {
+    "en": "Earned credits are not added twice. Failed courses are excluded. Multi-quarter courses count at completion.",
+    "ja": "修得済み・不合格は加算しません。複数クォーターの科目は終了時に計上します。",
+    "ko": "취득 학점은 중복하지 않으며 미이수 과목은 제외합니다. 여러 쿼터 과목은 종료 시 계산합니다."
+  },
+  "预计新增": {
+    "en": "Expected addition",
+    "ja": "追加見込み",
+    "ko": "예상 추가"
+  },
+  "待核对，不计预览": {
+    "en": "Unverified; excluded",
+    "ja": "要確認・試算対象外",
+    "ko": "확인 필요 · 예상에서 제외"
+  },
+  "成绩对应待核对，不计预览": {
+    "en": "Result match uncertain; excluded",
+    "ja": "成績の対応要確認・試算対象外",
+    "ko": "성적 매칭 확인 필요 · 제외"
+  },
+  "已修得，不重复增加": {
+    "en": "Already earned; not added again",
+    "ja": "修得済み・再加算なし",
+    "ko": "이미 취득 · 중복 추가 없음"
+  },
+  "已出未通过成绩，不计新增": {
+    "en": "Failed result; no added credits",
+    "ja": "不合格確定・加算なし",
+    "ko": "미이수 확정 · 추가 학점 없음"
+  },
+  "选课上限": {
+    "en": "Registration cap",
+    "ja": "履修上限",
+    "ko": "수강 신청 한도"
+  },
+  "全年通常最多选 46 学分。": {
+    "en": "Normally up to 46 credits per year.",
+    "ja": "年間の通常上限は46単位。",
+    "ko": "연간 기본 한도는 46학점입니다."
+  },
+  "收起": {
+    "en": "Collapse",
+    "ja": "閉じる",
+    "ko": "접기"
+  },
+  "查看与计算": {
+    "en": "Details & calculator",
+    "ja": "詳細・計算",
+    "ko": "상세 및 계산"
+  },
+  "不及格课程也计入；集中讲义、毕业要求外课程及认定学分除外。": {
+    "en": "Failed courses count; intensive, non-graduation and recognized credits are excluded.",
+    "ja": "不合格科目も算入。集中講義・卒業要件外科目・認定単位は除外。",
+    "ko": "미이수 과목도 포함합니다. 집중 강의·졸업 요건 외 과목·인정 학점은 제외합니다."
+  },
+  "这是选课登记额度，不是已修得学分上限。不能用“46 − 已通过学分”计算剩余额度。": {
+    "en": "This limits registration, not earned credits. Do not subtract earned credits from 46.",
+    "ja": "履修登録の上限です。「46−修得単位」で残り枠は計算できません。",
+    "ko": "취득 학점이 아닌 수강 신청 한도입니다. 46에서 취득 학점을 빼면 안 됩니다."
+  },
+  "本年度已登记的 CAP 计入学分": {
+    "en": "Registered credits counted toward CAP",
+    "ja": "今年度のCAP算入登録単位",
+    "ko": "올해 CAP에 포함된 신청 학점"
+  },
+  "填写教务核对后的全年总数，包含未出成绩和不及格课程": {
+    "en": "Enter the verified annual total, including pending and failed courses.",
+    "ja": "成績未確定・不合格を含め、教務確認済みの年間合計を入力。",
+    "ko": "미확정·미이수 과목을 포함한 학교 확인 연간 총학점을 입력하세요."
+  },
+  "拟新增的 CAP 计入学分": {
+    "en": "Additional CAP credits planned",
+    "ja": "追加予定のCAP算入単位",
+    "ko": "추가 신청할 CAP 학점"
+  },
+  "教务显示的当期可追加额度（选填）": {
+    "en": "Remaining term allowance (optional)",
+    "ja": "教務表示の今期追加可能枠（任意）",
+    "ko": "학교에 표시된 이번 학기 추가 가능 학점 (선택)"
+  },
+  "填当前剩余额度，不填学期总上限；如计数口径不同，请直接以教务结果为准": {
+    "en": "Enter the remaining allowance, not the term maximum. Follow university calculations.",
+    "ja": "学期の上限ではなく残り枠を入力。大学の計算基準を優先。",
+    "ko": "학기 최대치가 아닌 남은 한도를 입력하세요. 학교 계산을 따르세요."
+  },
+  "请填写有效的非负学分数，并补齐全年已登记与拟新增学分。": {
+    "en": "Enter non-negative registered and additional credits.",
+    "ja": "登録済み・追加予定の単位を0以上で入力してください。",
+    "ko": "기신청·추가 학점을 0 이상의 수로 입력하세요."
+  },
+  "54 学分例外：申请时最近学期 GPA ≥ 2.75，并取得班级担任、学科教务委员的批准与指导，以及工学部教务委员会批准。App 不自动启用。": {
+    "en": "54-credit exception: latest-term GPA ≥ 2.75 plus required tutor, department and faculty approvals. Not applied automatically.",
+    "ja": "54単位の特例：直近学期GPA 2.75以上で、担任・学科教務委員の承認と指導、工学部教務委員会の承認が必要。自動適用しません。",
+    "ko": "54학점 예외: 직전 학기 GPA 2.75 이상이며 담임·학과 교무위원·공학부 교무위원회의 승인 등이 필요합니다. 자동 적용하지 않습니다."
+  },
+  "远程授课：最多 60 学分计入毕业要求，不能据此判断还能选多少课。已取得学分的课程原则上不能再次履修。": {
+    "en": "Up to 60 remote-learning credits count toward graduation. This is not a registration allowance. Earned courses generally cannot be retaken.",
+    "ja": "遠隔授業の卒業算入は最大60単位。履修可能枠とは別です。修得済み科目の再履修は原則不可。",
+    "ko": "원격 수업은 최대 60학점까지 졸업에 인정됩니다. 수강 신청 한도와 다릅니다. 취득 과목은 원칙적으로 재수강할 수 없습니다."
+  },
+  "查看学校规定（第 4–6 页）": {
+    "en": "University rules (pp. 4–6)",
+    "ja": "大学の規定（4〜6頁）",
+    "ko": "학교 규정 (4–6쪽)"
+  },
+  "选课规则": {
+    "en": "Registration rules",
+    "ja": "履修ルール",
+    "ko": "수강 규칙"
+  },
+  "限修、先修、重修等 {0} 项规则。": {
+    "en": "{0} rules on limits, prerequisites and retakes.",
+    "ja": "履修制限・先修・再履修など{0}項目。",
+    "ko": "한도·선수·재수강 등 {0}개 규칙."
+  },
+  "收起规则": {
+    "en": "Hide rules",
+    "ja": "ルールを閉じる",
+    "ko": "규칙 접기"
+  },
+  "查看规则": {
+    "en": "View rules",
+    "ja": "ルールを見る",
+    "ko": "규칙 보기"
+  },
+  "适用：2026 入学工学部。": {
+    "en": "For 2026 Engineering entrants.",
+    "ja": "2026年度入学の工学部向け。",
+    "ko": "2026학년도 공학부 입학생 기준."
+  },
+  "核对范围：{0}": {
+    "en": "Scope: {0}",
+    "ja": "対象範囲：{0}",
+    "ko": "적용 범위: {0}"
+  },
+  "上限：{0} {1}": {
+    "en": "Limit: {0} {1}",
+    "ja": "上限：{0} {1}",
+    "ko": "한도: {0} {1}"
+  },
+  "上述范围内已有数量（{0}）": {
+    "en": "Current amount in this scope ({0})",
+    "ja": "対象範囲内の既存数（{0}）",
+    "ko": "해당 범위의 기존 수량 ({0})"
+  },
+  "拟增加数量（{0}）": {
+    "en": "Planned addition ({0})",
+    "ja": "追加予定数（{0}）",
+    "ko": "추가 예정 수량 ({0})"
+  },
+  "请填写两个非负数；门数必须为整数。": {
+    "en": "Enter two non-negative numbers; course counts must be integers.",
+    "ja": "0以上の数値を2つ入力。科目数は整数です。",
+    "ko": "0 이상의 수 두 개를 입력하세요. 과목 수는 정수여야 합니다."
+  },
+  "查看依据：共通教育履修案内第 {0} 页": {
+    "en": "Source: General Education guide, p. {0}",
+    "ja": "出典：共通教育履修案内 {0}頁",
+    "ko": "근거: 공통교육 이수 안내 {0}쪽"
+  },
+  "学校登录与读取": {
+    "en": "University sign-in & sync",
+    "ja": "大学ログイン・同期",
+    "ko": "학교 로그인 및 동기화"
+  },
+  "请使用茨大 ID 和学校密码登录，并完成学校验证。": {
+    "en": "Use your university ID and password and complete verification.",
+    "ja": "茨大IDとパスワードでログインし、認証を完了してください。",
+    "ko": "학교 ID와 비밀번호로 로그인하고 인증을 완료하세요."
+  },
+  "请完成学校登录。": {
+    "en": "Please complete university sign-in.",
+    "ja": "大学へのログインを完了してください。",
+    "ko": "학교 로그인을 완료하세요."
+  },
+  "正在自动更新今日学校数据…": {
+    "en": "Updating today's university data…",
+    "ja": "本日の大学データを自動更新中…",
+    "ko": "오늘 학교 자료 자동 업데이트 중…"
+  },
+  "正在打开学校页面…": {
+    "en": "Opening university page…",
+    "ja": "大学のページを開いています…",
+    "ko": "학교 페이지 여는 중…"
+  },
+  "正在同步学校数据…": {
+    "en": "Syncing university data…",
+    "ja": "大学データを同期中…",
+    "ko": "학교 자료 동기화 중…"
+  },
+  "可手动读取当前页。": {
+    "en": "You can read this page.",
+    "ja": "このページを読み取れます。",
+    "ko": "현재 페이지를 읽을 수 있습니다."
+  },
+  "请在学校页面完成登录和验证。": {
+    "en": "Complete sign-in and verification on the university page.",
+    "ja": "大学のページでログインと認証を完了してください。",
+    "ko": "학교 페이지에서 로그인과 인증을 완료하세요."
+  },
+  "页面加载失败，请重试。": {
+    "en": "Page failed to load. Try again.",
+    "ja": "ページを読み込めません。再試行してください。",
+    "ko": "페이지 로드 실패. 다시 시도하세요."
+  },
+  "学校页面证书验证失败，已停止连接。": {
+    "en": "Certificate validation failed. Connection stopped.",
+    "ja": "証明書の検証に失敗したため接続を停止しました。",
+    "ko": "인증서 확인 실패로 연결을 중단했습니다."
+  },
+  "登录后自动同步课表、成绩与日历": {
+    "en": "Sync timetable, results and calendar after sign-in",
+    "ja": "ログイン後に時間割・成績・カレンダーを自動同期",
+    "ko": "로그인 후 시간표·성적·일정 자동 동기화"
+  },
+  "查看日历": {
+    "en": "View calendar",
+    "ja": "カレンダーを見る",
+    "ko": "캘린더 보기"
+  },
+  "查看学分与 GPA": {
+    "en": "View credits & GPA",
+    "ja": "単位・GPAを見る",
+    "ko": "학점 및 GPA 보기"
+  },
+  "读取预览": {
+    "en": "Read preview",
+    "ja": "読み取りプレビュー",
+    "ko": "읽기 미리보기"
+  },
+  "学校数据单独保存；手动记录保持原样。": {
+    "en": "University data is saved separately; personal entries are kept.",
+    "ja": "大学データは別に保存し、個人の記録は保持します。",
+    "ko": "학교 자료는 별도 저장하며 개인 기록은 유지합니다."
+  },
+  "返回网页": {
+    "en": "Back to page",
+    "ja": "ページに戻る",
+    "ko": "페이지로 돌아가기"
+  },
+  "重新打开": {
+    "en": "Reopen",
+    "ja": "開き直す",
+    "ko": "다시 열기"
+  },
+  "读取中…": {
+    "en": "Reading…",
+    "ja": "読み取り中…",
+    "ko": "읽는 중…"
+  },
+  "读取当前页": {
+    "en": "Read this page",
+    "ja": "このページを読み取る",
+    "ko": "현재 페이지 읽기"
+  },
+  "确认保存到本机": {
+    "en": "Save on this device",
+    "ja": "この端末に保存",
+    "ko": "기기에 저장"
+  },
+  "学校连接中断或登录已过期，请重新登录同步。": {
+    "en": "Connection lost or sign-in expired. Sign in to sync again.",
+    "ja": "接続が切れたかログインが失効しました。再ログインしてください。",
+    "ko": "연결이 끊겼거나 로그인이 만료되었습니다. 다시 로그인하세요."
+  },
+  "自动更新暂未完成：学校可能需要重新认证或网络不可用。已保留本机数据，可点击“从学校更新”重试。": {
+    "en": "Update incomplete. Sign-in may have expired or the network is unavailable. Local data is kept; tap Update to retry.",
+    "ja": "更新未完了。再認証が必要か通信できません。保存済みデータは保持しています。「データ更新」で再試行してください。",
+    "ko": "업데이트 미완료. 재인증이 필요하거나 네트워크 문제일 수 있습니다. 기존 자료는 유지됩니다. 업데이트를 눌러 재시도하세요."
+  },
+  "学生资料已更新": {
+    "en": "Profile updated",
+    "ja": "学籍情報を更新しました",
+    "ko": "학생 정보 업데이트 완료"
+  },
+  "成绩/学分/GPA 已更新": {
+    "en": "Results, credits and GPA updated",
+    "ja": "成績・単位・GPAを更新しました",
+    "ko": "성적·학점·GPA 업데이트 완료"
+  },
+  "同步完成 · 学生资料、课表、成绩与日历已更新。 教室暂无新数据，已保留记录。": {
+    "en": "Sync complete. Profile, timetable, results and calendar updated. Existing rooms kept; no new room data.",
+    "ja": "同期完了。学籍情報・時間割・成績・カレンダーを更新。教室の新データはなく、既存記録を保持。",
+    "ko": "동기화 완료. 학생 정보·시간표·성적·일정이 업데이트되었습니다. 새 강의실 자료가 없어 기존 기록을 유지합니다."
+  },
+  "同步完成 · 学生资料、课表、成绩与日历已更新。": {
+    "en": "Sync complete. Profile, timetable, results and calendar updated.",
+    "ja": "同期完了。学籍情報・時間割・成績・カレンダーを更新しました。",
+    "ko": "동기화 완료. 학생 정보·시간표·성적·일정이 업데이트되었습니다."
+  },
+  "同步已停止，可点击学校登录重试。": {
+    "en": "Sync stopped. Tap Update to retry.",
+    "ja": "同期を停止しました。「データ更新」で再試行できます。",
+    "ko": "동기화 중단. 업데이트를 눌러 재시도하세요."
+  },
+  "尚未核实本年度授课方式。": {
+    "en": "This year's teaching format has not been verified.",
+    "ja": "今年度の授業形態は未確認です。",
+    "ko": "올해 수업 방식은 아직 확인되지 않았습니다."
+  },
+  "一年级学生在水户面授；线上参加仅适用于日立校区重修生。": {
+    "en": "First-year students attend in person in Mito. Online access is only for Hitachi retake students.",
+    "ja": "1年生は水戸で対面受講。オンライン参加は日立の再履修者のみ対象です。",
+    "ko": "1학년은 미토에서 대면 수업을 합니다. 온라인은 히타치 재수강생만 가능합니다."
+  },
+  "各次授课的面授/线上方式由讲师另行通知，优先按教室安排。": {
+    "en": "The instructor announces each session's format. Follow classroom arrangements first.",
+    "ja": "各回の対面・オンラインは担当教員が通知します。教室の指定を優先してください。",
+    "ko": "각 차시의 대면·온라인 방식은 담당 교수가 안내합니다. 강의실 배정을 우선하세요."
+  },
+  "2026 年学校课程大纲列为线上授课；临时调整以教师通知为准。": {
+    "en": "The 2026 syllabus lists online classes. Follow instructor notices for changes.",
+    "ja": "2026年度シラバスではオンライン授業です。変更は教員の連絡を確認してください。",
+    "ko": "2026년 강의계획서상 온라인 수업입니다. 변경은 교수 공지를 확인하세요."
+  },
+  "教室以学校当前安排为准；未明确核实的线上方式不自动采用。": {
+    "en": "Use the university's current room assignment. Unverified online options are not assumed.",
+    "ja": "大学の最新教室指定に従ってください。未確認のオンライン受講は想定しません。",
+    "ko": "학교의 최신 강의실 배정을 따르세요. 미확인 온라인 수업은 적용하지 않습니다."
+  },
+  "同一学期（前期 Q1+Q2，后期 Q3+Q4）": {
+    "en": "Same semester (Q1+Q2 or Q3+Q4)",
+    "ja": "同一学期（前期Q1+Q2・後期Q3+Q4）",
+    "ko": "동일 학기 (전기 Q1+Q2, 후기 Q3+Q4)"
+  },
+  "同一学期": {
+    "en": "Same semester",
+    "ja": "同一学期",
+    "ko": "동일 학기"
+  },
+  "同一学年": {
+    "en": "Same academic year",
+    "ja": "同一年度",
+    "ko": "동일 학년도"
+  },
+  "该科目累计履修": {
+    "en": "Total for this subject",
+    "ja": "当該科目の累計",
+    "ko": "해당 과목 누계"
+  },
+  "学分": {
+    "en": "Credits",
+    "ja": "単位",
+    "ko": "학점"
+  },
+  "门": {
+    "en": "courses",
+    "ja": "科目",
+    "ko": "과목"
+  },
+  "初修外语、共生とコミュニケーション、パフォーマンス＆アート合并核对。同一学期不能修 2 学分；不要在 Q3、Q4 各选 1 学分。此限制不适用于整个多文化理解或ヒューマニティーズ。": {
+    "en": "Check introductory languages, coexistence/communication and performance/art together. Maximum 1 credit per semester, not 1 in each quarter. This is not a cap on the whole multicultural understanding or humanities category.",
+    "ja": "初修外国語・共生とコミュニケーション・パフォーマンス＆アートを合算。同一学期は1単位までで、Q3とQ4に各1単位は不可。多文化理解全体やヒューマニティーズ全体の制限ではありません。",
+    "ko": "초수 외국어·공생과 커뮤니케이션·퍼포먼스＆아트를 합산합니다. 학기당 1학점까지로 Q3와 Q4에 각각 1학점은 불가합니다. 다문화이해나 휴머니티즈 전체의 한도는 아닙니다."
+  },
+  "原则上同一教师的 1+1 学分课程须在同一学期连续履修。重修也遵守；原教师原题目再次开课时，可只重修未通过部分。": {
+    "en": "Normally take the same instructor's 1+1 credits consecutively in one semester, including retakes. If the same instructor/topic is offered again, only the failed part may be retaken.",
+    "ja": "原則として同一教員の1+1単位を同一学期に連続履修。再履修も同様。同一教員・同一題目が再開講される場合は不合格部分のみ再履修可。",
+    "ko": "원칙적으로 같은 교수의 1+1학점을 동일 학기에 연속 이수합니다. 재수강도 동일하나 같은 교수·주제로 다시 개설되면 미이수 부분만 재수강할 수 있습니다."
+  },
+  "原则上每年只修 1 门，从一年级开始；不及格通常到下一学年重修。须参加四月指导及指定班级分配，出席至少达到总课时的 3/4。": {
+    "en": "Normally one course per year from year 1; failures are usually retaken next year. Attend April guidance and assigned grouping. Attendance must be at least 3/4.",
+    "ja": "原則1年次から年1科目。不合格は通常翌年度に再履修。4月のガイダンスと指定クラス配当に従い、出席は3/4以上必要。",
+    "ko": "원칙적으로 1학년부터 매년 1과목이며 미이수 시 보통 다음 학년에 재수강합니다. 4월 안내와 지정 분반을 따르고 3/4 이상 출석해야 합니다."
+  },
+  "一年级前期，按指定班级履修。": {
+    "en": "Year 1, first semester; assigned class.",
+    "ja": "1年次前期、指定クラスで履修。",
+    "ko": "1학년 전기, 지정 분반 수강."
+  },
+  "一年级 Q2，按指定班级履修。": {
+    "en": "Year 1 Q2; assigned class.",
+    "ja": "1年次Q2、指定クラスで履修。",
+    "ko": "1학년 Q2, 지정 분반 수강."
+  },
+  "一年级 IE 共 4 学分，不得重复履修同一科目或自行更改分班等级。重修按学校安排核对。": {
+    "en": "Year 1 IE totals 4 credits. Do not repeat the same course or change levels yourself. Follow university retake arrangements.",
+    "ja": "1年次IEは計4単位。同一科目の重複履修・自己判断のレベル変更は不可。再履修は大学の指示に従います。",
+    "ko": "1학년 IE는 총 4학점입니다. 동일 과목 중복 수강과 임의 레벨 변경은 불가하며 재수강은 학교 지침을 따릅니다."
+  },
+  "一年级前期，按指定班级与时间履修。": {
+    "en": "Year 1, first semester; assigned class and time.",
+    "ja": "1年次前期、指定クラス・時間で履修。",
+    "ko": "1학년 전기, 지정 분반과 시간에 수강."
+  },
+  "一年级后期，按指定班级与时间履修。": {
+    "en": "Year 1, second semester; assigned class and time.",
+    "ja": "1年次後期、指定クラス・時間で履修。",
+    "ko": "1학년 후기, 지정 분반과 시간에 수강."
+  },
+  "工学部一年级 Q1，按指定班级履修。": {
+    "en": "Engineering year 1 Q1; assigned class.",
+    "ja": "工学部1年次Q1、指定クラスで履修。",
+    "ko": "공학부 1학년 Q1, 지정 분반 수강."
+  },
+  "工学部三年级 Q1 或 Q2，按指定班级履修。": {
+    "en": "Engineering year 3 Q1 or Q2; assigned class.",
+    "ja": "工学部3年次Q1またはQ2、指定クラスで履修。",
+    "ko": "공학부 3학년 Q1 또는 Q2, 지정 분반 수강."
+  },
+  "英语 C/D 的先修条件": {
+    "en": "English C/D prerequisites",
+    "ja": "英語C/Dの先修条件",
+    "ko": "영어 C/D 선수 요건"
+  },
+  "选修资格": {
+    "en": "Eligibility",
+    "ja": "履修資格",
+    "ko": "수강 자격"
+  },
+  "前期 Integrated English A 和 B 必须均通过，才能履修后期 C 和 D；沿用前期的 1/2/3 分班等级。": {
+    "en": "Pass both first-semester Integrated English A and B before C/D. Keep the same assigned level 1/2/3.",
+    "ja": "後期C・Dの履修には前期Integrated English A・B両方の合格が必要。前期の1/2/3レベルを継続。",
+    "ko": "후기 C/D 수강 전 전기 Integrated English A와 B를 모두 이수해야 합니다. 전기 1/2/3 레벨을 유지합니다."
+  },
+  "重复修读与学分认定": {
+    "en": "Repeated courses and credit recognition",
+    "ja": "重複履修と単位認定",
+    "ko": "중복 수강과 학점 인정"
+  },
+  "重复核对": {
+    "en": "Duplicate-course check",
+    "ja": "重複確認",
+    "ko": "중복 확인"
+  },
+  "通识课已通过的同一教师、同一授课题目不能再次取得学分；同一教师但题目不同可作为另一门课。初修外语同一语言、同一课程名称不能重复取得学分。不能仅凭大类名相同判重复。": {
+    "en": "General education with the same instructor and topic cannot earn credits twice. A different topic may count separately. Introductory language courses with the same language and title cannot earn duplicate credit. A shared category name alone does not indicate duplication.",
+    "ja": "教養科目の同一教員・同一題目は再度の単位取得不可。題目が異なれば別科目として扱える場合あり。初修外国語の同一言語・同一科目名も重複取得不可。大分類名だけで重複判定しません。",
+    "ko": "교양은 동일 교수·동일 주제로 학점을 다시 취득할 수 없습니다. 주제가 다르면 별도 과목일 수 있습니다. 초수 외국어의 동일 언어·과목명도 중복 취득 불가입니다. 대분류 이름만으로 판단하지 않습니다."
+  },
+  "学術日本語的资格与分级": {
+    "en": "Academic Japanese eligibility and placement",
+    "ja": "学術日本語の対象・クラス分け",
+    "ko": "학술 일본어 자격 및 분반"
+  },
+  "留学生课程": {
+    "en": "International-student courses",
+    "ja": "留学生科目",
+    "ko": "유학생 과목"
+  },
+  "面向外国留学生；通过私费外国人留学生选拔入学的非留学在留资格外国籍学生也适用。分班未达要求须修Ⅰ，达到要求不能修Ⅰ；学校分班结果尚未导入。": {
+    "en": "For international students, including eligible privately financed international-admission students with other residence statuses. Placement determines whether level I is required or prohibited. Placement results are not imported.",
+    "ja": "外国人留学生が対象。私費外国人留学生選抜入学者は「留学」以外の在留資格でも対象。クラス分け基準未達はⅠを履修、到達者はⅠを履修不可。判定結果は未取得。",
+    "ko": "외국인 유학생 대상이며 사비 외국인 유학생 전형 입학생은 유학 외 체류 자격도 해당합니다. 분반 기준 미달은 I 필수, 충족자는 I 수강 불가입니다. 분반 결과는 미연동입니다."
+  },
+  "事前申告、抽签与班级": {
+    "en": "Pre-registration, lottery and class assignment",
+    "ja": "事前申告・抽選・クラス配当",
+    "ko": "사전 신청·추첨·분반"
+  },
+  "选课流程": {
+    "en": "Registration process",
+    "ja": "履修手続き",
+    "ko": "수강 신청 절차"
+  },
+  "主体学修需先申告并按抽签结果履修。受讲资格不能转让；满额班即使出现退出者也不追加许可。未中签或想追加课程，应查空位并联系学习支持室。选课须遵守指定学部、年级和班级。": {
+    "en": "Independent-study courses require pre-registration and lottery allocation. Places cannot be transferred; withdrawals from full classes do not grant extra permission. Check vacancies and contact learning support for additions. Follow faculty, year and class restrictions.",
+    "ja": "主体学修は事前申告・抽選結果に従って履修。受講資格の譲渡不可。満員クラスは辞退者が出ても追加許可なし。落選・追加希望は空き状況を確認し学修支援室へ。学部・学年・クラス指定を守ってください。",
+    "ko": "주체학수는 사전 신청과 추첨 배정에 따릅니다. 수강 자격 양도 불가이며 만원 분반에 취소자가 나와도 추가 허가되지 않습니다. 추가 희망 시 여석을 확인하고 학습지원실에 문의하세요. 학부·학년·분반 지정을 따릅니다."
+  },
+  "出席要求": {
+    "en": "Attendance requirements",
+    "ja": "出席要件",
+    "ko": "출석 요건"
+  },
+  "取得学分条件": {
+    "en": "Credit requirements",
+    "ja": "単位取得条件",
+    "ko": "학점 취득 요건"
+  },
+  "通常至少出席总课时的 2/3，身体活動至少 3/4；课程还可能有更严格条件。缺课特殊处理须按学校程序办理，App 不将满足最低出席比例等同于必然及格。": {
+    "en": "Normally at least 2/3 attendance, or 3/4 for physical activity. Courses may be stricter. Absence exceptions require university procedures; minimum attendance does not guarantee a pass.",
+    "ja": "通常2/3以上、身体活動は3/4以上の出席が必要。科目により厳しい条件あり。欠席の特別扱いは大学の手続きが必要で、最低出席率だけで合格は保証されません。",
+    "ko": "보통 2/3 이상, 신체활동은 3/4 이상 출석해야 합니다. 과목별로 더 엄격할 수 있습니다. 결석 예외는 학교 절차를 따르며 최소 출석률만으로 이수가 보장되지는 않습니다."
+  },
+  "类别超额学分的去向": {
+    "en": "Excess category credits",
+    "ja": "区分超過単位の扱い",
+    "ko": "영역 초과 학점 처리"
+  },
+  "毕业分类": {
+    "en": "Graduation categories",
+    "ja": "卒業要件区分",
+    "ko": "졸업 영역"
+  },
+  "工学部多文化理解超过 3 学分、自然与社会超过 4 学分的部分计入选择履修；选择履修超过 3 学分的部分转自由履修。身体活动超过必需 1 学分的部分可计选择或自由履修，不应当作全部无效。": {
+    "en": "For Engineering, multicultural credits above 3 and nature/society above 4 go to electives; electives above 3 go to free electives. Physical activity beyond the required 1 credit may count as elective/free credits, not automatically discarded.",
+    "ja": "工学部では多文化理解3単位超・自然と社会4単位超を選択履修へ、選択履修3単位超を自由履修へ算入。身体活動の必修1単位超も選択・自由履修へ算入でき、すべて無効ではありません。",
+    "ko": "공학부 다문화이해 3학점 초과 및 자연과사회 4학점 초과는 선택 이수로, 선택 이수 3학점 초과는 자유 이수로 처리합니다. 신체활동 필수 1학점 초과도 선택·자유 학점으로 인정될 수 있습니다."
+  },
+  "入学前及校外学习认定": {
+    "en": "Prior and external learning recognition",
+    "ja": "入学前・学外学修の認定",
+    "ko": "입학 전·교외 학습 인정"
+  },
+  "所述认定制度累计": {
+    "en": "Total under this recognition scheme",
+    "ja": "当該認定制度の累計",
+    "ko": "해당 인정 제도 누계"
+  },
+  "须申请并经学校认定；入学前在本校取得的学分不含在此 60 学分中。此额度不同于远程授课 60 学分上限，二者不能相加视为毕业额度。": {
+    "en": "University approval is required. Credits earned at this university before admission are outside this 60-credit cap. It is separate from the remote-learning cap; the two cannot simply be added.",
+    "ja": "申請・大学の認定が必要。入学前に本学で取得した単位はこの60単位に含みません。遠隔授業の60単位上限とは別で、単純に合算できません。",
+    "ko": "신청과 학교 인정이 필요합니다. 입학 전 본교 취득 학점은 이 60학점에 포함되지 않습니다. 원격 수업 60학점 한도와 별개이며 단순 합산할 수 없습니다."
+  },
+  "学校成绩 · {0} 门 · 已修 {1} 学分": {
+    "en": "Results · {0} courses · {1} credits earned",
+    "ja": "成績・{0}科目・修得{1}単位",
+    "ko": "성적 · {0}과목 · {1}학점 취득"
+  },
+  "{0} · Q{1} 课表 · {2} 门": {
+    "en": "{0} · Q{1} · {2} timetable entries",
+    "ja": "{0}・Q{1} 時間割・{2}件",
+    "ko": "{0} · Q{1} 시간표 · {2}개"
+  },
+  "{0} 学分 · {1} · {2} · 通过": {
+    "en": "{0} credits · {1} · {2} · Passed",
+    "ja": "{0}単位・{1}・{2}・合格",
+    "ko": "{0}학점 · {1} · {2} · 이수"
+  },
+  "{0} 学分 · {1} · {2} · 未通过": {
+    "en": "{0} credits · {1} · {2} · Not passed",
+    "ja": "{0}単位・{1}・{2}・不合格",
+    "ko": "{0}학점 · {1} · {2} · 미이수"
+  },
+  "{0} · {1} 学分": {
+    "en": "{0} · {1} credits",
+    "ja": "{0}・{1}単位",
+    "ko": "{0} · {1}학점"
+  },
+  "{0} · 第 {1} 周": {
+    "en": "{0} · Week {1}",
+    "ja": "{0}・第{1}週",
+    "ko": "{0} · {1}주차"
+  },
+  "第 {0} 限 · {1}": {
+    "en": "Period {0} · {1}",
+    "ja": "{0}限・{1}",
+    "ko": "{0}교시 · {1}"
+  },
+  "第 {0} 限": {
+    "en": "Period {0}",
+    "ja": "{0}限",
+    "ko": "{0}교시"
+  },
+  "课程 · {0}": {
+    "en": "Course · {0}",
+    "ja": "授業・{0}",
+    "ko": "수업 · {0}"
+  },
+  "事件 · {0}": {
+    "en": "Event · {0}",
+    "ja": "予定・{0}",
+    "ko": "일정 · {0}"
+  },
+  "{0} · 全天 · {1}": {
+    "en": "{0} · All day · {1}",
+    "ja": "{0}・終日・{1}",
+    "ko": "{0} · 종일 · {1}"
+  },
+  "{0} · 预计新增": {
+    "en": "{0} · Expected addition",
+    "ja": "{0}・追加見込み",
+    "ko": "{0} · 예상 추가"
+  },
+  "{0} · 已修得，不重复增加": {
+    "en": "{0} · Already earned",
+    "ja": "{0}・修得済み",
+    "ko": "{0} · 이미 취득"
+  },
+  "{0} · 已出未通过成绩，不计新增": {
+    "en": "{0} · Failed; no added credits",
+    "ja": "{0}・不合格・加算なし",
+    "ko": "{0} · 미이수 · 추가 없음"
+  },
+  "{0} · 待核对，不计预览": {
+    "en": "{0} · Unverified; excluded",
+    "ja": "{0}・要確認・試算対象外",
+    "ko": "{0} · 확인 필요 · 제외"
+  },
+  "{0} · 成绩对应待核对，不计预览": {
+    "en": "{0} · Result match uncertain; excluded",
+    "ja": "{0}・成績対応要確認・試算対象外",
+    "ko": "{0} · 성적 매칭 확인 필요 · 제외"
+  },
+  "计划后全年 {0} / 46 学分。": {
+    "en": "Planned annual total: {0} / 46 credits.",
+    "ja": "追加後の年間合計：{0} / 46単位。",
+    "ko": "추가 후 연간 합계: {0} / 46학점."
+  },
+  "全年剩余 {0} 学分。": {
+    "en": "Annual allowance remaining: {0} credits.",
+    "ja": "年間残り枠：{0}単位。",
+    "ko": "연간 잔여 한도: {0}학점."
+  },
+  "全年超出 {0} 学分，请减少计划或确认学校批准的特殊额度。": {
+    "en": "Annual cap exceeded by {0} credits. Reduce plans or confirm an approved exception.",
+    "ja": "年間上限を{0}単位超過。計画を減らすか承認済み特例を確認してください。",
+    "ko": "연간 한도 {0}학점 초과. 계획을 줄이거나 승인된 예외를 확인하세요."
+  },
+  "当期额度剩余 {0} 学分。": {
+    "en": "Term allowance remaining: {0} credits.",
+    "ja": "今期残り枠：{0}単位。",
+    "ko": "이번 학기 잔여 한도: {0}학점."
+  },
+  "当期额度超出 {0} 学分。": {
+    "en": "Term allowance exceeded by {0} credits.",
+    "ja": "今期の枠を{0}単位超過。",
+    "ko": "이번 학기 한도 {0}학점 초과."
+  },
+  "尚未核对当期额度。": {
+    "en": "Term allowance not yet checked.",
+    "ja": "今期の枠は未確認。",
+    "ko": "이번 학기 한도 미확인."
+  },
+  "计划超限 {0} 学分，请调整或核对学校例外安排。": {
+    "en": "Plan exceeds the limit by {0} credits. Adjust or confirm an exception.",
+    "ja": "計画が{0}単位超過。調整または特例を確認してください。",
+    "ko": "계획이 {0}학점 초과합니다. 조정하거나 예외를 확인하세요."
+  },
+  "计划超限 {0} 门，请调整或核对学校例外安排。": {
+    "en": "Plan exceeds the limit by {0} courses. Adjust or confirm an exception.",
+    "ja": "計画が{0}科目超過。調整または特例を確認してください。",
+    "ko": "계획이 {0}과목 초과합니다. 조정하거나 예외를 확인하세요."
+  },
+  "本项数量检查未超限，余量 {0} 学分；还需满足其他履修条件。": {
+    "en": "Within this limit: {0} credits left. Other requirements still apply.",
+    "ja": "この上限内：残り{0}単位。他の履修条件も必要です。",
+    "ko": "한도 내: {0}학점 남음. 다른 이수 조건도 충족해야 합니다."
+  },
+  "本项数量检查未超限，余量 {0} 门；还需满足其他履修条件。": {
+    "en": "Within this limit: {0} courses left. Other requirements still apply.",
+    "ja": "この上限内：残り{0}科目。他の履修条件も必要です。",
+    "ko": "한도 내: {0}과목 남음. 다른 이수 조건도 충족해야 합니다."
+  },
+  "按对应学期、学年或累计范围填写；不会把成绩发布学季当作实际履修学期。重修、审批例外需按学校结果核对。": {
+    "en": "Use the stated semester, year or cumulative scope, not the result publication quarter. Confirm retakes and exceptions with the university.",
+    "ja": "成績発表クォーターではなく、指定の学期・年度・累計範囲で入力。再履修・特例は大学に確認してください。",
+    "ko": "성적 발표 쿼터가 아닌 지정 학기·학년도·누계 범위로 입력하세요. 재수강과 예외는 학교에 확인하세요."
+  },
+  "已保存成绩中 IE {0}A、{1}B 均通过；满足文件所述 C/D 的成绩先修条件，仍须遵守学校分班。": {
+    "en": "Saved results show passes in IE {0}A and {1}B. C/D result prerequisites are met; follow assigned placement.",
+    "ja": "保存済み成績でIE {0}A・{1}Bとも合格。C/Dの成績先修条件を満たしますが、クラス指定には従ってください。",
+    "ko": "저장 성적상 IE {0}A와 {1}B 이수. C/D 성적 선수 조건을 충족하며 지정 분반을 따라야 합니다."
+  },
+  "现有记录无法确认同一分班等级的 A、B 均通过，请核对完整成绩及学校分班。": {
+    "en": "Cannot confirm A/B passes at the same level. Check complete results and placement.",
+    "ja": "同一レベルのA・B合格を確認できません。全成績とクラス分けを確認してください。",
+    "ko": "동일 레벨 A/B 이수를 확인할 수 없습니다. 전체 성적과 분반을 확인하세요."
+  },
+  "学生资料读取失败，原记录已保留。": {
+    "en": "Profile loading failed. Existing records kept.",
+    "ja": "学籍情報を読み込めません。元の記録は保持されています。",
+    "ko": "학생 정보 불러오기 실패. 기존 기록 유지."
+  },
+  "学校记录读取失败，原文件已保留，请重新读取学校页面。": {
+    "en": "Could not load school records. Existing file kept; sync again.",
+    "ja": "大学の記録を読み込めません。元のファイルは保持しています。再同期してください。",
+    "ko": "학교 기록 불러오기 실패. 기존 파일은 유지됩니다. 다시 동기화하세요."
+  },
+  "学校课表": {
+    "en": "University timetable",
+    "ja": "大学の時間割",
+    "ko": "학교 시간표"
+  },
+  "导出日历": {
+    "en": "Export calendar",
+    "ja": "カレンダーを出力",
+    "ko": "일정 내보내기"
+  },
+  "导出本学季日历": {
+    "en": "Export this quarter",
+    "ja": "このクォーターを出力",
+    "ko": "이번 쿼터 내보내기"
+  },
+  "日历导出失败，请重试。": {
+    "en": "Calendar export failed. Try again.",
+    "ja": "カレンダー出力に失敗。再試行してください。",
+    "ko": "일정 내보내기 실패. 다시 시도하세요."
+  },
+  "茨城大学 · 学校同步": {
+    "en": "Ibaraki University · Synced data",
+    "ja": "茨城大学・同期データ",
+    "ko": "이바라키대학교 · 동기화 자료"
+  },
+  "考试可能日，具体安排以教师通知为准": {
+    "en": "Possible exam date; check instructor notices.",
+    "ja": "試験予定日。詳細は教員の連絡を確認してください。",
+    "ko": "시험 가능일. 상세는 교수 공지를 확인하세요."
+  },
+  "查看校历依据": {
+    "en": "Academic calendar source",
+    "ja": "学年暦の出典",
+    "ko": "학사 일정 근거"
+  },
+  "查看学季日历": {
+    "en": "Quarter calendar",
+    "ja": "クォーターのカレンダー",
+    "ko": "쿼터 일정 보기"
+  },
+  "查看星期课表": {
+    "en": "Weekly timetable",
+    "ja": "週間時間割",
+    "ko": "주간 시간표 보기"
+  },
+  "本学季或部分课程的授课日期尚未核对，暂不能生成日历。": {
+    "en": "Some dates are unverified; calendar generation is unavailable.",
+    "ja": "一部の授業日が未確認のため、カレンダーを生成できません。",
+    "ko": "일부 수업 날짜가 미확인으로 일정을 생성할 수 없습니다."
+  },
+  "按所选学季显示；历史课表不会变成当前学季。": {
+    "en": "Showing the selected quarter; historical data remains historical.",
+    "ja": "選択したクォーターを表示。過去の時間割は現在分に置き換えません。",
+    "ko": "선택한 쿼터를 표시합니다. 과거 시간표는 현재로 변경되지 않습니다."
+  },
+  "周次按日历周计算。日期依据学校校历，教师临时调课尚未同步。": {
+    "en": "Weeks follow the academic calendar. Instructor changes are not yet synced.",
+    "ja": "週は学年暦に基づきます。教員による臨時変更は未同期です。",
+    "ko": "주차는 학사 일정 기준입니다. 교수의 임시 변경은 미동기화입니다."
+  },
+  "本学季 {0} 条课程安排 · {1} 次日历计划": {
+    "en": "{0} timetable entries · {1} calendar sessions",
+    "ja": "時間割{0}件・予定{1}回",
+    "ko": "시간표 {0}개 · 수업 일정 {1}회"
+  },
+  "毕业学分总计": {
+    "en": "Total graduation credits",
+    "ja": "卒業単位合計",
+    "ko": "졸업 학점 합계"
+  },
+  "基盘教育": {
+    "en": "General education",
+    "ja": "基盤教育",
+    "ko": "기반 교육"
+  },
+  "基盘学修": {
+    "en": "Foundation studies",
+    "ja": "基盤学修",
+    "ko": "기반 학수"
+  },
+  "基盘教育・选择履修": {
+    "en": "General education electives",
+    "ja": "基盤教育・選択履修",
+    "ko": "기반 교육 선택 이수"
+  },
+  "专业科目": {
+    "en": "Major courses",
+    "ja": "専門科目",
+    "ko": "전공 과목"
+  },
+  "专业必修": {
+    "en": "Required major courses",
+    "ja": "専門必修",
+    "ko": "전공 필수"
+  },
+  "专业选择必修": {
+    "en": "Major electives",
+    "ja": "専門選択必修",
+    "ko": "전공 선택 필수"
+  },
+  "课表同步失败": {
+    "en": "Timetable sync failed",
+    "ja": "時間割の同期に失敗",
+    "ko": "시간표 동기화 실패"
+  },
+  "本学期 · ": {
+    "en": "This term · ",
+    "ja": "今学期・",
+    "ko": "이번 학기 · "
+  },
+  "下学期 · ": {
+    "en": "Next term · ",
+    "ja": "次学期・",
+    "ko": "다음 학기 · "
+  },
+  "如有异常、Bug 或建议，请发送邮件反馈。": {
+    "en": "Issues, bugs or suggestions? Please email us.",
+    "ja": "不具合・バグ・ご提案はメールでお知らせください。",
+    "ko": "오류·버그·제안 사항은 이메일로 알려주세요."
+  },
+  "请使用邮件应用联系 snai2514@gmail.com": {
+    "en": "Please email snai2514@gmail.com using your mail app.",
+    "ja": "メールアプリで snai2514@gmail.com へご連絡ください。",
+    "ko": "메일 앱으로 snai2514@gmail.com 에 연락해 주세요."
+  },
+  "本机记录读取失败，原文件已保留。": {
+    "en": "Local data could not be read. Original file kept.",
+    "ja": "保存データを読めません。元のファイルは保持しています。",
+    "ko": "로컬 자료 읽기 실패. 원본 파일 유지."
+  },
+  "本机已保存的学校数据": {
+    "en": "Saved university data",
+    "ja": "保存済みの大学データ",
+    "ko": "저장된 학교 자료"
+  },
+  "此登录跳转暂未适配：{0}": {
+    "en": "Unsupported sign-in destination: {0}",
+    "ja": "未対応のログイン先：{0}",
+    "ko": "지원하지 않는 로그인 경로: {0}"
+  },
+  "当前页没有可读取的表格，请打开具体课表或成绩查询页。": {
+    "en": "No readable table here. Open a timetable or results page.",
+    "ja": "読み取り可能な表がありません。時間割または成績のページを開いてください。",
+    "ko": "읽을 수 있는 표가 없습니다. 시간표나 성적 페이지를 여세요."
+  },
+  "已完成解析，请检查后保存。相同账户、相同学季再次保存会更新该快照。": {
+    "en": "Parsed. Review and save. Saving again replaces this account's quarter snapshot.",
+    "ja": "解析完了。確認して保存してください。同じアカウント・クォーターの保存データを更新します。",
+    "ko": "분석 완료. 확인 후 저장하세요. 동일 계정·쿼터 자료는 갱신됩니다."
+  },
+  "无法解析此页面": {
+    "en": "Cannot parse this page.",
+    "ja": "このページを解析できません。",
+    "ko": "이 페이지를 분석할 수 없습니다."
+  },
+  "读取超时，请重试。": {
+    "en": "Reading timed out. Try again.",
+    "ja": "読み取りがタイムアウトしました。再試行してください。",
+    "ko": "읽기 시간 초과. 다시 시도하세요."
+  },
+  "已保存到本机，可在学业进度和课表页面查看学校数据。": {
+    "en": "Saved. View data in credits and calendar.",
+    "ja": "保存しました。単位・時間割の画面で確認できます。",
+    "ko": "저장됨. 학점 및 시간표에서 확인하세요."
+  },
+  "保存失败，原有记录已保留，请重试。": {
+    "en": "Save failed. Existing records kept. Try again.",
+    "ja": "保存失敗。既存記録は保持しています。再試行してください。",
+    "ko": "저장 실패. 기존 기록 유지. 다시 시도하세요."
+  },
+  "学生资料保存失败，原记录已保留。": {
+    "en": "Profile save failed. Existing data kept.",
+    "ja": "学籍情報の保存に失敗。既存記録を保持。",
+    "ko": "학생 정보 저장 실패. 기존 자료 유지."
+  },
+  "学校账户发生变化，已停止同步，请重新打开。": {
+    "en": "Account changed. Sync stopped; reopen to continue.",
+    "ja": "アカウントが変わったため同期を停止。開き直してください。",
+    "ko": "계정이 변경되어 동기화를 중단했습니다. 다시 여세요."
+  },
+  "{0} 学校暂无课程，保留旧记录": {
+    "en": "{0}: no courses provided; previous records kept.",
+    "ja": "{0}：科目未掲載。既存記録を保持。",
+    "ko": "{0}: 학교 과목 없음. 기존 기록 유지."
+  },
+  "{0} 已更新": {
+    "en": "{0} updated",
+    "ja": "{0}を更新しました",
+    "ko": "{0} 업데이트 완료"
+  },
+  "{0} 未读取成功，保留旧记录": {
+    "en": "Could not read {0}; previous records kept.",
+    "ja": "{0}の読み取り失敗。既存記録を保持。",
+    "ko": "{0} 읽기 실패. 기존 기록 유지."
+  },
+  "正在同步 {0}": {
+    "en": "Syncing {0}",
+    "ja": "{0}を同期中",
+    "ko": "{0} 동기화 중"
+  },
+  "请等待查询完成。": {
+    "en": "Please wait for the query.",
+    "ja": "照会完了をお待ちください。",
+    "ko": "조회 완료를 기다려 주세요."
+  },
+  "教室暂无可核实的新数据，保留旧记录": {
+    "en": "No verified new room data; previous rooms kept.",
+    "ja": "確認できる新しい教室情報なし。既存記録を保持。",
+    "ko": "확인 가능한 새 강의실 정보 없음. 기존 기록 유지."
+  },
+  "教室已更新 {0} 条": {
+    "en": "Updated {0} room entries.",
+    "ja": "教室情報を{0}件更新。",
+    "ko": "강의실 정보 {0}개 업데이트."
+  },
+  "教室保存失败，原记录已保留。": {
+    "en": "Room save failed. Previous data kept.",
+    "ja": "教室情報の保存失敗。既存記録を保持。",
+    "ko": "강의실 저장 실패. 기존 기록 유지."
+  },
+  "部分同步完成：{0}": {
+    "en": "Partially synced: {0}",
+    "ja": "一部同期完了：{0}",
+    "ko": "일부 동기화 완료: {0}"
+  },
+  "毕业规则": {
+    "en": "Graduation requirements",
+    "ja": "卒業要件",
+    "ko": "졸업 요건"
+  },
+  "规则年度：{0}": {
+    "en": "Curriculum year: {0}",
+    "ja": "適用年度：{0}",
+    "ko": "적용 연도: {0}"
+  },
+  "规则年度未读取，请更新资料或选择。": {
+    "en": "Curriculum year unavailable. Update or select it.",
+    "ja": "適用年度が未取得です。更新または選択してください。",
+    "ko": "적용 연도를 업데이트하거나 선택하세요."
+  },
+  "使用自行选择的规则": {
+    "en": "Using your selected curriculum",
+    "ja": "手動で選択した要件を使用",
+    "ko": "직접 선택한 요건 사용"
+  },
+  "根据学校学籍匹配": {
+    "en": "Matched to university student record",
+    "ja": "大学の学籍情報に基づく要件",
+    "ko": "학교 학적 정보에 따른 요건"
+  },
+  "毕业要求待核对，学校成绩正常保留。": {
+    "en": "Requirements await review. University grades are retained.",
+    "ja": "卒業要件は確認待ちです。大学の成績は保持されます。",
+    "ko": "졸업 요건 확인 대기 중입니다. 학교 성적은 유지됩니다."
+  },
+  "以上为最低学分要求，必修课程及附加条件须同时满足。": {
+    "en": "Credit minimums only. Required courses and other conditions also apply.",
+    "ja": "最低単位数の一覧です。必修科目やその他の条件も満たす必要があります。",
+    "ko": "최소 학점 요건입니다. 필수 과목과 추가 조건도 충족해야 합니다."
+  },
+  "查看学校履修要项": {
+    "en": "University handbook",
+    "ja": "大学の履修要項を見る",
+    "ko": "학교 이수 요강 보기"
+  },
+  "选择适用规则": {
+    "en": "Select curriculum",
+    "ja": "適用要件を選択",
+    "ko": "적용 요건 선택"
+  },
+  "补充履修要项": {
+    "en": "Add handbook PDF",
+    "ja": "履修要項PDFを追加",
+    "ko": "이수 요강 PDF 추가"
+  },
+  "补充文件仅保存在本机，核对适用年度与方向后再适配。": {
+    "en": "PDFs stay on this device. Rules require review of the applicable cohort and program.",
+    "ja": "PDFは端末内に保存します。適用年度・専攻を確認したうえで要件を対応します。",
+    "ko": "PDF는 기기에 저장됩니다. 적용 연도와 전공 확인 후 요건을 반영합니다."
+  },
+  "已有本机补充文件": {
+    "en": "Supporting PDF saved on device",
+    "ja": "補足PDFを端末に保存済み",
+    "ko": "추가 PDF가 기기에 저장됨"
+  },
+  "文件已保存到本机，尚未用于计算。": {
+    "en": "PDF saved locally; not applied to calculations.",
+    "ja": "PDFを端末に保存しました。計算には未適用です。",
+    "ko": "PDF가 기기에 저장되었습니다. 계산에는 아직 적용되지 않습니다."
+  },
+  "文件保存失败，请选择 32 MB 以内的 PDF。": {
+    "en": "Could not save. Choose a PDF up to 32 MB.",
+    "ja": "保存できませんでした。32 MB以下のPDFを選択してください。",
+    "ko": "저장하지 못했습니다. 32 MB 이하 PDF를 선택하세요."
+  },
+  "按学校的要件年度选择，不能用当前年级倒推。": {
+    "en": "Use the university curriculum year, not a year inferred from your current grade.",
+    "ja": "大学の適用年度を選択してください。現在の学年から逆算しないでください。",
+    "ko": "현재 학년으로 역산하지 말고 학교의 적용 연도를 선택하세요."
+  },
+  "规则年度": {
+    "en": "Curriculum year",
+    "ja": "適用年度",
+    "ko": "적용 연도"
+  },
+  "专业方向（可补充）": {
+    "en": "Program (editable)",
+    "ja": "コース・プログラム（補足可）",
+    "ko": "세부 전공 (입력 가능)"
+  },
+  "恢复学校学籍匹配": {
+    "en": "Use university record",
+    "ja": "学籍情報による選択に戻す",
+    "ko": "학교 학적 정보 사용"
+  },
+  "规则保存失败，原设置已保留。": {
+    "en": "Could not save. Previous settings retained.",
+    "ja": "保存できませんでした。以前の設定は保持されています。",
+    "ko": "저장하지 못했습니다. 기존 설정이 유지됩니다."
+  },
+  "课程分类按学校原文显示，毕业归类尚待核对。": {
+    "en": "University categories shown as reported; graduation mapping awaits review.",
+    "ja": "科目区分は大学の原文を表示します。卒業要件との対応は確認待ちです。",
+    "ko": "학교의 원문 분류를 표시합니다. 졸업 분류 대응은 확인 대기 중입니다."
+  },
+  "总要求：{0} 学分": {
+    "en": "Total required: {0} credits",
+    "ja": "必要単位数：{0}単位",
+    "ko": "총 필요 학점: {0}"
+  },
+  "学部／学環": {
+    "en": "Faculty / School",
+    "ja": "学部／学環",
+    "ko": "학부 / 학환"
+  },
+  "学科／課程": {
+    "en": "Department / Course",
+    "ja": "学科／課程",
+    "ko": "학과 / 과정"
+  },
+  "コース／プログラム": {
+    "en": "Specialization / Program",
+    "ja": "コース／プログラム",
+    "ko": "코스 / 프로그램"
+  },
+  "返回日历": {
+    "en": "Back to calendar",
+    "ja": "カレンダーへ戻る",
+    "ko": "캘린더로 돌아가기"
+  },
+  "须完成主修、副修及指定层级课程；不能仅按学分总数判断毕业。": {
+    "en": "Major, minor and course-level requirements also apply. Credits alone do not determine graduation.",
+    "ja": "メジャー・サブメジャーと指定レベルの科目が必要です。総単位数だけでは卒業を判定できません。",
+    "ko": "주전공·부전공 및 지정 수준 과목 요건도 충족해야 합니다."
+  },
+  "按所属教育项目核对具体必修、选修和毕业研究条件。": {
+    "en": "Check required courses, electives and thesis conditions for your program.",
+    "ja": "所属教育プログラムの必修・選択科目と卒業研究条件を確認してください。",
+    "ko": "소속 교육 프로그램의 필수·선택 과목 및 졸업 연구 조건을 확인하세요."
+  },
+  "还须满足对应教师资格和实习条件；A／B 类型的要求不同。": {
+    "en": "Teaching qualification and practicum conditions also apply. A and B tracks differ.",
+    "ja": "教員免許と実習の条件も必要です。A・Bタイプで要件が異なります。",
+    "ko": "교원 자격 및 실습 조건도 충족해야 합니다. A·B 유형의 요건은 다릅니다."
+  },
+  "各类别最低学分之外，还须补足毕业总学分；专业必修和选修按所属课程核对。": {
+    "en": "Meet each category minimum and the overall total. Required courses and electives depend on your course.",
+    "ja": "各区分の最低単位に加え、卒業総単位数を満たす必要があります。必修・選択科目は所属コースで確認してください。",
+    "ko": "영역별 최소 학점과 졸업 총학점을 모두 충족해야 합니다. 필수·선택 과목은 소속 코스에 따라 확인하세요."
+  },
+  "还须满足专业方向、コーオプ实习及毕业研究条件。": {
+    "en": "Program, co-op placement and graduation research conditions also apply.",
+    "ja": "プログラム・コーオプ実習・卒業研究の条件も必要です。",
+    "ko": "전공·코옵 실습·졸업 연구 조건도 충족해야 합니다."
+  },
+  "退出登录": {
+    "en": "Log out",
+    "ja": "ログアウト",
+    "ko": "로그아웃"
+  },
+  "首页": {
+    "en": "Home",
+    "ja": "ホーム",
+    "ko": "홈"
+  },
+  "时间表": {
+    "en": "Timetable",
+    "ja": "時間割",
+    "ko": "시간표"
+  },
+  "教务助手": {
+    "en": "Campus companion",
+    "ja": "教務助手",
+    "ko": "학사 도우미"
+  },
+  "履修与课程": {
+    "en": "Courses",
+    "ja": "履修・授業",
+    "ko": "수강·수업"
+  },
+  "学分与进度": {
+    "en": "Credit progress",
+    "ja": "単位・進捗",
+    "ko": "학점·진도"
+  },
+  "通知": {
+    "en": "Notices",
+    "ja": "お知らせ",
+    "ko": "공지"
+  },
+  "常用链接": {
+    "en": "Quick links",
+    "ja": "各種リンク",
+    "ko": "바로가기"
+  },
+  "准备中": {
+    "en": "Coming soon",
+    "ja": "準備中",
+    "ko": "준비 중"
+  },
+  "此功能将逐步开放，目前不会读取或发送通知。": {
+    "en": "This feature is coming later. No notices are read or sent yet.",
+    "ja": "この機能は順次公開予定です。現在、通知の取得・送信は行いません。",
+    "ko": "추후 제공될 기능입니다. 현재 알림을 읽거나 보내지 않습니다."
+  },
+  "返回首页": {
+    "en": "Back to home",
+    "ja": "ホームに戻る",
+    "ko": "홈으로"
+  },
+  "累计 GPA": {
+    "en": "Cumulative GPA",
+    "ja": "通算 GPA",
+    "ko": "누적 GPA"
+  },
+  "已修学分": {
+    "en": "Earned credits",
+    "ja": "修得単位",
+    "ko": "취득 학점"
+  },
+  "毕业要求与分类进度请查看学分详情。": {
+    "en": "See credit details for graduation requirements and categories.",
+    "ja": "卒業要件と区分別の進捗は単位詳細で確認できます。",
+    "ko": "졸업 요건과 영역별 진도는 학점 상세에서 확인하세요."
+  },
+  "学分详情与成绩": {
+    "en": "Credit details and grades",
+    "ja": "単位詳細・成績",
+    "ko": "학점 상세·성적"
+  },
+  "主题设置": {
+    "en": "Appearance",
+    "ja": "テーマ設定",
+    "ko": "테마 설정"
+  },
+  "通知设置": {
+    "en": "Notifications",
+    "ja": "通知設定",
+    "ko": "알림 설정"
+  },
+  "关于应用": {
+    "en": "About",
+    "ja": "アプリについて",
+    "ko": "앱 정보"
+  },
+  "课表、日历与学业进度": {
+    "en": "Timetable, calendar and academic progress",
+    "ja": "時間割・カレンダー・学修状況",
+    "ko": "시간표·달력·학업 진도"
+  },
+  "全部": {
+    "en": "All",
+    "ja": "すべて",
+    "ko": "전체"
+  },
+  "搜索课程": {
+    "en": "Search courses",
+    "ja": "科目名で検索",
+    "ko": "과목 검색"
+  },
+  "暂无课程": {
+    "en": "No courses yet",
+    "ja": "科目はまだありません",
+    "ko": "과목이 없습니다"
+  },
+  "学校更新后，课程会显示在这里。": {
+    "en": "Courses appear here after syncing with the university.",
+    "ja": "大学から更新すると、ここに科目が表示されます。",
+    "ko": "학교 자료를 동기화하면 과목이 표시됩니다。"
+  },
+  "学分数量进度": {
+    "en": "Credit count progress",
+    "ja": "修得単位の進捗",
+    "ko": "취득 학점 진도"
+  },
+  "同步状态": {
+    "en": "Sync status",
+    "ja": "同期状況",
+    "ko": "동기화 상태"
+  },
+  "成绩": {
+    "en": "Grades",
+    "ja": "成績",
+    "ko": "성적"
+  },
+  "正在连接学校并更新资料…": {
+    "en": "Connecting to the university and updating…",
+    "ja": "大学に接続して情報を更新しています…",
+    "ko": "학교에 연결하여 자료를 업데이트하고 있습니다…"
+  },
+  "剩余学分": {
+    "en": "Remaining credits",
+    "ja": "残り単位",
+    "ko": "남은 학점"
+  },
+  "分类进度": {
+    "en": "Progress by category",
+    "ja": "区分別の進捗",
+    "ko": "분류별 진도"
+  },
+  "仍需满足分类与必修要求": {
+    "en": "Category and required-course requirements also apply",
+    "ja": "区分・必修科目の要件も満たす必要があります",
+    "ko": "분류 및 필수 과목 요건도 충족해야 합니다"
+  },
+  "展开明细": {
+    "en": "Show details",
+    "ja": "詳細を展開",
+    "ko": "상세 펼치기"
+  },
+  "显示周末": {
+    "en": "Show weekends",
+    "ja": "土日を表示",
+    "ko": "주말 표시"
+  },
+  "隐藏周末": {
+    "en": "Hide weekends",
+    "ja": "土日を非表示",
+    "ko": "주말 숨기기"
+  },
+  "教务信息门户": {
+    "en": "Academic portal",
+    "ja": "教務情報ポータル",
+    "ko": "학사 포털"
+  },
+  "茨城大学官网": {
+    "en": "University website",
+    "ja": "茨城大学公式サイト",
+    "ko": "이바라키대학교 공식 사이트"
+  },
+  "大一": {
+    "en": "Year 1",
+    "ja": "1年次",
+    "ko": "1학년"
+  },
+  "大二": {
+    "en": "Year 2",
+    "ja": "2年次",
+    "ko": "2학년"
+  },
+  "大三": {
+    "en": "Year 3",
+    "ja": "3年次",
+    "ko": "3학년"
+  },
+  "大四": {
+    "en": "Year 4",
+    "ja": "4年次",
+    "ko": "4학년"
+  },
+  "该学年度校历尚待核对，暂仅显示本机安排。": {
+    "en": "This academic calendar is not verified yet. Only local entries are shown.",
+    "ja": "この年度の学年暦は未確認です。端末の予定のみ表示します。",
+    "ko": "해당 학년도 학사력은 확인 전입니다. 기기 일정만 표시합니다."
+  },
+  "掲示板（教务门户）": {
+    "en": "Bulletin board (academic portal)",
+    "ja": "掲示板（教務ポータル）",
+    "ko": "게시판 (학사 포털)"
+  },
+  "シラバス（课程大纲）": {
+    "en": "Syllabus",
+    "ja": "シラバス参照",
+    "ko": "강의계획서"
+  },
+  "学校公告": {
+    "en": "School notices",
+    "ja": "大学のお知らせ",
+    "ko": "학교 공지"
+  },
+  "公告读取失败，已保留本机记录。": {
+    "en": "Could not read notices. Saved data is retained.",
+    "ja": "お知らせを読み込めませんでした。保存済みデータは保持されています。",
+    "ko": "공지를 읽지 못했습니다. 저장된 자료는 유지됩니다."
+  },
+  "暂无公告，请更新资料。": {
+    "en": "No notices yet. Refresh to load them.",
+    "ja": "お知らせはまだありません。更新してください。",
+    "ko": "공지 없음. 자료를 업데이트하세요."
+  },
+  "公告列表尚未完整读取，已保留旧记录。": {
+    "en": "Partial notice list; previous records retained.",
+    "ja": "一覧の読み込みは一部のみです。以前の記録を保持しています。",
+    "ko": "공지 목록 일부만 읽었습니다. 이전 기록은 유지됩니다."
+  },
+  "正在读取正文…": {
+    "en": "Loading notice…",
+    "ja": "本文を読み込み中…",
+    "ko": "본문 읽는 중…"
+  },
+  "正文尚未读取，请重试。": {
+    "en": "Notice body is not loaded. Please retry.",
+    "ja": "本文は未取得です。再試行してください。",
+    "ko": "본문을 읽지 못했습니다. 다시 시도하세요."
+  },
+  "附件请在学校网页查看。": {
+    "en": "View attachments on the school website.",
+    "ja": "添付ファイルは大学のサイトで確認してください。",
+    "ko": "첨부 파일은 학교 웹사이트에서 확인하세요."
+  },
+  "允许弹窗通知": {
+    "en": "Allow pop-up notifications",
+    "ja": "ポップアップ通知を許可",
+    "ko": "팝업 알림 허용"
+  },
+  "同步发现新公告时提醒，首次同步不提醒历史公告。": {
+    "en": "Notify when sync finds new notices. The first sync does not alert for older notices.",
+    "ja": "同期で新着を検出した際に通知します。初回同期では過去のお知らせは通知しません。",
+    "ko": "동기화 중 새 공지가 있으면 알립니다. 최초 동기화 시 과거 공지는 알리지 않습니다."
+  },
+  "横幅弹窗由手机系统控制，可在系统通知设置中开启。": {
+    "en": "Banners are controlled by your phone. Enable them in system notification settings.",
+    "ja": "バナー表示は端末の通知設定で有効にできます。",
+    "ko": "배너는 휴대폰에서 제어합니다. 시스템 알림 설정에서 켜세요."
+  },
+  "系统通知设置": {
+    "en": "System notification settings",
+    "ja": "システムの通知設定",
+    "ko": "시스템 알림 설정"
+  },
+  "课程大纲": {
+    "en": "Course syllabus",
+    "ja": "シラバス",
+    "ko": "강의계획서"
+  },
+  "正在读取课程大纲…": {
+    "en": "Loading syllabus…",
+    "ja": "シラバスを取得中…",
+    "ko": "강의계획서 불러오는 중…"
+  },
+  "授课计划：{0} 次": {
+    "en": "Class plan: {0} sessions",
+    "ja": "授業計画：{0} 回",
+    "ko": "수업 계획: {0}회"
+  },
+  "期末考试": {
+    "en": "Final exam",
+    "ja": "期末試験",
+    "ko": "기말시험"
+  },
+  "评分方法": {
+    "en": "Grading",
+    "ja": "成績評価方法",
+    "ko": "성적 평가 방법"
+  },
+  "教科书": {
+    "en": "Textbooks",
+    "ja": "教科書",
+    "ko": "교과서"
+  },
+  "学校未注明": {
+    "en": "Not specified by the university",
+    "ja": "大学の記載なし",
+    "ko": "학교 미기재"
+  },
+  "学校未明确注明，请查看评分方法与授课计划": {
+    "en": "Not explicitly specified; see grading and class plan",
+    "ja": "明記なし。評価方法と授業計画をご確認ください",
+    "ko": "명시되지 않음. 평가 방법과 수업 계획을 확인하세요"
+  },
+  "修课注意事项": {
+    "en": "Course notes",
+    "ja": "履修上の注意",
+    "ko": "수강 유의사항"
+  },
+  "收起授课计划": {
+    "en": "Collapse class plan",
+    "ja": "授業計画を閉じる",
+    "ko": "수업 계획 접기"
+  },
+  "展开授课计划": {
+    "en": "Expand class plan",
+    "ja": "授業計画を開く",
+    "ko": "수업 계획 펼치기"
+  },
+  "尚未读取课程大纲": {
+    "en": "Syllabus not loaded yet",
+    "ja": "シラバス未取得",
+    "ko": "강의계획서 미수신"
+  },
+  "课程大纲已更新": {
+    "en": "Syllabus updated",
+    "ja": "シラバス更新済み",
+    "ko": "강의계획서 업데이트 완료"
+  },
+  "假期": {
+    "en": "Holiday",
+    "ja": "休業期間",
+    "ko": "방학"
+  },
+  "暑假": {
+    "en": "Summer break",
+    "ja": "夏季休業",
+    "ko": "여름방학"
+  },
+  "寒假": {
+    "en": "Winter break",
+    "ja": "冬季休業",
+    "ko": "겨울방학"
+  },
+  "春假": {
+    "en": "Spring break",
+    "ja": "春季休業",
+    "ko": "봄방학"
+  },
+  "当前学期学分获得预览": {
+    "en": "Preview current semester credits",
+    "ja": "今学期の修得単位を予測",
+    "ko": "이번 학기 취득 학점 미리보기"
+  },
+  "暂无可预览课程：假期、校历未确认或课程尚未发布。": {
+    "en": "No preview: break, unverified calendar, or courses not yet published.",
+    "ja": "予測対象なし：休暇中、学年暦未確認、または科目未公開です。",
+    "ko": "미리보기 없음: 방학, 미확인 학사 일정 또는 강좌 미공개."
+  },
+  "课表尚不完整，仅预览已同步课程。": {
+    "en": "Timetable incomplete; preview includes synced courses only.",
+    "ja": "時間割が未完了のため、同期済み科目のみ予測します。",
+    "ko": "시간표가 불완전하여 동기화된 강좌만 미리 봅니다."
+  },
+  "实色：已修得 · 虚线：预计新增": {
+    "en": "Solid: earned · Dashed: projected",
+    "ja": "実線：修得済み · 破線：予測",
+    "ko": "실선: 취득 · 점선: 예상"
+  },
+  "预计新增 +{0}": {
+    "en": "Projected +{0}",
+    "ja": "修得見込み +{0}",
+    "ko": "예상 추가 +{0}"
+  },
+  "全部合格后 {0} / {1}": {
+    "en": "If all passed: {0} / {1}",
+    "ja": "全科目合格後 {0} / {1}",
+    "ko": "모두 합격 시 {0} / {1}"
+  },
+  "预览不计入已修学分或 GPA。": {
+    "en": "Preview does not change earned credits or GPA.",
+    "ja": "予測は修得済み単位やGPAに反映されません。",
+    "ko": "미리보기는 취득 학점이나 GPA에 반영되지 않습니다."
+  },
+  "预计新增待分类 {0} 学分": {
+    "en": "Projected credits awaiting classification: {0}",
+    "ja": "予測単位の未分類：{0} 単位",
+    "ko": "분류 대기 예상 학점: {0}"
+  },
+  "本期可获得：{0} 学分": {
+    "en": "Earnable this period: {0} credits",
+    "ja": "今期修得可能：{0} 単位",
+    "ko": "이번 기간 취득 가능: {0} 학점"
+  },
+  "已修 {0} 学分 · 不合格 {1} 学分": {
+    "en": "Earned {0} credits · Failed {1} credits",
+    "ja": "修得済み {0} 単位 · 不合格 {1} 単位",
+    "ko": "취득 {0} 학점 · 불합격 {1} 학점"
+  },
+  "待出成绩课程全部合格：新增 {0} 学分。": {
+    "en": "If all pending results pass: +{0} credits.",
+    "ja": "成績待ち科目が全て合格の場合：{0} 単位追加。",
+    "ko": "성적 대기 강좌가 모두 합격이면 {0} 학점 추가."
+  },
+  "不合格，不计新增": {
+    "en": "Failed; excluded from projection",
+    "ja": "不合格・予測に含めない",
+    "ko": "불합격, 예상 추가에서 제외"
+  },
+  "已修得不重复增加；不合格课程不算新增。跨学季课程在结束学季计分。": {
+    "en": "Earned credits are not counted twice; failed courses add no credits. Multi-quarter courses count in their final quarter.",
+    "ja": "修得済み単位は重複計上せず、不合格科目は加算しません。複数学期科目は終了学期に計上します。",
+    "ko": "취득 학점은 중복 계산하지 않으며 불합격 강좌는 추가하지 않습니다. 여러 분기 강좌는 마지막 분기에 계산합니다."
+  },
+  "学业资料变化": {
+    "en": "Academic updates",
+    "ja": "学業情報の変更",
+    "ko": "학업 정보 변경"
+  },
+  "暂无学分或 GPA 变化。": {
+    "en": "No credit or GPA changes.",
+    "ja": "単位・GPAの変更はありません。",
+    "ko": "학점 또는 GPA 변동이 없습니다."
+  },
+  "已修学分增加：{0} → {1}（+{2}）": {
+    "en": "Earned credits: {0} → {1} (+{2})",
+    "ja": "修得単位増加：{0} → {1}（+{2}）",
+    "ko": "취득 학점 증가: {0} → {1} (+{2})"
+  },
+  "GPA 变化：{0} → {1}": {
+    "en": "GPA changed: {0} → {1}",
+    "ja": "GPA変更：{0} → {1}",
+    "ko": "GPA 변경: {0} → {1}"
+  },
+  "每次打开自动同步；新公告、学分增加或 GPA 变化时提醒，首次读取不提醒历史变化。": {
+    "en": "Sync on each app visit. Notify for new announcements, increased credits or GPA changes; first import creates a baseline.",
+    "ja": "アプリを開くたびに同期し、新着通知・単位増加・GPA変更を通知します。初回は過去の変更を通知しません。",
+    "ko": "앱을 열 때마다 동기화합니다. 새 공지, 학점 증가, GPA 변경을 알리며 최초에는 과거 변경을 알리지 않습니다."
+  },
+  "假期期间暂无法查看教室信息": {
+    "en": "Classroom information is unavailable during the school break",
+    "ja": "休業期間中は教室情報を確認できません",
+    "ko": "방학 중에는 강의실 정보를 확인할 수 없습니다"
+  },
+  "{0} 条课程日期待核对 · 查看明细": {
+    "en": "Dates need checking for {0} courses · View details",
+    "ja": "{0} 件の授業日程を要確認・詳細",
+    "ko": "강의 {0}개의 날짜 확인 필요 · 상세 보기"
+  },
+  "课程日期待核对": {
+    "en": "Course dates need checking",
+    "ja": "授業日程の確認が必要",
+    "ko": "강의 날짜 확인 필요"
+  },
+  "课程按官方学年度校历生成，已核对对应校区授课日期；预备日不代表一定有考试。": {
+    "en": "Dates follow the official academic calendar for the corresponding campus; reserve days do not guarantee an exam.",
+    "ja": "該当キャンパスの公式学年暦に基づく日程です。予備日に試験があるとは限りません。",
+    "ko": "해당 캠퍼스의 공식 학사 일정에 따른 날짜입니다. 예비일에 반드시 시험이 있는 것은 아닙니다."
+  },
+  "可登录课程": {
+    "en": "Available courses",
+    "ja": "登録可能な授業",
+    "ko": "수강 신청 가능 과목"
+  },
+  "发现可登录课程": {
+    "en": "Courses available for registration",
+    "ja": "履修登録できる授業があります",
+    "ko": "수강 신청 가능한 과목이 있습니다"
+  },
+  "查看可登录课程": {
+    "en": "View available courses",
+    "ja": "登録可能な授業を見る",
+    "ko": "신청 가능 과목 보기"
+  },
+  "稍后查看": {
+    "en": "View later",
+    "ja": "後で見る",
+    "ko": "나중에 보기"
+  },
+  "履修状况与临时周日历": {
+    "en": "Registration status and provisional week",
+    "ja": "履修状況と仮の週間時間割",
+    "ko": "수강 신청 현황 및 임시 주간 시간표"
+  },
+  "读取履修状况": {
+    "en": "Read registration status",
+    "ja": "履修状況を読み取る",
+    "ko": "수강 신청 현황 읽기"
+  },
+  "查看学校页面": {
+    "en": "View school page",
+    "ja": "大学のページを表示",
+    "ko": "학교 페이지 보기"
+  },
+  "收起学校页面": {
+    "en": "Hide school page",
+    "ja": "大学のページを閉じる",
+    "ko": "학교 페이지 접기"
+  },
+  "全选可登录课程": {
+    "en": "Select all available courses",
+    "ja": "登録可能な授業を全選択",
+    "ko": "신청 가능 과목 전체 선택"
+  },
+  "清空选择": {
+    "en": "Clear selection",
+    "ja": "選択を解除",
+    "ko": "선택 해제"
+  },
+  "确认登录这些课程？": {
+    "en": "Register these courses?",
+    "ja": "これらの授業を履修登録しますか？",
+    "ko": "이 과목들을 수강 신청할까요?"
+  },
+  "确认并提交": {
+    "en": "Confirm and submit",
+    "ja": "確認して送信",
+    "ko": "확인 후 제출"
+  },
+  "集中授课／时间待确认": {
+    "en": "Intensive / time unconfirmed",
+    "ja": "集中講義／時間未確認",
+    "ko": "집중 강의 / 시간 미확인"
+  },
+  "授课方式": {
+    "en": "Delivery mode",
+    "ja": "授業形態",
+    "ko": "수업 방식"
+  },
+  "线上授课（实时）": {
+    "en": "Online (live)",
+    "ja": "オンライン（リアルタイム）",
+    "ko": "온라인 수업 (실시간)"
+  },
+  "线上授课（录播）": {
+    "en": "Online (on demand)",
+    "ja": "オンライン（オンデマンド）",
+    "ko": "온라인 수업 (녹화)"
+  },
+  "线下授课": {
+    "en": "Face-to-face",
+    "ja": "対面授業",
+    "ko": "대면 수업"
+  },
+  "混合授课": {
+    "en": "Blended course",
+    "ja": "ブレンド型授業",
+    "ko": "혼합 수업"
+  },
+  "我已核对学校结果，重新读取": {
+    "en": "I checked the school result; read again",
+    "ja": "大学側の結果を確認したので再読込",
+    "ko": "학교 결과를 확인했으므로 다시 읽기"
+  },
+  "一键登录已选课程（{0}）": {
+    "en": "Register selected courses ({0})",
+    "ja": "選択した授業を一括登録（{0}）",
+    "ko": "선택 과목 일괄 신청 ({0})"
+  },
+  "可登录 {0} 门 · 已选 {1} 门": {
+    "en": "{0} available · {1} selected",
+    "ja": "登録可能 {0} 件 · 選択済み {1} 件",
+    "ko": "신청 가능 {0}개 · 선택 {1}개"
+  },
+  "当前不可登录": {
+    "en": "Not available for registration",
+    "ja": "現在登録できません",
+    "ko": "현재 신청 불가"
+  },
+  "时间待确认": {
+    "en": "Time unconfirmed",
+    "ja": "時間未確認",
+    "ko": "시간 미확인"
+  },
+  "可登录": {
+    "en": "Available for registration",
+    "ja": "登録可能",
+    "ko": "신청 가능"
+  },
+  "线下授课 · 教室待确认": {
+    "en": "Face-to-face · room unconfirmed",
+    "ja": "対面授業 · 教室未確認",
+    "ko": "대면 수업 · 강의실 미확인"
+  }
+}

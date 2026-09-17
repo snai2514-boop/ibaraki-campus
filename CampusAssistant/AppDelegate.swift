@@ -1,6 +1,8 @@
 import UIKit
 import WebKit
 import UserNotifications
+import UniformTypeIdentifiers
+import CryptoKit
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,7 +21,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 /// Only bundled UI has a native bridge. School documents never receive a message handler.
-final class CampusController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate {
+final class CampusController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, UIDocumentPickerDelegate {
+    private var evidenceRequest: (id: String, scope: String)?
     private var interface: WKWebView!
     private var school: WKWebView!
     private var toolbar: UIToolbar!
@@ -153,6 +156,35 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
             }
         case "permission":
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in DispatchQueue.main.async { self.reply(id, result: granted) } }
+        case "openExternal":
+            guard let text = payload["url"] as? String, let url = URL(string: text),
+                  (text == "mailto:snai2514@gmail.com" || (url.scheme == "https" && url.user == nil && url.password == nil &&
+                  (url.host == "ibaraki.ac.jp" || (url.host?.hasSuffix(".ibaraki.ac.jp") ?? false) || url.host == "drive.google.com"))) else {
+                reply(id, error: "链接不受支持"); return
+            }
+            UIApplication.shared.open(url) { success in self.reply(id, result: success) }
+        case "shareCalendar":
+            guard let text = payload["text"] as? String, text.utf8.count <= 4_000_000,
+                  text.hasPrefix("BEGIN:VCALENDAR\r\n"), text.hasSuffix("END:VCALENDAR\r\n") else {
+                reply(id, error: "日历内容无效"); return
+            }
+            do {
+                let url = FileManager.default.temporaryDirectory.appendingPathComponent("Ibaraki-calendar.ics")
+                try Data(text.utf8).write(to: url, options: [.atomic, .completeFileProtection])
+                let sheet = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+                sheet.popoverPresentationController?.sourceView = view
+                sheet.popoverPresentationController?.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.maxY-100, width: 1, height: 1)
+                sheet.completionWithItemsHandler = { _, _, _, _ in try? FileManager.default.removeItem(at: url) }
+                present(sheet, animated: true); reply(id, result: true)
+            } catch { reply(id, error: "日历导出失败") }
+        case "importEvidence":
+            guard evidenceRequest == nil, let scope = payload["scope"] as? String, scope.utf8.count < 2000 else {
+                reply(id, error: "请先完成当前文件选择"); return
+            }
+            evidenceRequest = (id, scope)
+            let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.pdf], asCopy: true)
+            picker.delegate = self; picker.allowsMultipleSelection = false
+            present(picker, animated: true)
         case "notify":
             let content = UNMutableNotificationContent()
             content.title = "教务助手"; content.body = String((payload["message"] as? String ?? "").prefix(1000)); content.sound = .default
@@ -162,6 +194,11 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
             school.stopLoading()
             do { if FileManager.default.fileExists(atPath: dataURL.path) { try FileManager.default.removeItem(at: dataURL) } }
             catch { reply(id, error: "本机记录清除失败"); return }
+            let evidence = dataURL.deletingLastPathComponent().appendingPathComponent("evidence", isDirectory: true)
+            if FileManager.default.fileExists(atPath: evidence.path) {
+                do { try FileManager.default.removeItem(at: evidence) }
+                catch { reply(id, error: "本机补充文件清除失败"); return }
+            }
             UNUserNotificationCenter.current().removeAllDeliveredNotifications()
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
             WKWebsiteDataStore.default().removeData(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(), modifiedSince: .distantPast) {
@@ -169,6 +206,29 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
             }
         default: reply(id, error: "不支持的操作")
         }
+    }
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        if let request = evidenceRequest { evidenceRequest = nil; reply(request.id, error: "已取消文件选择") }
+    }
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let request = evidenceRequest else { return }; evidenceRequest = nil
+        do {
+            guard let source = urls.first else { throw NSError(domain: "MissingPDF", code: 1) }
+            let access = source.startAccessingSecurityScopedResource()
+            defer { if access { source.stopAccessingSecurityScopedResource() } }
+            let size = try source.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? Int.max
+            guard size <= 32 * 1024 * 1024 else { throw NSError(domain: "PDFTooLarge", code: 1) }
+            let bytes = try Data(contentsOf: source)
+            guard bytes.count <= 32 * 1024 * 1024, bytes.prefix(5) == Data("%PDF-".utf8) else { throw NSError(domain: "InvalidPDF", code: 1) }
+            let directory = dataURL.deletingLastPathComponent().appendingPathComponent("evidence", isDirectory: true)
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+            let digest = SHA256.hash(data: Data(request.scope.utf8)).map { String(format: "%02x", $0) }.joined()
+            var destination = directory.appendingPathComponent(digest + ".pdf")
+            try bytes.write(to: destination, options: [.atomic, .completeFileProtection])
+            var values = URLResourceValues(); values.isExcludedFromBackup = true
+            try destination.setResourceValues(values)
+            reply(request.id, result: true)
+        } catch { reply(request.id, error: "请选择 32 MB 以内的有效 PDF，原文件保留") }
     }
     @objc private func closeLogin() {
         showingLogin = false; toolbar.isHidden = true; interface.isHidden = false

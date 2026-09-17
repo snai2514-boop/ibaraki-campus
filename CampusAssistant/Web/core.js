@@ -3,8 +3,8 @@
  const assert=(ok,message)=>{if(!ok)throw new Error(message);};
  function identity(text){const ids=[...text.matchAll(/学生番号\s*\|\s*([A-Za-z0-9]{4,24})\b/g)].map(m=>m[1]); assert(ids.length && new Set(ids).size===1,'无法确认学校账户');return ids[0];}
  function profile(text){
-  const values={};for(const line of text.split('\n')){const cells=line.split(' | ').map(x=>x.trim());if(cells.length%2)continue;for(let i=0;i<cells.length;i+=2){if(!['学生氏名','学生番号','所属','学年'].includes(cells[i]))continue;assert(!values[cells[i]]||values[cells[i]]===cells[i+1],'学校账户信息冲突');values[cells[i]]=cells[i+1];}}
-  assert(values['学生氏名'],'尚未读取学生资料');return {student:identity(text),name:values['学生氏名'],affiliation:values['所属']||'',year:values['学年']||''};
+  const values={};for(const line of text.split('\n')){const cells=line.split(' | ').map(x=>x.trim());if(cells.length%2)continue;for(let i=0;i<cells.length;i+=2){if(!['学生氏名','学生番号','所属','学年','要件年月','入学年月日','コース','プログラム'].includes(cells[i]))continue;assert(!values[cells[i]]||values[cells[i]]===cells[i+1],'学校账户信息冲突');values[cells[i]]=cells[i+1];}}
+  assert(values['学生氏名'],'尚未读取学生资料');return {student:identity(text),name:values['学生氏名'],affiliation:values['所属']||'',year:values['学年']||'',curriculumYear:Number((values['要件年月']||'').normalize('NFKC').match(/^((?:19|20)\d{2})(?:年|[-/])/)?.[1])||null,program:[...new Set([values['コース'],values['プログラム']].filter(Boolean))].join(' / ')};
  }
  function parse(text){
   const lines=text.split('\n').map(s=>s.trim()), start=lines.findIndex(l=>l.startsWith('No. | 科目大区分 |'));
@@ -42,7 +42,7 @@
  function events(snapshots,data,affiliation=''){
   const merged=new Map(),issues=[];
   for(const t of Object.values(snapshots).filter(t=>t.lessons).sort((a,b)=>(a.at||0)-(b.at||0))){for(const l of t.lessons){try{
-   assert(t.year===data.year&&l.day<=5&&l.period<=5,'校历年份或节次尚未核对');const o=data.offerings[l.code],explicit=[...l.name.matchAll(/【(前期|前学期|後期|後学期|通年|[1-4]Q)】/g)].map(m=>m[1].replace('前学期','前期').replace('後学期','後期'));
+   assert(t.year===data.year&&l.day<=5&&l.period<=5,'校历年份或节次尚未核对');const o=data.offerings[l.code]||(root.CampusAcademic&&root.CampusAcademicData?root.CampusAcademic.science(l,t.quarter,affiliation.match(/^(.+?(?:学部|学環))/)?.[1],root.CampusAcademicData):null),explicit=[...l.name.matchAll(/【(前期|前学期|後期|後学期|通年|[1-4]Q)】/g)].map(m=>m[1].replace('前学期','前期').replace('後学期','後期'));
    assert(new Set(explicit).size<=1&&(!explicit.length||!o||explicit[0]===o.term),'学期标记冲突');assert(!o?.irregular,'集中或隔周授课需单独核对');const term=explicit[0]||o?.term,isQ=term===t.quarter+'Q',isS=term==='通年'||term===(t.quarter<=2?'前期':'後期');assert(isQ!==isS,'授课学季尚未确认');
    const campus=o?.campus||(/水戸/.test(l.name)||l.code.startsWith('KB')||/人文社会科学部|教育学部|理学部|地域未来共創学環/.test(affiliation)?'MITO':/日立/.test(l.name)?'HITACHI':/阿見/.test(l.name)?'AMI':null);
    assert(t.quarter!==3||l.day!==5||campus,'授课校区尚未确认');let dates=data.dates[t.quarter-1][l.day-1].split(' ');

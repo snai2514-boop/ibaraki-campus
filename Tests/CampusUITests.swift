@@ -1,6 +1,28 @@
 import XCTest
 
 final class CampusUITests: XCTestCase {
+    func testSemesterCreditsAndGraduationPreview() throws {
+        continueAfterFailure = false
+        let app = XCUIApplication()
+        app.launchArguments = ["--preview"]
+        app.launch()
+        let web = app.webViews.firstMatch
+        let grades = web.buttons.containing(NSPredicate(format: "label CONTAINS %@", "学分")).firstMatch
+        XCTAssertTrue(grades.waitForExistence(timeout: 20))
+        grades.tap()
+        XCTAssertTrue(web.staticTexts["学分预览"].waitForExistence(timeout: 15))
+        XCTAssertTrue(web.staticTexts.containing(NSPredicate(format: "label CONTAINS %@", "预计新增 4")).firstMatch.exists)
+        let rules = web.buttons["选择适用规则"]
+        for _ in 0..<5 { if rules.isHittable { break }; web.swipeUp() }
+        XCTAssertTrue(rules.isHittable)
+        rules.tap()
+        XCTAssertTrue(web.buttons["保存"].waitForExistence(timeout: 10))
+        web.buttons["保存"].tap()
+        let image = XCTAttachment(screenshot: app.screenshot())
+        image.name = "Graduation and semester forecast - fictional data"
+        image.lifetime = .keepAlways
+        add(image)
+    }
     func testPreviewRegistrationAndQuarterNavigation() throws {
         continueAfterFailure = false
         let app = XCUIApplication()

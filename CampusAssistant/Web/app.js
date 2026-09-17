@@ -5,7 +5,7 @@ const preview=!native&&(window.__CAMPUS_PREVIEW__||new URLSearchParams(location.
 const empty=()=>({version:1,profile:null,snapshots:{},modes:{},rooms:{},registration:null,inbox:[],personal:[],pending:null});
 let state=empty(),page='home',date=C.dateString(new Date()),view='week',selected=[],busy=false,generation=0,status='登录学校账户后同步课程、成绩和履修状况。',sequence=0;
 const pending=new Map(),$=id=>document.getElementById(id),h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function bridge(action,payload={}){if(!native)return Promise.reject(new Error('电脑预览不连接学校；请在苹果客户端使用此功能。'));return new Promise((resolve,reject)=>{const id=String(++sequence),timer=setTimeout(()=>{pending.delete(id);reject(new Error('操作超时，保留原记录'));},20000);pending.set(id,{resolve,reject,timer});window.webkit.messageHandlers.campus.postMessage({id,action,payload});});}
+function bridge(action,payload={}){if(!native)return Promise.reject(new Error('电脑预览不连接学校；请在苹果客户端使用此功能。'));return new Promise((resolve,reject)=>{const id=String(++sequence),timer=setTimeout(()=>{pending.delete(id);reject(new Error('操作超时，保留原记录'));},action==='importEvidence'?300000:20000);pending.set(id,{resolve,reject,timer});window.webkit.messageHandlers.campus.postMessage({id,action,payload});});}
 window.nativeReply=(id,result,error)=>{const p=pending.get(id);if(!p)return;clearTimeout(p.timer);pending.delete(id);error?p.reject(new Error(error)):p.resolve(result);};
 window.nativeForeground=()=>{if(state.profile&&!busy)sync();};
 window.nativeBackground=()=>{generation++;busy=false;status=state.pending?'提交结果尚未确认，重新打开后请核对学校结果。':'同步已暂停，已读取的数据保留。';render();};
@@ -14,7 +14,7 @@ window.nativeEvent=(message)=>{status=message;render();};
 function persist(){return native?bridge('save',{state}):Promise.resolve();}
 function toast(message){$('toast').textContent=message;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',5000);}
 function modal(title,body,buttons=[['知道了',()=>{}]]){const d=$('dialog');if(d.open)d.close();$('dialog-title').textContent=title;$('dialog-body').innerHTML=body;$('dialog-actions').replaceChildren();for(const [label,fn] of buttons){const b=document.createElement('button');b.textContent=label;b.onclick=()=>{d.close();Promise.resolve(fn()).catch(e=>toast(e.message));};$('dialog-actions').append(b);}d.showModal();}
-function announce(message){state.inbox.unshift({at:Date.now(),message});state.inbox=state.inbox.slice(0,100);if(native)bridge('notify',{message}).catch(()=>{});}
+function announce(message){state.inbox.unshift({at:Date.now(),message});state.inbox=state.inbox.slice(0,100);if(native&&state.alerts!==false)bridge('notify',{message}).catch(()=>{});}
 function allEvents(){const r=C.events(state.snapshots,D,state.profile?.affiliation||'');return {...r,events:r.events.concat(state.personal)};}
 function venue(e){if(e.personal)return '个人安排';const label=C.venue(e.year,e.code,state.modes[e.year+'/'+e.code]?.delivery),room=state.rooms?.[[e.code,e.date,e.period].join('/')];return room&&['教室待确认','线下授课'].includes(label)?room:label;}
 function courseCard(e){return `<div class="course"><h3>${h(e.name)}</h3><p>${e.period?'第 '+h(e.period)+' 限 · ':''}${h(venue(e))}</p></div>`;}
@@ -30,7 +30,7 @@ function render(){
  }else if(page==='calendar')renderCalendar();
  else if(page==='registration')renderRegistration();
  else if(page==='grades'){
-  const g=state.snapshots.grades;main.innerHTML=`<section class="card"><h2>${g?h(g.earned)+' 已修学分':'尚未读取成绩'}</h2><p>通算 GPA ${g?.gpa??'—'} · 直接采用学校显示值</p><p class="small">${g?'上次同步 '+new Date(g.at).toLocaleString():'登录学校账户后同步'}</p></section>${(g?.rows||[]).map(r=>`<section class="card"><div class="row spread"><h3>${h(r.name)}</h3><span class="tag">${h(r.grade)} · ${r.passed?'通过':'未通过'}</span></div><p>${r.credits} 学分 · ${h(r.year)} ${h(r.term)}</p><p class="small">${h(r.category)}</p></section>`).join('')}`;
+  const g=state.snapshots.grades;main.innerHTML=`<section class="card"><h2>${g?h(g.earned)+' 已修学分':'尚未读取成绩'}</h2><p>通算 GPA ${g?.gpa??'—'} · 直接采用学校显示值</p><p class="small">${g?'上次同步 '+new Date(g.at).toLocaleString():'登录学校账户后同步'}</p></section>${(g?.rows||[]).map(r=>`<section class="card"><div class="row spread"><h3>${h(r.name)}</h3><span class="tag">${r.score!==null&&r.score!==undefined?h(r.score)+' 分 · ':''}${h(r.grade)} · ${r.passed?'通过':'未通过'}</span></div><p>${r.credits} 学分 · ${h(r.year)} ${h(r.term)}</p><p class="small">${h(r.category)}</p></section>`).join('')}`;
  }else if(page==='courses'){
   const ts=Object.values(state.snapshots).filter(t=>t.lessons);main.innerHTML=ts.length?ts.map(t=>`<section class="card"><h2>${t.year} · Q${t.quarter}</h2>${t.lessons.map(l=>`<div class="course"><h3>${h(l.name)}</h3><p>星期${'一二三四五六'[l.day-1]} · 第 ${l.period} 限 · ${l.credits} 学分</p><p>${h(C.venue(t.year,l.code,state.modes[t.year+'/'+l.code]?.delivery))}</p><button class="secondary syllabus" data-year="${t.year}" data-code="${h(l.code)}">课程大纲</button></div>`).join('')}</section>`).join(''):'<section class="card empty">同步学校课表后显示课程</section>';
   document.querySelectorAll('.syllabus').forEach(b=>b.onclick=()=>syllabus(Number(b.dataset.year),b.dataset.code));
@@ -38,9 +38,13 @@ function render(){
   main.innerHTML=state.inbox.map(n=>`<section class="card"><p class="small">${new Date(n.at).toLocaleString()}</p><div class="notice">${h(n.message)}</div></section>`).join('')+'<h2>学校公告</h2>'+(state.notices?.rows||[]).map(n=>`<section class="card"><h3>${h(n.title)}</h3><p class="small">${h(n.published)}</p><button class="notice-open" data-id="${h(n.id)}">阅读公告</button></section>`).join('');
   document.querySelectorAll('.notice-open').forEach(b=>b.onclick=()=>notice(b.dataset.id));
  }else if(page==='settings'){
-  main.innerHTML=`<section class="card"><h2>学校账户</h2><p>${state.profile?h(state.profile.name)+' · '+h(state.profile.student):'未登录'}</p><button id="login">打开学校登录</button><p class="small">账号密码只在学校网页输入，应用不读取或保存密码。</p></section><section class="card"><h2>同步与通知</h2><p>每次回到应用，同步资料、成绩、Q1—Q4 课表、公告和履修状况。读取失败保留原记录。</p><button id="notify">允许系统通知</button><p class="small">通知包含学分、GPA 变化和新出现的可登记课程。</p></section><section class="card"><h2>隐私</h2><p>学校会话和个人数据保存在当前设备。没有数据上传服务，也不上传至 GitHub。</p><button id="logout" class="danger">退出并清除本机学校数据</button></section><p class="small">教务助手 iOS 1.0.80 · 首个兼容版本<br>校历仅含已核对的 2026 学年度；无法确认的课程日期不会猜测。</p>`;
+  main.innerHTML=`<section class="card"><h2>学校账户</h2><p>${state.profile?h(state.profile.name)+' · '+h(state.profile.student):'未登录'}</p><button id="login">打开学校登录</button><p class="small">账号密码只在学校网页输入，应用不读取或保存密码。</p></section><section class="card"><h2>同步与通知</h2><p>每次回到应用，同步资料、成绩、Q1—Q4 课表、公告和履修状况。读取失败保留原记录。</p><button id="notify">允许系统通知</button><p class="small">通知包含学分、GPA 变化和新出现的可登记课程。</p></section><section class="card"><h2>隐私</h2><p>学校会话和个人数据保存在当前设备。没有数据上传服务，也不上传至 GitHub。</p><button id="logout" class="danger">退出并清除本机学校数据</button></section><p class="small">教务助手 iOS 1.0.81 · 茨城大学专用<br>校历仅含已核对的 2026 学年度；无法确认的课程日期不会猜测。</p>`;
   $('login').onclick=()=>{if(busy)return toast('请等待当前操作完成');bridge('login').catch(e=>toast(e.message));};$('notify').onclick=()=>bridge('permission').then(()=>toast('通知设置已请求')).catch(e=>toast(e.message));$('logout').onclick=()=>modal('退出学校账户','<p>将清除本机课程、成绩、会话和个人安排。学校记录不会改变。</p>',[['取消',()=>{}],['退出并清除',async()=>{generation++;busy=false;await bridge('logout');state=empty();selected=[];status='已退出';go('home');}]]);
  }
+ if(page==='grades')showAcademic();
+ if(page==='calendar')enhanceCalendar();
+ if(page==='settings')enhanceSettings();
+ localize();
 }
 function go(next){page=next;render();window.scrollTo(0,0);}
 function renderCalendar(){
@@ -112,6 +116,6 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.pa
 $('dialog').addEventListener('close',()=>{if(page==='registration')render();});
 async function start(){
  if(native){try{state=(await bridge('load'))||empty();}catch(e){status=e.message;}render();if(state.profile)sync();}
- else{if(preview){$('preview').hidden=false;state.profile={student:'DEMO0000',name:'预览同学',affiliation:'茨城大学 · 虚构演示'};state.snapshots.grades={student:'DEMO0000',earned:18,gpa:3.2,at:Date.now(),rows:[]};const names=['共生とコミュニケーション【3Q】','経済・経営【3Q】'];state.snapshots['timetable-2026-Q3']={key:'timetable-2026-Q3',year:2026,quarter:3,at:Date.now(),lessons:names.map((name,i)=>({code:'DEMO'+i,name,description:name,credits:2,day:5,period:i+1}))};D.offerings.DEMO0=D.offerings.DEMO1={term:'3Q',campus:'MITO',irregular:false};state.modes['2026/DEMO0']=state.modes['2026/DEMO1']={delivery:'オンライン授業（リアルタイム配信型）'};state.registration={student:'DEMO0000',scope:'demo',at:Date.now(),message:'虚构预览数据：勾选课程后查看二次确认。',rows:[['a','法学入门','月1'],['b','经济学基础','火2'],['c','统计学基础','火2'],['d','信息与社会','金3']].map(([id,name,schedule])=>({id,name,schedule,credits:'2',available:true}))};date='2026-09-21';status='电脑预览 · 示例数据，不代表真实学校记录。';}render();}
+ else{if(preview){$('preview').hidden=false;state.profile={student:'DEMO0000',name:'预览同学',affiliation:'人文社会科学部 法律経済学科',curriculumYear:2026,program:''};state.snapshots.grades={student:'DEMO0000',earned:2,gpa:3.2,at:Date.now(),rows:[{name:'大学入門ゼミ',credits:2,score:85,grade:'A',passed:true,year:'2026',term:'前期',category:'基盤教育科目'}]};const names=['共生とコミュニケーション【3Q】','経済・経営【3Q】'];state.snapshots['timetable-2026-Q3']={key:'timetable-2026-Q3',student:'DEMO0000',year:2026,quarter:3,at:Date.now(),lessons:names.map((name,i)=>({code:'DEMO'+i,name,description:name,credits:2,day:5,period:i+1}))};D.offerings.DEMO0=D.offerings.DEMO1={term:'3Q',campus:'MITO',irregular:false};state.modes['2026/DEMO0']=state.modes['2026/DEMO1']={delivery:'オンライン授業（リアルタイム配信型）'};state.registration={student:'DEMO0000',scope:'demo',at:Date.now(),message:'虚构预览数据：勾选课程后查看二次确认。',rows:[['a','法学入门','月1'],['b','经济学基础','火2'],['c','统计学基础','火2'],['d','信息与社会','金3']].map(([id,name,schedule])=>({id,name,schedule,credits:'2',available:true}))};date='2026-09-21';status='电脑预览 · 示例数据，不代表真实学校记录。';}render();}
 }
 start();

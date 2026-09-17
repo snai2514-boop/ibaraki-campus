@@ -13,7 +13,7 @@ for path in allowed:
     if any(s in path.parts for s in ['build','dist','xcuserdata','node_modules','.private']):errors.append(rel+' forbidden path')
     if path.suffix in ['.p12','.mobileprovision','.key','.pem','.log','.ipa']:errors.append(rel+' forbidden extension')
     if path.suffix=='.png':continue
-    text=path.read_text(encoding='utf-8')
+    text=path.read_text(encoding='utf-8').replace('snai2514@gmail.com', '') # Maintainer explicitly authorized public contact.
     patterns=[r'gh[pousr]_[A-Za-z0-9]{20,}',r'github_pat_[A-Za-z0-9_]{20,}',r'-----BEGIN [A-Z ]*PRIVATE KEY-----',r'(?i)(?:C:|D:)[/\\](?:Users|ibaraki-campus-assistant)',r'(?i)(?:set-cookie|authorization):\s*\S+',r'(?i)[A-Z0-9._%+-]+@(?:gmail|outlook|hotmail|icloud)\.com']
     for pattern in patterns:
         if re.search(pattern,text):errors.append(rel+' potential private data pattern')

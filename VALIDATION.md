@@ -1,13 +1,13 @@
-# Verification boundaries
+# Verification and platform boundaries
 
-Local Windows checks: JavaScript syntax, core logic tests, school-adapter regression fixtures, privacy allowlist audit and browser UI preview. Browser fixtures are fictional and never contact the school.
+Android and iOS share the public curriculum source: 198 faculty/department/cohort/program combinations, 59,326 course classification records and 226 exact science timetable records. iOS reference tests compare classifications against results exported by the Android implementation. Both provide semester credit forecasts, category graduation gaps, projected progress, school grades/GPA, separate manual grade calculations, curriculum selection, local supporting PDFs, week/month calendars, personal event editing, ICS export, course syllabi, notices, foreground sync and selected-only course registration with second confirmation.
 
-The macOS workflow builds an ARM64 iPhone/iPad app and unsigned IPA, a simulator app, and runs XCUITest for interface launch and calendar/settings navigation. Artifacts contain compiler logs, UI test results and a simulator screenshot. Actual execution results must be checked in GitHub Actions.
+Local checks cover same-owner records, cross-quarter deduplication, reused course codes, passed/failed/pending results, curriculum/cohort boundaries, unknown categories, science fallback, ICS escaping and manual GPA. Browser preview records are fictional and cannot contact the school. The macOS workflow runs iPhone XCUITest for calendar, registration selection and academic previews, then builds an unsigned ARM64 device IPA and a simulator app.
 
-No real iPhone is available. School login/MFA, session persistence, notification delivery and real registration still need device verification. No actual course is registered as a test.
+Platform-specific implementations differ: Android and iOS use their respective native login web views, system share sheets, PDF pickers and notification APIs. Android-specific OS widgets/services and optional app-email-account infrastructure are not portable APIs. No configured cloud email-account backend is included in either distribution; university authentication is performed on the school's own page.
 
-Initial features: login, sequential foreground sync, grades/GPA, all four quarter timetables, verified 2026 calendar, week/month navigation, teaching modes, currently displayed calendar classrooms, notices, personal period entries, course selection with second confirmation and uncertain-result protection.
+No physical Apple device is available. Therefore identical behavior on real devices cannot be guaranteed: school SSO/MFA, session persistence, system notification delivery, PDF picking/sharing and real course submission still require device verification. No actual course registration is executed as a test. Simulator tests do not establish university-site compatibility or formal graduation eligibility.
 
-Not yet ported: Android-specific email account login, full graduation-requirement classification, science-faculty fallback rules, calendar export, personal event editing/deletion and Android system integration. Unknown course dates remain explicitly unresolved. Classroom reads do not claim to cover every future month.
+Rules cover reviewed 2024–2026 curriculum cohorts; calendar data covers the reviewed 2026 academic year. Unknown dates, unrecognized categories and individual graduation conditions are not guessed. iOS classroom reads cover the currently available school calendar page. Academic forecasts assume pending courses are passed.
 
-No Apple certificate or provisioning profile is included. The unsigned IPA cannot be installed directly; it needs signing for the user's device/account. Simulator success does not establish real-device school compatibility.
+The IPA is unsigned and requires personal Apple signing; no signing key, provisioning profile, school account, real grades or device logs are distributed. Maintainer YIN explicitly authorized publishing snai2514@gmail.com as the contact address.
