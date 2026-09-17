@@ -39,7 +39,7 @@ testconfigs=configs('test',dict(common,PRODUCT_NAME='"$(TARGET_NAME)"',PRODUCT_B
 testtarget=add('testtarget','{isa=PBXNativeTarget; buildConfigurationList='+testconfigs+'; buildPhases='+arr([phase('testsources','PBXSourcesBuildPhase',[build('uitest',uitest)]),phase('testframeworks','PBXFrameworksBuildPhase',[])])+'; buildRules=(); dependencies='+arr([dep])+'; name=CampusUITests; productName=CampusUITests; productReference='+testproduct+'; productType="com.apple.product-type.bundle.ui-testing";}')
 project=add('project','{isa=PBXProject; attributes={LastUpgradeCheck=1600;}; buildConfigurationList='+configs('project',common)+'; compatibilityVersion="Xcode 14.0"; developmentRegion=zh-Hans; hasScannedForEncodings=0; knownRegions=(en,"zh-Hans",Base); mainGroup='+group+'; productRefGroup='+products+'; projectDirPath=""; projectRoot=""; targets='+arr([target,testtarget])+';}')
 folder=root/'CampusAssistant.xcodeproj';folder.mkdir(exist_ok=True)
-(folder/'project.pbxproj').write_text('// !$*UTF8*$!\n{archiveVersion=1;classes={};objectVersion=56;objects={\n'+''.join(k+'='+v+'\n' for k,v in objects.items())+'};rootObject='+project+';}\n',encoding='utf-8')
+(folder/'project.pbxproj').write_text('// !$*UTF8*$!\n{archiveVersion=1;classes={};objectVersion=56;objects={\n'+''.join(k+'='+v+';\n' for k,v in objects.items())+'};rootObject='+project+';}\n',encoding='utf-8')
 schemes=folder/'xcshareddata/xcschemes';schemes.mkdir(parents=True,exist_ok=True)
 def ref(id,name):return f'<BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{id}" BuildableName="{name}" BlueprintName="{name.split(".")[0]}" ReferencedContainer="container:CampusAssistant.xcodeproj"/>'
 (schemes/'CampusAssistant.xcscheme').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>

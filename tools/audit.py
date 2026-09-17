@@ -2,7 +2,7 @@
 from pathlib import Path
 import re, json, hashlib, sys
 root=Path(__file__).resolve().parents[1]
-roots=['CampusAssistant','CampusAssistant.xcodeproj','Tests','tools','ci']
+roots=['CampusAssistant','CampusAssistant.xcodeproj','Tests','tools','ci','.github']
 allowed=[]
 for dirname in roots:
     allowed.extend(p for p in (root/dirname).rglob('*') if p.is_file() and '__pycache__' not in p.parts)
