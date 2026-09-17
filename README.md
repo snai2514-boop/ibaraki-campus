@@ -63,11 +63,11 @@ Contact: **YIN · [snai2514@gmail.com](mailto:snai2514@gmail.com)**
 
 | ダウンロード / 下载 / Download | 直リンク / 直达链接 / Direct link |
 | --- | --- |
-| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.81.apk](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/download/v1.0.81/CampusAssistant-Android-1.0.81.apk) |
-| iPhone / iPad · iOS 16+ · 未署名 / 未签名 / unsigned | [CampusAssistant-1.0.81-unsigned.ipa](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/download/v1.0.81/CampusAssistant-1.0.81-unsigned.ipa) |
-| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.81-source.zip](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/download/v1.0.81/CampusAssistant-1.0.81-source.zip) |
-| 最新ソース / 最新源码 / latest source | [ZIP](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip) · [Android](android/) · [iOS](CampusAssistant/) |
-| 配布一覧 / 发布页 / release page | [v1.0.81](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81) |
+| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.81.apk](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.81/CampusAssistant-Android-1.0.81.apk) |
+| iPhone / iPad · iOS 16+ · 未署名 / 未签名 / unsigned | [CampusAssistant-1.0.81-unsigned.ipa](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.81/CampusAssistant-1.0.81-unsigned.ipa) |
+| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.81-source.zip](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.81/CampusAssistant-1.0.81-source.zip) |
+| 最新ソース / 最新源码 / latest source | [ZIP](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip) · [Android](android/) · [iOS](CampusAssistant/) |
+| 配布一覧 / 发布页 / release page | [v1.0.81](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.81) |
 
 ## Preview / 功能预览 / プレビュー
 

@@ -8,12 +8,12 @@
 
 | 用途 / Purpose | 官方入口 / Official link |
 | --- | --- |
-| 本项目未签名 IPA / Unsigned app | [下载 IPA](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/download/v1.0.81/CampusAssistant-1.0.81-unsigned.ipa) · [发布页及 SHA256SUMS](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81) |
+| 本项目未签名 IPA / Unsigned app | [下载 IPA](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.81/CampusAssistant-1.0.81-unsigned.ipa) · [发布页及 SHA256SUMS](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.81) |
 | Windows / Mac 签名工具 | [Sideloadly 官网及各平台下载](https://sideloadly.io/) · [Windows 64-bit 安装器](https://sideloadly.io/SideloadlySetup64.exe) |
 | Windows 所需 Apple 组件 | [Apple 网页版 iTunes 64-bit](https://www.apple.com/itunes/download/win64) · [Apple iCloud 安装器](https://updates.cdn-apple.com/2020/windows/001-39935-20200911-1A70AA56-F448-11EA-8CC0-99D41950005E/iCloudSetup.exe)；链接来自 Sideloadly 官网，请先阅读其依赖说明。 |
 | Apple Account | [Apple 账号管理与创建入口](https://account.apple.com/) |
 | Mac 开发工具 | [Apple Xcode 官方下载入口](https://developer.apple.com/xcode/) |
-| Mac 源码安装 | [最新源码 ZIP](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip) |
+| Mac 源码安装 | [最新源码 ZIP](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip) |
 | 开发者模式 / Developer Mode | [Apple 官方步骤](https://developer.apple.com/documentation/xcode/enabling-developer-mode-on-a-device) |
 | 续签、Wi-Fi 与报错 / Refresh and help | [Sideloadly 官方 FAQ](https://sideloadly.io/faq) |
 
@@ -21,7 +21,7 @@
 
 ## 日本語
 
-対象は iOS / iPadOS 16 以降です。[配布ページ](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81)から `CampusAssistant-1.0.81-unsigned.ipa` をダウンロードしてください。Safari で開くだけではインストールできません。`CampusAssistant-Simulator.zip` は Mac のシミュレーター用で、実機には使えません。
+対象は iOS / iPadOS 16 以降です。[配布ページ](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.81)から `CampusAssistant-1.0.81-unsigned.ipa` をダウンロードしてください。Safari で開くだけではインストールできません。`CampusAssistant-Simulator.zip` は Mac のシミュレーター用で、実機には使えません。
 
 ### Windows：配布 IPA を署名
 
@@ -35,7 +35,7 @@
 
 ### Mac：Xcode からインストール
 
-1. Xcode と[最新ソース](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip)を用意し、展開した `CampusAssistant.xcodeproj` を開きます。
+1. Xcode と[最新ソース](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip)を用意し、展開した `CampusAssistant.xcodeproj` を開きます。
 2. Xcode の Settings → Accounts に自分の Apple Account を追加します。
 3. アプリのターゲット `CampusAssistant` → Signing & Capabilities で Automatically manage signing を選び、自分の Team / Personal Team を指定します。
 4. Bundle Identifier が使用できない場合は自分用の一意な値に変更し、更新時も同じ値を使います。
@@ -45,7 +45,7 @@
 
 ## 中文
 
-需要 iOS / iPadOS 16 或以上。在[发布页](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81)下载 `CampusAssistant-1.0.81-unsigned.ipa`。它尚未签名，不能在 Safari 点开直接安装；`CampusAssistant-Simulator.zip` 只用于 Mac 模拟器。
+需要 iOS / iPadOS 16 或以上。在[发布页](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.81)下载 `CampusAssistant-1.0.81-unsigned.ipa`。它尚未签名，不能在 Safari 点开直接安装；`CampusAssistant-Simulator.zip` 只用于 Mac 模拟器。
 
 ### 方法一：Windows 使用 Sideloadly
 
@@ -59,7 +59,7 @@
 
 ### 方法二：Mac 使用 Xcode
 
-1. 安装 Xcode，下载并解压[最新源码](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip)，打开根目录的 `CampusAssistant.xcodeproj`。
+1. 安装 Xcode，下载并解压[最新源码](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip)，打开根目录的 `CampusAssistant.xcodeproj`。
 2. Xcode → Settings → Accounts 添加你自己的 Apple Account。
 3. 选择项目中的应用 Target `CampusAssistant` → Signing & Capabilities，勾选 Automatically manage signing，Team 选自己的账号或 Personal Team。
 4. 如果 Bundle Identifier 提示被占用，换成自己的唯一标识，例如 `com.yourname.campusassistant`；后续更新保持一致。
@@ -79,7 +79,7 @@
 
 ## English
 
-Requires iOS / iPadOS 16+. Download `CampusAssistant-1.0.81-unsigned.ipa` from the [release page](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81). Opening it in Safari does not install it. `CampusAssistant-Simulator.zip` is for the Mac simulator only.
+Requires iOS / iPadOS 16+. Download `CampusAssistant-1.0.81-unsigned.ipa` from the [release page](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.81). Opening it in Safari does not install it. `CampusAssistant-Simulator.zip` is for the Mac simulator only.
 
 ### Windows: sign the IPA
 
@@ -92,7 +92,7 @@ Free signing normally expires after seven days. Refresh using the same account a
 
 ### Mac: build with Xcode
 
-1. Install Xcode, extract the [source](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip), and open `CampusAssistant.xcodeproj`.
+1. Install Xcode, extract the [source](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip), and open `CampusAssistant.xcodeproj`.
 2. Add your Apple Account in Xcode Settings → Accounts.
 3. Select the `CampusAssistant` app target → Signing & Capabilities → Automatically manage signing; choose your Team / Personal Team. Use a unique Bundle Identifier if required, keeping it consistent for updates.
 4. Choose your connected device as the destination, enable Developer Mode and click Run. This builds from source. Free Personal Team profiles expire after seven days; run again to renew. See [Apple's account documentation](https://developer.apple.com/help/account/basics/about-your-developer-account) and [automatic signing](https://developer.apple.com/documentation/xcode/distributing-your-app-to-registered-devices).
