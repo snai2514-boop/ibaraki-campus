@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+    paths: ['CampusAssistant/**', 'CampusAssistant.xcodeproj/**', 'Tests/**', 'tools/**']
 permissions:
   contents: read
 concurrency:
@@ -17,7 +18,7 @@ jobs:
       - name: Privacy audit and logic tests
         run: |
           python3 tools/audit.py
-          node --test Tests/core.test.cjs
+          node --test Tests/core.test.cjs Tests/academic.test.cjs
       - name: Build device and simulator apps
         run: bash tools/build.sh
       - name: Test simulator interface
@@ -41,3 +42,4 @@ jobs:
             build/ui-test.log
             build/UIResults.xcresult
           retention-days: 14
+

@@ -1,0 +1,76 @@
+name: Import public Android + iOS source and verify release
+on:
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/publish-source.yml]
+permissions:
+  contents: write
+concurrency:
+  group: public-release-import
+  cancel-in-progress: false
+jobs:
+  verify:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Import audited public source archive
+        if: ${{ hashFiles('android/app/build.gradle') == '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api repos/${{ github.repository }}/releases > /tmp/releases.json
+          ASSET=$(python3 -c 'import json; r=next(r for r in json.load(open("/tmp/releases.json")) if r["tag_name"]=="v1.0.81"); print(next(a["id"] for a in r["assets"] if a["name"]=="CampusAssistant-1.0.81-source.zip"))')
+          gh api -H 'Accept: application/octet-stream' repos/${{ github.repository }}/releases/assets/$ASSET > /tmp/public-source.zip
+          echo '74719a5befb3b78239447ee16fa228b8d63ea7473d4620a91498146851c82039  /tmp/public-source.zip' | shasum -a 256 -c -
+          python3 - <<'PY'
+          import zipfile,pathlib
+          root=pathlib.Path.cwd()
+          with zipfile.ZipFile('/tmp/public-source.zip') as z:
+              for item in z.infolist():
+                  path=pathlib.PurePosixPath(item.filename)
+                  assert not path.is_absolute() and '..' not in path.parts
+                  assert not any(p in {'.git','.private','build','dist','tmp'} for p in path.parts)
+              z.extractall(root)
+          PY
+          chmod +x android/gradlew tools/build.sh
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add android CampusAssistant CampusAssistant.xcodeproj Tests tools README.md NOTICE.md LICENSE DATA-SOURCES.md VALIDATION.md .gitignore
+          git diff --cached --quiet || git commit -m 'Publish Android and iOS with shared academic rules and trilingual documentation'
+          git push origin HEAD:main
+      - name: Audit and build iPhone and Simulator
+        run: |
+          python3 tools/audit.py
+          bash tools/build.sh
+      - name: Verify interface in iPhone Simulator
+        run: |
+          DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; print(next(d["udid"] for group in json.load(sys.stdin)["devices"].values() for d in group if "iPhone" in d["name"]))')
+          xcodebuild -project CampusAssistant.xcodeproj -scheme CampusAssistant -destination "platform=iOS Simulator,id=$DEVICE" -derivedDataPath build/ui-tests -resultBundlePath build/UIResults.xcresult CODE_SIGNING_ALLOWED=NO test > build/ui-test.log 2>&1 || { tail -100 build/ui-test.log; exit 1; }
+          xcrun simctl boot "$DEVICE" || true
+          xcrun simctl bootstatus "$DEVICE" -b
+          xcrun simctl install "$DEVICE" build/simulator/Build/Products/Debug-iphonesimulator/CampusAssistant.app
+          xcrun simctl launch "$DEVICE" com.campusassistant.ibaraki.ios
+          xcrun simctl io "$DEVICE" screenshot build/dist/iPhone-simulator.png
+      - name: Attach verified iOS build to draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git archive --format=zip --output=build/dist/CampusAssistant-1.0.81-source.zip HEAD
+          gh release upload v1.0.81 build/dist/CampusAssistant-1.0.81-source.zip build/dist/CampusAssistant-1.0.81-unsigned.ipa build/dist/CampusAssistant-Simulator.zip build/dist/iPhone-simulator.png --clobber
+          mkdir -p /tmp/release-checks
+          gh release download v1.0.81 --pattern '*.apk' --pattern '*.ipa' --pattern '*source.zip' --dir /tmp/release-checks
+          (cd /tmp/release-checks && shasum -a 256 *) > build/dist/SHA256SUMS.txt
+          gh release upload v1.0.81 build/dist/SHA256SUMS.txt --clobber
+      - name: Preserve build verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CampusAssistant-1.0.81-verification
+          path: |
+            build/dist/
+            build/*-build.log
+            build/ui-test.log
+            build/UIResults.xcresult
+          retention-days: 14
+
