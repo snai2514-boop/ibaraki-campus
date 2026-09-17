@@ -1,5 +1,7 @@
 # Public source data
 
+The academic module shares Android's 198 curriculum scopes, 59,326 public classification catalog rows and 226 science timetable fallback records. See [curriculum sources](android/docs/undergraduate-curricula.md), [classification rules](android/docs/course-classification.md) and [forecast rules](android/docs/credit-forecast.md). These institutional rules contain no personal academic records. `tools/import_academic.py` imports the public exports; standalone builds use committed data.
+
 The iOS app carries reviewed Android 2026 calendar rules and 1,951 public course offering rules. These are institutional catalog data, not a student's timetable.
 
 - Engineering: https://www.eng.ibaraki.ac.jp/common/education/class/2026-subject05.pdf
@@ -11,3 +13,4 @@ The iOS app carries reviewed Android 2026 calendar rules and 1,951 public course
 `calendar-data.js` is exported from reviewed Android source by `tools/import_calendar.py` when both workspaces are present. Standalone builds consume the committed export.
 
 School adapters and regression fixtures derive from Android 1.0.80. Preview fixtures use fictional DEMO0000 and DEMO/ZZ course codes. No captured school screen, portal response, cookie, device identifier, real grade or student profile is included.
+

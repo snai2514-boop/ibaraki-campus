@@ -56,6 +56,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/publish-source.yml
+          git commit -m 'Remove one-time write-enabled publication workflow [skip ci]'
+          git push origin HEAD:main
           git archive --format=zip --output=build/dist/CampusAssistant-1.0.81-source.zip HEAD
           gh release upload v1.0.81 build/dist/CampusAssistant-1.0.81-source.zip build/dist/CampusAssistant-1.0.81-unsigned.ipa build/dist/CampusAssistant-Simulator.zip build/dist/iPhone-simulator.png --clobber
           mkdir -p /tmp/release-checks
