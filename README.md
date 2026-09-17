@@ -4,6 +4,10 @@
 
 [日本語](#日本語) · [中文](#中文) · [English](#english) · [Downloads](#downloads)
 
+**[iOS 署名・インストール / 签名与安装教程 / Signing guide](IOS-INSTALL.md)** · **[機能プレビュー / 功能截图 / Screenshots](FEATURE-PREVIEW.md)**
+
+無料の個人署名は通常 7 日ごとに更新 / 免费个人签名通常每 7 天续签一次 / Free personal signing normally needs renewal every 7 days. See the linked guide for Apple documentation and renewal steps.
+
 ## 日本語
 
 **茨城大学専用の非公式・オープンソース履修支援アプリです。** 他大学には対応していません。大学が提供・認定するアプリではありません。
@@ -64,6 +68,14 @@ Contact: **YIN · [snai2514@gmail.com](mailto:snai2514@gmail.com)**
 | Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.81-source.zip](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/download/v1.0.81/CampusAssistant-1.0.81-source.zip) |
 | 最新ソース / 最新源码 / latest source | [ZIP](https://github.com/snai2514-boop/ibaraki-campus-ios/archive/refs/heads/main.zip) · [Android](android/) · [iOS](CampusAssistant/) |
 | 配布一覧 / 发布页 / release page | [v1.0.81](https://github.com/snai2514-boop/ibaraki-campus-ios/releases/tag/v1.0.81) |
+
+## Preview / 功能预览 / プレビュー
+
+虚构数据的 iOS 浏览器预览 / 架空データのブラウザープレビュー / iOS browser preview with fictional data.
+
+![学期学分预测 / Semester forecast](docs/screenshots/credits.png)
+
+[更多截图：毕业缺口、成绩、周历选课 / More screenshots](FEATURE-PREVIEW.md)
 
 ## Build / ビルド / 构建
 
