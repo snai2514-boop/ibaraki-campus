@@ -47,6 +47,11 @@ final class CampusController: UIViewController, WKScriptMessageHandler, WKNaviga
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .nonPersistent()
         config.userContentController.add(self, name: "campus")
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--preview") {
+            config.userContentController.addUserScript(WKUserScript(source: "window.__CAMPUS_PREVIEW__ = true;", injectionTime: .atDocumentStart, forMainFrameOnly: true))
+        }
+        #endif
         interface = WKWebView(frame: .zero, configuration: config)
         interface.navigationDelegate = self
         interface.isOpaque = true

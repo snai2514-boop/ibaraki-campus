@@ -1,7 +1,7 @@
 /* Bundled interface only. No remote UI code, analytics, passwords or network fetches. */
 'use strict';
-const C=CampusCore, D=CampusCalendarData, native=!!window.webkit?.messageHandlers?.campus;
-const preview=!native&&new URLSearchParams(location.search).get('preview')==='1';
+const C=CampusCore, D=CampusCalendarData, native=!!window.webkit?.messageHandlers?.campus&&!window.__CAMPUS_PREVIEW__;
+const preview=!native&&(window.__CAMPUS_PREVIEW__||new URLSearchParams(location.search).get('preview')==='1');
 const empty=()=>({version:1,profile:null,snapshots:{},modes:{},rooms:{},registration:null,inbox:[],personal:[],pending:null});
 let state=empty(),page='home',date=C.dateString(new Date()),view='week',selected=[],busy=false,generation=0,status='登录学校账户后同步课程、成绩和履修状况。',sequence=0;
 const pending=new Map(),$=id=>document.getElementById(id),h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -108,6 +108,7 @@ async function submit(ids,signature){
 async function syllabus(year,code){if(busy)return toast('正在同步，请稍后');busy=true;const stamp=++generation;try{const term=Object.values(state.snapshots).find(t=>t.year===year&&t.lessons?.some(l=>l.code===code));if(!term)throw new Error('课程学季尚未读取');await bridge('home');let lastNav=0;const r=await poll(async()=>{const r=await read('school-syllabus',{year,code,quarter:term.quarter});if(r.error)throw new Error('未找到对应课程大纲');if(r.navigate&&Date.now()-lastNav>4000){await read('school-sync-navigation',{target:'Q'+term.quarter});lastNav=Date.now();}return r.ready?r:null;},stamp);state.modes[year+'/'+code]={delivery:r.delivery};await persist();modal(r.title||'课程大纲',`<p>${h(C.delivery(r.delivery))}</p><h3>评价方法</h3><p>${h(r.grading)}</p><h3>教材</h3><p>${h(r.textbook)}</p><h3>履修注意</h3><p>${h(r.notes)}</p>`+(r.rows||[]).map(row=>`<div class="course"><h3>第 ${h(row.number)} 次 · ${h(row.subject)}</h3><p>${h(row.content)}</p></div>`).join(''));}catch(e){toast(e.message);}finally{busy=false;}}
 async function notice(id){if(busy)return toast('正在同步，请稍后');busy=true;const stamp=++generation;try{await bridge('home');const r=await poll(async()=>{const r=await read('school-notices',{detail:id});return r.ready&&r.body?r:null;},stamp);modal('学校公告','<div class="notice">'+h(r.body)+'</div>');}catch(e){toast(e.message);}finally{busy=false;}}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+$('dialog').addEventListener('close',()=>{if(page==='registration')render();});
 async function start(){
  if(native){try{state=(await bridge('load'))||empty();}catch(e){status=e.message;}render();if(state.profile)sync();}
  else{if(preview){$('preview').hidden=false;state.profile={student:'DEMO0000',name:'预览同学',affiliation:'茨城大学 · 虚构演示'};state.snapshots.grades={student:'DEMO0000',earned:18,gpa:3.2,at:Date.now(),rows:[]};const names=['共生とコミュニケーション【3Q】','経済・経営【3Q】'];state.snapshots['timetable-2026-Q3']={key:'timetable-2026-Q3',year:2026,quarter:3,at:Date.now(),lessons:names.map((name,i)=>({code:'DEMO'+i,name,description:name,credits:2,day:5,period:i+1}))};D.offerings.DEMO0=D.offerings.DEMO1={term:'3Q',campus:'MITO',irregular:false};state.modes['2026/DEMO0']=state.modes['2026/DEMO1']={delivery:'オンライン授業（リアルタイム配信型）'};state.registration={student:'DEMO0000',scope:'demo',at:Date.now(),message:'虚构预览数据：勾选课程后查看二次确认。',rows:[['a','法学入门','月1'],['b','经济学基础','火2'],['c','统计学基础','火2'],['d','信息与社会','金3']].map(([id,name,schedule])=>({id,name,schedule,credits:'2',available:true}))};date='2026-09-21';status='电脑预览 · 示例数据，不代表真实学校记录。';}render();}
