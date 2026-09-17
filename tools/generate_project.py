@@ -10,7 +10,7 @@ def configs(name,settings):
     ids=[]
     for mode in ['Debug','Release']:
         config=dict(settings)
-        if mode=='Debug':config.update(SWIFT_OPTIMIZATION_LEVEL='"-Onone"',DEBUG_INFORMATION_FORMAT='dwarf')
+        if mode=='Debug':config.update(SWIFT_OPTIMIZATION_LEVEL='"-Onone"',DEBUG_INFORMATION_FORMAT='dwarf',SWIFT_ACTIVE_COMPILATION_CONDITIONS='DEBUG')
         else:config.update(SWIFT_COMPILATION_MODE='wholemodule',SWIFT_OPTIMIZATION_LEVEL='"-O"',DEBUG_INFORMATION_FORMAT='"dwarf-with-dsym"')
         ids.append(add(name+mode,'{isa=XCBuildConfiguration; buildSettings={'+''.join(k+'='+v+';' for k,v in config.items())+'}; name='+mode+';}'))
     return add(name+'configs','{isa=XCConfigurationList; buildConfigurations='+arr(ids)+'; defaultConfigurationIsVisible=0; defaultConfigurationName=Release;}')
