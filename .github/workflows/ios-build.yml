@@ -1,0 +1,39 @@
+name: iOS build and simulator verification
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: ios-build
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Privacy audit and logic tests
+        run: |
+          python3 tools/audit.py
+          node --test Tests/core.test.cjs
+      - name: Build device and simulator apps
+        run: bash tools/build.sh
+      - name: Test simulator interface
+        run: |
+          DEVICE=$(xcrun simctl list devices available -j | python3 -c 'import json,sys; print(next(d["udid"] for group in json.load(sys.stdin)["devices"].values() for d in group if "iPhone" in d["name"]))')
+          xcodebuild -project CampusAssistant.xcodeproj -scheme CampusAssistant -destination "platform=iOS Simulator,id=$DEVICE" -derivedDataPath build/ui-tests -resultBundlePath build/UIResults.xcresult CODE_SIGNING_ALLOWED=NO test > build/ui-test.log 2>&1 || { tail -100 build/ui-test.log; exit 1; }
+          xcrun simctl launch "$DEVICE" com.campusassistant.ibaraki.ios
+          xcrun simctl io "$DEVICE" screenshot build/dist/iPhone-simulator.png
+      - name: Upload builds and verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: CampusAssistant-iOS
+          path: |
+            build/dist/
+            build/*-build.log
+            build/ui-test.log
+            build/UIResults.xcresult
+          retention-days: 14

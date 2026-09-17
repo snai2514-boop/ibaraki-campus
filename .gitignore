@@ -1,0 +1,14 @@
+build/
+dist/
+.DS_Store
+xcuserdata/
+*.xcuserstate
+*.ipa
+*.p12
+*.mobileprovision
+*.key
+*.cer
+*.log
+node_modules/
+__pycache__/
+.env*
