@@ -22,4 +22,10 @@ class SchoolClassroomMatchTest {
         assertEquals("3", known.weeks)
         assertFalse(model.courses.single { it.location=="教室待确认" }.weeks.split(',').contains("3"))
     }
+    @Test fun nameOnlyCalendarEntriesMustMatchExactCourseDateAndPeriod() {
+        val reading = SchoolClassroomReading("", "2026-06-15", 3, "共通教育棟2号館21番教室", "線形代数Ⅰ【情報】")
+        assertEquals(1, SchoolClassroomMatch.updates("owner", listOf(snapshot), listOf(reading)).size)
+        assertTrue(SchoolClassroomMatch.updates("owner", listOf(snapshot), listOf(reading.copy(name="線形代数"))).isEmpty())
+        assertTrue(SchoolClassroomMatch.updates("owner", listOf(snapshot), listOf(reading.copy(period=2))).isEmpty())
+    }
 }

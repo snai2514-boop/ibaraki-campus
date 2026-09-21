@@ -317,6 +317,12 @@ fun CampusHomeScreen() {
                                 } } }
                             }
                             "设置" -> {
+                                item { CampusRow("导出同步诊断日志", Icons.Outlined.Description) {
+                                    com.tyust.course.utils.LogUtils.exportLogs(context)
+                                } }
+                                item { CampusRow("查看学校网页", Icons.Outlined.OpenInNew) {
+                                    if (!syncing) context.startActivity(Intent(context, IbarakiPortalActivity::class.java).putExtra("manualRead", true))
+                                } }
                                 item { CampusCard { Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) { Text("语言", Modifier.weight(1f)); LanguageButton() } } }
                                 item { CampusRow("主题设置", Icons.Outlined.Palette) { theme = true } }
                                 item { CampusRow("通知设置", Icons.Outlined.Notifications) { navigate("通知设置") } }

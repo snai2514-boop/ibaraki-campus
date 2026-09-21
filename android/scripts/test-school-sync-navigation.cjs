@@ -25,4 +25,6 @@ assert.deepEqual(run('profile', { labels: ['学生カルテ', '単位修得状�
 assert.deepEqual(run('profile', { labels: ['学籍情報', '学生個人情報', '健康管理情報'] }).clicks, ['学籍情報']);
 assert.deepEqual(run('grades', { labels: ['画面に表示する'], allGrades: true, repeat: 5 }).clicks, ['all-grades', '画面に表示する']);
 assert.deepEqual(run('grades', { labels: ['単位修得状況照会'], hidden: true }).clicks, ['単位修得状況照会']);
-console.log('10 school navigation checks passed');
+assert.deepEqual(run('Q1', { labels: ['履修登録・登録状況照会'], hidden: true }).clicks, ['履修登録・登録状況照会']);
+assert.deepEqual(run('Q1', { labels: ['履修登録確定', '削除'], hidden: true }).clicks, []);
+console.log('12 school navigation checks passed');

@@ -225,7 +225,7 @@ fun SettingsScreen(
                     icon = Icons.Outlined.ContentPasteSearch,
                     iconTint = Color(0xFF64D2FF),
                     title = "导出日志",
-                    subtitle = "导出本地运行日志",
+                    subtitle = "导出同步诊断日志，断线或重启后仍保留",
                     onClick = onLogExport
                 )
                 SettingsRow(

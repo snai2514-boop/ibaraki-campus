@@ -19,4 +19,9 @@ class SchoolDeliveryTest {
         assertEquals("教室待确认",SchoolCourseVenue.label("timetable-2026-Q3","UNKNOWN Course"))
         assertEquals("混合授课 · 101",SchoolCourseVenue.label("timetable-2026-Q3","OTHER Course","101","blended course"))
     }
+    @Test fun publishedRoomNeverOverridesVerifiedOnlineDeliveryAcrossYears() {
+        for (year in listOf(2026, 2027, 2028)) {
+            assertEquals("线上授课（实时）", SchoolCourseVenue.label("owner/timetable-$year-calendar", "KB9999 Course", "共通教育棟2号館21番教室", "オンライン授業（リアルタイム配信型）"))
+        }
+    }
 }

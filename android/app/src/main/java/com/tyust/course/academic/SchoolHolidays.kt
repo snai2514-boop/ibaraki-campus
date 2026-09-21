@@ -14,10 +14,10 @@ object SchoolHolidays {
     )
     fun phoneDate(): String = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.ROOT).format(java.util.Date())
     fun classroomNotice(date: String): String? = on(date)?.let {
-        "假期期间暂无法查看教室信息"
+        "假期期间仍会查询学校已公布的教室信息"
     }
     fun classroomReason(date: String): String? = on(date)?.let {
-        "手机日期 $date 处于学校规定的${it.name}（${it.start} 至 ${it.end}）。教室具体信息可能尚未开放，本次暂不读取；已保存的教室记录保留，其他模块继续同步。"
+        "手机日期 $date 处于学校规定的${it.name}（${it.start} 至 ${it.end}）。仍会查询学校已公布的信息；尚未公布时保留旧记录，下次打开应用继续查询。"
     }
     fun on(date: String): SchoolBreak? = breaks.firstOrNull { date in it.start..it.end }
 }

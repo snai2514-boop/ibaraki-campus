@@ -22,6 +22,13 @@ import com.tyust.course.academic.SchoolTermView
 import com.tyust.course.schedule.ScheduleIdentity
 import com.tyust.course.i18n.LocalizedText as Text
 
+/** Display-only abbreviations; the original venue remains available in course details. */
+private fun compactCalendarVenue(location: String): String = location
+    .replace(Regex("共通教育棟([0-9０-９]+)号館\\s*([0-9０-９]+)番教室"), "共通$1号馆\n$2教室")
+    .replace("线上授课（实时）", "线上 · 实时")
+    .replace("线上授课（录播）", "线上 · 录播")
+    .replace("水戸:第1アリーナ(大体育館)", "水戸\n第1体育馆")
+
 /** The school calendar uses a flat pastel grid; each overlapping course remains clickable. */
 @Composable
 internal fun CampusWeekGrid(week: Int, courses: List<ScheduleCourseUi>, model: SchoolTermView,
@@ -79,8 +86,8 @@ internal fun CampusWeekGrid(week: Int, courses: List<ScheduleCourseUi>, model: S
                                     shape = RoundedCornerShape(7.dp), color = if(dark) pastel.copy(alpha = .23f) else pastel) {
                                     Column(Modifier.padding(horizontal = 4.dp, vertical = 9.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
                                         Text(course.name, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center, maxLines = 4, overflow = TextOverflow.Ellipsis)
-                                        if(course.location.isNotBlank()) Text(course.location, Modifier.padding(top = 4.dp), fontSize = 10.sp,
-                                            textAlign = TextAlign.Center, maxLines = 2, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                        if(course.location.isNotBlank()) Text(compactCalendarVenue(course.location), Modifier.padding(top = 6.dp), fontSize = 10.sp,
+                                            lineHeight = 13.sp, textAlign = TextAlign.Center, maxLines = 3, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colorScheme.onSurfaceVariant)
                                     }
                                 }
                             }

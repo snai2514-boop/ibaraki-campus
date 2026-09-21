@@ -82,11 +82,24 @@ class IbarakiPortalActivity : ComponentActivity() {
                 return
             }
             if (autoSync && authenticatedOnce && !readable && stepStarted != 0L && android.os.SystemClock.elapsedRealtime() - stepStarted > 35000) {
-                stopSync("学校连接中断或登录已过期，请重新登录同步。")
+                stopSync("学校页面加载超时，已保留本机数据，请检查网络后重试。", SchoolSyncFailureKind.TIMEOUT)
             }
             if (autoSync && syncStep < 9 && readable && !reading && preview == null) readPage(true)
             syncHandler.postDelayed(this, 2500)
         }
+    }
+    private val diagnosticSession = java.util.UUID.randomUUID().toString().take(8)
+    private val diagnosticRecent = mutableMapOf<String, Pair<String, Long>>()
+    private fun diagnostic(event: String, metadata: String = "") {
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (event in setOf("page_finish", "page_read", "parse_miss")) {
+            val signature = "$syncStep/$generation/$readable/$metadata"
+            val previous = diagnosticRecent[event]
+            if (previous?.first == signature && now - previous.second < 1000) return
+            diagnosticRecent[event] = signature to now
+        }
+        com.tyust.course.utils.SyncDiagnostics.record(event,
+            "session=$diagnosticSession step=$syncStep elapsed=${if (stepStarted == 0L) 0 else android.os.SystemClock.elapsedRealtime() - stepStarted} readable=$readable generation=$generation $metadata")
     }
     private val importFile get() = AtomicFile(File(noBackupFilesDir, "school-imports-v1.json"))
 
@@ -96,17 +109,21 @@ class IbarakiPortalActivity : ComponentActivity() {
         if (syncActive) { finish(); return }
         syncActive = true
         ownsSync = true
+        autoSync = !intent.getBooleanExtra("manualRead", false)
+        diagnostic(if (autoSync) "sync_start" else "manual_browser_start", "silent=$silentSync")
         com.tyust.course.academic.SchoolOpenSync.consume()
         openedAt = android.os.SystemClock.elapsedRealtime()
-        if(!intent.getBooleanExtra("noticesOnly", false)) com.tyust.course.academic.DailySchoolSync(this).attempted()
-        SchoolSyncState.running.value = true
-        SchoolSyncState.details.value = ""
-        SchoolSyncState.message.value = if (silentSync) "正在自动更新今日学校数据…" else "请完成学校登录。"
+        if (autoSync) {
+            if(!intent.getBooleanExtra("noticesOnly", false)) com.tyust.course.academic.DailySchoolSync(this).attempted()
+            SchoolSyncState.running.value = true
+            SchoolSyncState.details.value = ""
+            SchoolSyncState.message.value = if (silentSync) "正在自动更新今日学校数据…" else "请完成学校登录。"
+        }
         // Passwords, MFA and student records must not enter screenshots or recents thumbnails.
         window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         runCatching { saved = com.tyust.course.academic.SchoolImportStore(this).load() }.onFailure { status = "本机记录读取失败，原文件已保留。" }
         val web = WebView(this).apply {
-            alpha = 0f
+            alpha = if (intent.getBooleanExtra("manualRead", false)) 1f else 0f
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.allowFileAccess = false
@@ -127,14 +144,16 @@ class IbarakiPortalActivity : ComponentActivity() {
                     // Hide before the next document paints; returning from SSO must never
                     // flash the university dashboard while we detect its login state.
                     authenticationVisible = false
-                    view.alpha = 0f
+                    view.alpha = if (intent.getBooleanExtra("manualRead", false)) 1f else 0f
                     generation++; reading = false; readable = false
                     if (authenticatedOnce && stepStarted == 0L) stepStarted = android.os.SystemClock.elapsedRealtime()
                     currentHost = android.net.Uri.parse(url).host.orEmpty()
+                    diagnostic("page_start", "schoolPage=${IbarakiPortalPolicy.allowsReading(url)} allowed=${IbarakiPortalPolicy.allowsNavigation(url)}")
                     status = "正在打开学校页面…"
                 }
                 override fun onPageFinished(view: WebView, url: String) {
                     readable = IbarakiPortalPolicy.allowsReading(url)
+                    diagnostic("page_finish")
                     status = if (readable && autoSync) "正在同步学校数据…" else if (readable) "可手动读取当前页。" else "请在学校页面完成登录和验证。"
                     if (!silentSync && !authenticatedOnce && !readable && IbarakiPortalPolicy.allowsNavigation(url)) {
                         authenticationVisible = true
@@ -145,6 +164,7 @@ class IbarakiPortalActivity : ComponentActivity() {
                 override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
                     if (!request.isForMainFrame || !autoSync || isFinishing) return
                     readable = false
+                    diagnostic("network_error", "code=${error.errorCode}")
                     when (error.errorCode) {
                         ERROR_TIMEOUT -> stopSync("学校页面连接超时，请稍后重试。", SchoolSyncFailureKind.TIMEOUT)
                         ERROR_HOST_LOOKUP, ERROR_CONNECT, ERROR_IO -> stopSync("无法连接学校网站，请检查网络连接后重试。", SchoolSyncFailureKind.NETWORK)
@@ -256,9 +276,14 @@ class IbarakiPortalActivity : ComponentActivity() {
         web.evaluateJavascript("""
             (function() {
               if (location.protocol !== 'https:' || location.hostname !== 'csweb.ibaraki.ac.jp' || !location.pathname.startsWith('/campusweb/')) return {text:''};
-              var output=[], count=0, authenticated=false,needsLogin=false;
+              var output=[], count=0, authenticated=false,needsLogin=false,contactConfirmation=false;
               function visit(doc, depth) {
                 if(depth>3 || count>=60000) return;
+                var bodyText=(doc.body && doc.body.textContent || '').replace(/\s+/g,'');
+                var noChange=Array.from(doc.querySelectorAll('button,input[type=submit],input[type=button],a')).some(function(n){
+                  return (n.tagName==='INPUT'?n.value:n.textContent).replace(/\s+/g,'')==='変更なし';
+                });
+                if (noChange && bodyText.includes('本人連絡先') && bodyText.includes('変更する情報を入力し、変更ボタンをクリックしてください。')) contactConfirmation=true;
                 if(Array.from(doc.querySelectorAll('a,button')).some(function(n){return n.textContent.replace(/\s+/g,'')==='ログアウト';})) authenticated=true;
                 if(doc.querySelector('input[type=password]') || Array.from(doc.querySelectorAll('a,button')).some(function(n){return /^(ログイン|Login|Sign in)$/i.test(n.textContent.trim());})) needsLogin=true;
                 doc.querySelectorAll('table').forEach(function(table) {
@@ -279,7 +304,7 @@ class IbarakiPortalActivity : ComponentActivity() {
                 });
               }
               visit(document,0);
-              return {text:output.join('\n\n').slice(0,60000),authenticated:authenticated,needsLogin:needsLogin};
+              return {text:output.join('\n\n').slice(0,60000),authenticated:authenticated,needsLogin:needsLogin,contactConfirmation:contactConfirmation};
             })();
         """.trimIndent()) { result ->
             if (stamp != generation || isDestroyed) return@evaluateJavascript
@@ -289,6 +314,17 @@ class IbarakiPortalActivity : ComponentActivity() {
             if (automatic) {
                 val authenticated = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optBoolean("authenticated") == true }.getOrDefault(false)
                 val needsLogin = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optBoolean("needsLogin") == true }.getOrDefault(false)
+                val contactConfirmation = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optBoolean("contactConfirmation") == true }.getOrDefault(false)
+                if (autoSync && contactConfirmation) {
+                    diagnostic("contact_confirmation_required")
+                    stopSync("学校要求先确认联系方式，课表尚未读取。请打开学校网页核对资料；无需修改时选择「変更なし」，返回后重新更新。", SchoolSyncFailureKind.ACTION_REQUIRED)
+                    return@evaluateJavascript
+                }
+                diagnostic("page_read", "chars=${text.length} authenticated=$authenticated needsLogin=$needsLogin")
+                if (autoSync && authenticatedOnce && needsLogin && !authenticated) {
+                    stopSync("学校登录已过期，请重新登录同步。", SchoolSyncFailureKind.AUTH)
+                    return@evaluateJavascript
+                }
                 authenticationVisible = !silentSync && !authenticatedOnce && !authenticated && needsLogin
                 web.alpha = if (authenticationVisible) 1f else 0f
                 if (autoSync) try { processSync(text, authenticated) }
@@ -352,7 +388,7 @@ class IbarakiPortalActivity : ComponentActivity() {
             }
         }
         val parsed = runCatching { PortalImportParser.parse(text, allowEmptyTimetable = true) }
-            .onFailure { if (syncStep == 0 && text.contains("No. | 科目大区分 |")) parseIssue = it.message.orEmpty() }.getOrNull()
+            .onFailure { if (text.isNotBlank()) diagnostic("parse_miss", "type=${it.javaClass.simpleName}"); if (syncStep == 0 && text.contains("No. | 科目大区分 |")) parseIssue = it.message.orEmpty() }.getOrNull()
         val expected = parsed != null && if (syncStep == 0) parsed.key == "grades" else parsed.key.endsWith("-$target")
         if (expected) {
             val student = Regex("学生番号 \\| ([A-Za-z0-9]+)").find(text)?.groupValues?.get(1)
@@ -380,7 +416,7 @@ class IbarakiPortalActivity : ComponentActivity() {
             }
         }
         if (stepStarted != 0L && now - stepStarted > 35000) {
-            finishSyncStep("$target 未读取成功，保留旧记录" + if (parseIssue.isNotBlank()) "：$parseIssue" else "")
+            finishSyncStep("$target 未读取成功：查询超时，保留旧记录" + if (parseIssue.isNotBlank()) "：$parseIssue" else "")
             return
         }
         if (now - lastNavigation < 5000) return
@@ -390,24 +426,21 @@ class IbarakiPortalActivity : ComponentActivity() {
             .replace("__TARGET__", JSONObject.quote(target))
         web.evaluateJavascript(script) { clicked ->
             if (!autoSync || isDestroyed) return@evaluateJavascript
+            diagnostic("navigation", "target=$target clicked=${clicked == "true"}")
             if (clicked == "true" && stepStarted == 0L) stepStarted = android.os.SystemClock.elapsedRealtime()
             if (stamp == generation) status = "正在同步 $target；请等待查询完成。"
         }
     }
 
     private fun finishSyncStep(message: String) {
+        diagnostic("step_end", "failed=${message.contains("未读取成功")} kind=${com.tyust.course.academic.SchoolSyncFailures.classify(message)}")
         if (message.contains("未读取成功")) com.tyust.course.academic.SchoolSyncFailures.report(
             com.tyust.course.academic.SchoolSyncFailures.part(syncStep, intent.hasExtra("syllabusCode")), message)
         syncResults += message
         syncStep = if ((syncStep == 0 && intent.getBooleanExtra("gradesOnly", false)) ||
             (syncStep == 6 && (intent.getBooleanExtra("noticesOnly", false) || intent.hasExtra("syllabusCode")))) 9
             else if(syncStep == -1 && intent.getBooleanExtra("noticesOnly", false)) 6 else syncStep + 1
-        // Use the device date and published holiday intervals, not the selected calendar month.
-        if (syncStep == 5) com.tyust.course.academic.SchoolHolidays.classroomReason(
-            com.tyust.course.academic.SchoolHolidays.phoneDate())?.let {
-            syncResults += it
-            syncStep = 6
-        }
+        // Publication can happen during holidays. Always query the school calendar.
         SchoolSyncState.details.value = syncResults.joinToString("；\n")
         parseIssue = ""
         stepStarted = android.os.SystemClock.elapsedRealtime(); lastNavigation = 0
@@ -493,9 +526,6 @@ class IbarakiPortalActivity : ComponentActivity() {
     }
 
     private fun readClassrooms() {
-        com.tyust.course.academic.SchoolHolidays.classroomReason(com.tyust.course.academic.SchoolHolidays.phoneDate())?.let {
-            finishSyncStep(it); return
-        }
         val web = browser ?: return
         if(stepStarted == 0L) stepStarted = android.os.SystemClock.elapsedRealtime()
         if(android.os.SystemClock.elapsedRealtime()-stepStarted>35000) { finishSyncStep("教室未读取成功：读取超时，已保留旧记录"); return }
@@ -506,12 +536,26 @@ class IbarakiPortalActivity : ComponentActivity() {
             val json = runCatching { JSONTokener(value).nextValue() as? JSONObject }.getOrNull() ?: return@evaluateJavascript
             if(!json.optBoolean("ready")) return@evaluateJavascript
             val rows = json.optJSONArray("rows") ?: JSONArray()
+            val published = json.optJSONArray("events") ?: JSONArray()
+            val meetings = (0 until published.length()).mapNotNull { i -> runCatching {
+                val row = published.getJSONObject(i)
+                com.tyust.course.academic.SchoolLiveMeeting(row.getString("name"), row.getString("date"), row.getInt("period"))
+            }.getOrNull() }
             val readings = (0 until rows.length()).mapNotNull { i -> runCatching { val r=rows.getJSONObject(i)
-                com.tyust.course.academic.SchoolClassroomReading(r.getString("code"),r.getString("date"),r.getInt("period"),r.getString("room")) }.getOrNull() }
-            val updates = com.tyust.course.academic.SchoolClassroomMatch.updates(ownerKey, saved, readings, SchoolSyncState.profile.value)
+                com.tyust.course.academic.SchoolClassroomReading(r.optString("code"),r.getString("date"),r.getInt("period"),r.getString("room"),r.optString("name")) }.getOrNull() }
+            val liveSources = com.tyust.course.academic.SchoolLiveCalendar.sources(ownerKey, saved, meetings)
+            val liveRooms = readings.filter { it.name.isNotBlank() }.mapNotNull { reading ->
+                liveSources.singleOrNull { source -> source.event.date == reading.date && source.event.lesson.period == reading.period &&
+                    com.tyust.course.academic.SchoolLiveCalendar.matchesName(source.event.lesson.description, reading.name)
+                }?.let { source -> com.tyust.course.academic.SchoolClassroomMatch.key(source.key, source.event.lesson.description.substringBefore(' '), reading.date, reading.period) to reading.room }
+            }.groupBy({ it.first }, { it.second }).mapNotNull { (key, rooms) -> rooms.distinct().singleOrNull()?.let { key to it } }.toMap()
+            val updates = com.tyust.course.academic.SchoolClassroomMatch.updates(ownerKey, saved, readings, SchoolSyncState.profile.value) + liveRooms
+            diagnostic("classrooms_read", "rows=${readings.size} matched=${updates.size}")
+            if (liveSources.isNotEmpty()) runCatching { com.tyust.course.academic.SchoolLiveCalendarStore(this, ownerKey).merge(meetings) }
+                .onFailure { diagnostic("live_calendar_save_failed", "type=${it.javaClass.simpleName}") }
             if(updates.isEmpty()) { finishSyncStep("教室暂无可核实的新数据，保留旧记录"); return@evaluateJavascript }
             runCatching { com.tyust.course.academic.SchoolClassroomStore(this).merge(updates) }
-                .onSuccess { finishSyncStep("教室已更新 ${updates.size} 条") }
+                .onSuccess { finishSyncStep("教室已更新 ${updates.keys.map { it.split('/').takeLast(3) }.distinct().size} 条") }
                 .onFailure { stopSync("教室保存失败，原记录已保留。") }
         }
     }
@@ -585,6 +629,6 @@ class IbarakiPortalActivity : ComponentActivity() {
         }
     }
 
-    private fun stopSync(message: String, kind: SchoolSyncFailureKind = com.tyust.course.academic.SchoolSyncFailures.classify(message)) { com.tyust.course.academic.SchoolSyncFailures.report(com.tyust.course.academic.SchoolSyncFailures.part(syncStep, intent.hasExtra("syllabusCode")), message, kind); autoSync = false; generation++; reading = false; syncHandler.removeCallbacksAndMessages(null); status = message; SchoolSyncState.running.value = false; SchoolSyncState.message.value = message; SchoolSyncState.details.value = (syncResults + message).joinToString("；\n"); if(backgroundSync || returnedHome || !intent.getBooleanExtra("manualRead", false)) finish() }
-    override fun onDestroy() { if (!ownsSync) { super.onDestroy(); return }; syncActive = false; if(autoSync) { SchoolSyncState.running.value = false; SchoolSyncState.message.value = "同步已停止，可点击学校登录重试。" }; syncHandler.removeCallbacksAndMessages(null); generation++; browser?.apply { stopLoading(); destroy() }; browser = null; super.onDestroy() }
+    private fun stopSync(message: String, kind: SchoolSyncFailureKind = com.tyust.course.academic.SchoolSyncFailures.classify(message)) { diagnostic("sync_stop", "kind=$kind"); com.tyust.course.academic.SchoolSyncFailures.report(com.tyust.course.academic.SchoolSyncFailures.part(syncStep, intent.hasExtra("syllabusCode")), message, kind); autoSync = false; generation++; reading = false; syncHandler.removeCallbacksAndMessages(null); status = message; SchoolSyncState.running.value = false; SchoolSyncState.message.value = message; SchoolSyncState.details.value = syncResults.joinToString("；\n"); if(backgroundSync || returnedHome || !intent.getBooleanExtra("manualRead", false)) finish() }
+    override fun onDestroy() { if (!ownsSync) { super.onDestroy(); return }; diagnostic("destroy", "unfinished=$autoSync"); syncActive = false; if(autoSync) { SchoolSyncState.running.value = false; SchoolSyncState.message.value = "同步已停止，可点击学校登录重试。" }; syncHandler.removeCallbacksAndMessages(null); generation++; browser?.apply { stopLoading(); destroy() }; browser = null; super.onDestroy() }
 }

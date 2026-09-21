@@ -8,6 +8,7 @@ import com.tyust.course.ui.system.GlassRuntimeGuard
 class CourseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
+        com.tyust.course.utils.SyncDiagnostics.initialize(this)
         com.tyust.course.academic.SchoolOpenSync.install(this)
         com.tyust.course.i18n.AppLanguage.initialize(this)
         GlassRuntimeGuard.initialize(this)

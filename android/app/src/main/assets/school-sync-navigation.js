@@ -40,7 +40,9 @@
   }
   if (/^Q[1-4]$/.test(target)) {
     if (clickExact(target.substring(1) + 'クォーター')) return true;
-    return clickExact('履修登録・登録状況照会');
+    // The school's navigation menu may be collapsed after returning from grades.
+    // Match the same exact read-only module label used by the visible menu.
+    return clickExact('履修登録・登録状況照会', true);
   }
   return false;
 })();

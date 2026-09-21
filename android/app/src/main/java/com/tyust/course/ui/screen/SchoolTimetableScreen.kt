@@ -61,7 +61,9 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
     val personalStore = remember(context) { PersonalCalendarStore(context) }
     val classroomStore = remember(context) { SchoolClassroomStore(context) }
     var classrooms by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
+    var liveMeetings by remember { mutableStateOf<List<SchoolLiveMeeting>>(emptyList()) }
     var schoolDescription by remember { mutableStateOf<String?>(null) }
+    var schoolVenue by remember { mutableStateOf("") }
     var roomText by remember { mutableStateOf("") }
     var roomError by remember { mutableStateOf<String?>(null) }
     DisposableEffect(context) {
@@ -76,6 +78,7 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
             personal = withContext(Dispatchers.IO) { personalStore.load() }
             personalReady = true
             classrooms = withContext(Dispatchers.IO) { classroomStore.load() }
+            liveMeetings = withContext(Dispatchers.IO) { profile?.let { SchoolLiveCalendarStore(context, UniversityCurricula.owner(it)).load() }.orEmpty() }
             snapshots = withContext(Dispatchers.IO) { SchoolImportStore(context).load().filter { it.key.substringAfterLast('/').startsWith("timetable-") && profile?.let { p -> UniversityCurricula.profileMatches(p, it.key) } == true } }
             if (selected.isNotEmpty() && profile?.let { UniversityCurricula.profileMatches(it, selected) } != true) selected = ""
             if (selected.isEmpty()) {
@@ -96,7 +99,8 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
     val quarter = selected.substringAfterLast('Q').toIntOrNull()?.coerceIn(1, 4) ?: 1
     val calendarResult = remember(item, profile) { item?.let { SchoolAcademicCalendar.resolve(it, profile) } ?: SchoolAcademicCalendar.Resolution(emptyList(), emptyList()) }
     // A displayed week/month may straddle terms. Resolve every saved term for this student.
-    val sourcedEvents = remember(snapshots,profile) { SchoolCalendarNavigation.merge(snapshots.sortedByDescending {it.syncedAt}.flatMap { snapshot ->
+    val sourcedEvents = remember(snapshots,profile,liveMeetings) { SchoolCalendarNavigation.merge(
+        SchoolLiveCalendar.sources(profile?.let { UniversityCurricula.owner(it) }.orEmpty(), snapshots, liveMeetings) + snapshots.sortedByDescending {it.syncedAt}.flatMap { snapshot ->
         SchoolAcademicCalendar.resolve(snapshot,profile).events.map {SchoolCalendarNavigation.Source(snapshot.key,it)}
     }) }
     val events = remember(sourcedEvents) {sourcedEvents.map {it.event}}
@@ -268,7 +272,7 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
                     }
                 }
             }, confirmButton = { TextButton(onClick = { showCalendarIssues = false }) { Text("关闭") } })
-            if (academicYear != 2026) Text("该学年度校历尚待核对，暂仅显示本机安排。", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
+            if (academicYear != 2026) Text("完整学年度校历尚待核对；已公布的学校日程按实际日期显示，未公布的日期不推算。", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
             run {
             when (tab) {
                 0 -> key(selected) { Column(Modifier.weight(1f)) {
@@ -282,6 +286,7 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
                         onCourseClick = { course -> if (course.id.startsWith("personal:")) editPersonal(course.id) else {
                             val row = model.courses.find { "$selected/${it.description}/${it.day}/${it.period}/${it.location}" == course.id }
                             schoolDescription = row?.description
+                            schoolVenue = row?.location.orEmpty()
                             roomText = row?.let { classrooms[roomKey(it.description)] }.orEmpty(); roomError = null
                         } },
                         onExportClick = ::export)
@@ -334,6 +339,7 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
     schoolDescription?.let { description -> AlertDialog(onDismissRequest = { schoolDescription = null }, title = { Text("学校课程") }, text = {
         Column {
             RawText(description)
+            if (schoolVenue.isNotBlank()) RawText(schoolVenue, Modifier.padding(top = 12.dp))
             val source=sourceKey(description)
             val delivery=deliveries["$source/${description.substringBefore(' ')}"].orEmpty()
             val venue=SchoolCourseVenue.label(source, description,roomText,delivery)

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 enum class SchoolSyncFailureKind(val label: String, val feedback: Boolean = false) {
     NETWORK("网络连接失败"), TIMEOUT("读取超时"), AUTH("学校登录已过期"),
+    ACTION_REQUIRED("学校要求确认资料"),
     DATA("数据读取或校验失败", true), STORAGE("本机保存失败"),
     PROGRAM("程序异常", true), SECURITY("学校网站证书异常"),
     RESOURCE("系统释放了网页进程"), UNKNOWN("未能确认失败原因", true)

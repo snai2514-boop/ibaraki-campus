@@ -43,25 +43,8 @@ object FeedbackManager {
             val studentName = UserManager.getInstance().studentName ?: "未知用户"
             val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "1.0.0"
 
-            // 根据开关自动读取最新日志 (直接从 logcat 获取)
             val logs = if (includeLogs) {
-                var output = "[App Context Log Capture Header]\n"
-                try {
-                    val pid = android.os.Process.myPid()
-                    // 简化命令，不使用 -v time 尝试兼容性
-                    val process = Runtime.getRuntime().exec("logcat -d --pid=$pid")
-                    val logcatText = process.inputStream.bufferedReader().use { it.readText() }
-                    output += if (logcatText.isNotBlank()) {
-                        logcatText.takeLast(15000)
-                    } else {
-                        "Warning: Logcat output is empty.\n"
-                    }
-                } catch (e: Exception) {
-                    val errorMsg = "Error capturing logs: ${e.message}\n${Log.getStackTraceString(e)}"
-                    Log.e(TAG, errorMsg)
-                    output += errorMsg
-                }
-                output
+                com.tyust.course.utils.SyncDiagnostics.snapshot().takeLast(15000)
             } else null
 
             val json = JSONObject().apply {

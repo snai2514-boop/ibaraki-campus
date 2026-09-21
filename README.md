@@ -65,15 +65,21 @@ Contact: **YIN · [snai2514@gmail.com](mailto:snai2514@gmail.com)**
 
 任意浅深色配色、页面与卡片背景、独立弹窗颜色、内置桌面图标和 PNG 启动动画。Custom light/dark colors, backgrounds, dialog colors, bundled icons and PNG startup animations. 配色・背景・ダイアログ・内蔵アイコン・起動アニメーションを変更できます。
 
+## Android 1.0.83
+
+修复学校资料确认页导致的同步误报、教室读取超时；保存可离线导出的同步诊断，按学校公布日期读取日历，缩短周历中的教室名称并保留完整地点详情。线上授课标记不会被实体教室覆盖。
+
+Android update: more reliable school synchronization, persistent exportable diagnostics, published calendar dates, and compact classroom labels with full details. iOS remains at 1.0.82; these Android fixes are not included in that IPA.
+
 ## Downloads
 
 | ダウンロード / 下载 / Download | 直リンク / 直达链接 / Direct link |
 | --- | --- |
-| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.82.apk](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.82/CampusAssistant-Android-1.0.82.apk) |
+| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.83.apk](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.83/CampusAssistant-Android-1.0.83.apk) |
 | iPhone / iPad · iOS 16+ · 未署名 / 未签名 / unsigned | [CampusAssistant-1.0.82-unsigned.ipa](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.82/CampusAssistant-1.0.82-unsigned.ipa) |
-| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.82-source.zip](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.82/CampusAssistant-1.0.82-source.zip) |
+| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.83-source.zip](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.83/CampusAssistant-1.0.83-source.zip) |
 | 最新ソース / 最新源码 / latest source | [ZIP](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip) · [Android](android/) · [iOS](CampusAssistant/) |
-| 配布一覧 / 发布页 / release page | [v1.0.82](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.82) |
+| 配布一覧 / 发布页 / release page | [v1.0.83](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.83) |
 
 ## Preview / 功能预览 / プレビュー
 
@@ -114,3 +120,4 @@ Visit `http://127.0.0.1:8765/?preview=1`. All preview records are fictional; thi
 School credentials, sessions, personal grades, student records, device logs, signing keys and local Git history are excluded from this repository and source packages. The maintainer explicitly chose to publish the contact email above. Course classifications are from public university materials; mock records are fictional. See [DATA-SOURCES.md](DATA-SOURCES.md) and [VALIDATION.md](VALIDATION.md).
 
 GPL-3.0. Android is based on [znjhahaha/zhengfang-apk](https://github.com/znjhahaha/zhengfang-apk); original attribution remains in [NOTICE.md](NOTICE.md) and [LICENSE](LICENSE). University materials and third-party dependencies retain their respective rights.
+
