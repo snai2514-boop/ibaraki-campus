@@ -3,13 +3,13 @@ package com.tyust.course.academic
 import java.math.BigDecimal
 
 data class PortalGrade(val name: String, val credits: BigDecimal, val score: Int?, val grade: String, val passed: Boolean, val year: String, val term: String, val category: String)
-data class PortalLesson(val day: Int, val period: Int, val description: String)
+data class PortalLesson(val day: Int, val period: Int, val description: String, val courseName: String = "")
 data class PortalImport(val key: String, val title: String, val cards: List<String>,
     val grades: List<PortalGrade> = emptyList(), val lessons: List<PortalLesson> = emptyList(), val syncedAt: Long = 0)
 
 /** Parse only the two observed school layouts; ambiguous pages never replace stored data. */
 object PortalImportParser {
-    fun parse(text: String, allowEmptyTimetable: Boolean = false): PortalImport {
+    fun parse(text: String, allowEmptyTimetable: Boolean = false, courseNames: Map<String, String> = emptyMap()): PortalImport {
         val lines = text.lines().map(String::trim)
         val gradeHeader = lines.indexOfFirst { it.startsWith("No. | 科目大区分 |") }
         if (gradeHeader >= 0) {
@@ -53,7 +53,10 @@ object PortalImportParser {
             cells.forEachIndexed { day, cell ->
                 if (cell != "未登録") {
                     require(Regex("^[A-Z][A-Za-z0-9]+(?:-[A-Za-z0-9]+)* .+ [0-9.]+単位$").matches(cell)) { "存在未识别课程，未保存" }
-                    lessons += PortalLesson(day + 1, period, cell)
+                    val exactName=courseNames[cell.substringBefore(' ')]?.takeIf {name ->
+                        name.isNotBlank() && cell.substringAfter(' ').startsWith("$name ")
+                    }.orEmpty()
+                    lessons += PortalLesson(day + 1, period, cell, exactName)
                 }
             }
         }

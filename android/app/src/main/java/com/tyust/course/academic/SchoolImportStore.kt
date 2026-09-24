@@ -29,7 +29,7 @@ class SchoolImportStore(context: Context) {
                         v.getString("grade"), v.getBoolean("passed"), v.getString("year"), v.getString("term"), v.getString("category"))
                 }, lessons = (0 until l.length()).map { index ->
                     val v = l.getJSONObject(index)
-                    PortalLesson(v.getInt("day"), v.getInt("period"), v.getString("description"))
+                    PortalLesson(v.getInt("day"), v.getInt("period"), v.getString("description"), v.optString("courseName"))
                 })
             }
         }
@@ -45,7 +45,7 @@ class SchoolImportStore(context: Context) {
                 .put("score", g.score ?: JSONObject.NULL).put("grade", g.grade).put("passed", g.passed)
                 .put("year", g.year).put("term", g.term).put("category", g.category)) }
             val lessons = JSONArray()
-            row.lessons.forEach { l -> lessons.put(JSONObject().put("day", l.day).put("period", l.period).put("description", l.description)) }
+            row.lessons.forEach { l -> lessons.put(JSONObject().put("day", l.day).put("period", l.period).put("description", l.description).put("courseName", l.courseName)) }
             array.put(JSONObject().put("key", row.key).put("title", row.title).put("cards", JSONArray(row.cards))
                 .put("schema", 2).put("syncedAt", row.syncedAt).put("grades", grades).put("lessons", lessons))
         }

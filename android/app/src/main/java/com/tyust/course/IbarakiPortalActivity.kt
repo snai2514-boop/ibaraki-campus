@@ -278,7 +278,7 @@ class IbarakiPortalActivity : ComponentActivity() {
         web.evaluateJavascript("""
             (function() {
               if (location.protocol !== 'https:' || location.hostname !== 'csweb.ibaraki.ac.jp' || !location.pathname.startsWith('/campusweb/')) return {text:''};
-              var output=[], count=0, authenticated=false,needsLogin=false,contactConfirmation=false;
+              var output=[], timetableNames=[], count=0, authenticated=false,needsLogin=false,contactConfirmation=false;
               function visit(doc, depth) {
                 if(depth>3 || count>=60000) return;
                 var bodyText=(doc.body && doc.body.textContent || '').replace(/\s+/g,'');
@@ -288,6 +288,13 @@ class IbarakiPortalActivity : ComponentActivity() {
                 if (noChange && bodyText.includes('本人連絡先') && bodyText.includes('変更する情報を入力し、変更ボタンをクリックしてください。')) contactConfirmation=true;
                 if(Array.from(doc.querySelectorAll('a,button')).some(function(n){return n.textContent.replace(/\s+/g,'')==='ログアウト';})) authenticated=true;
                 if(doc.querySelector('input[type=password]') || Array.from(doc.querySelectorAll('a,button')).some(function(n){return /^(ログイン|Login|Sign in)$/i.test(n.textContent.trim());})) needsLogin=true;
+                doc.querySelectorAll('table.rishu-koma-inner').forEach(function(table) {
+                  if(!table.getClientRects().length) return;
+                  var lines=(table.innerText||'').split(/\r?\n/).map(function(v){return v.replace(/\s+/g,' ').trim();}).filter(Boolean);
+                  if(lines.length>=3 && /^[A-Za-z0-9_-]{3,30}$/.test(lines[0]) && lines[1].length<=300 &&
+                     lines.some(function(v){return /^[0-9.]+単位$/.test(v);}))
+                    timetableNames.push({code:lines[0],name:lines[1]});
+                });
                 doc.querySelectorAll('table').forEach(function(table) {
                   if(count>=60000 || !table.getClientRects().length) return;
                   var rows=[];
@@ -306,13 +313,18 @@ class IbarakiPortalActivity : ComponentActivity() {
                 });
               }
               visit(document,0);
-              return {text:output.join('\n\n').slice(0,60000),authenticated:authenticated,needsLogin:needsLogin,contactConfirmation:contactConfirmation};
+              return {text:output.join('\n\n').slice(0,60000),timetableNames:timetableNames,authenticated:authenticated,needsLogin:needsLogin,contactConfirmation:contactConfirmation};
             })();
         """.trimIndent()) { result ->
             if (stamp != generation || isDestroyed) return@evaluateJavascript
             reading = false
             if (!IbarakiPortalPolicy.allowsReading(web.url.orEmpty())) return@evaluateJavascript
             val text = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optString("text").orEmpty() }.getOrDefault("")
+            val courseNames=runCatching {
+                val rows=(JSONTokener(result).nextValue() as? JSONObject)?.optJSONArray("timetableNames") ?: JSONArray()
+                (0 until rows.length()).map {rows.getJSONObject(it)}.groupBy {it.getString("code")}
+                    .mapNotNull { (code, values) -> values.map {it.getString("name")}.distinct().singleOrNull()?.let {code to it} }.toMap()
+            }.getOrDefault(emptyMap())
             if (automatic) {
                 val authenticated = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optBoolean("authenticated") == true }.getOrDefault(false)
                 val needsLogin = runCatching { (JSONTokener(result).nextValue() as? JSONObject)?.optBoolean("needsLogin") == true }.getOrDefault(false)
@@ -329,7 +341,7 @@ class IbarakiPortalActivity : ComponentActivity() {
                 }
                 authenticationVisible = !silentSync && !authenticatedOnce && !authenticated && needsLogin
                 web.alpha = if (authenticationVisible) 1f else 0f
-                if (autoSync) try { processSync(text, authenticated) }
+                if (autoSync) try { processSync(text, authenticated, courseNames) }
                 catch (e: Exception) { stopSync("读取程序发生异常（${e.javaClass.simpleName}），请联系反馈。", SchoolSyncFailureKind.PROGRAM) }
                 return@evaluateJavascript
             }
@@ -339,7 +351,7 @@ class IbarakiPortalActivity : ComponentActivity() {
                 runCatching {
                     val student = Regex("学生番号 \\| ([A-Za-z0-9]+)").find(text)?.groupValues?.get(1) ?: error("无法确认学校账户，未保存")
                     ownerKey = java.security.MessageDigest.getInstance("SHA-256").digest(student.toByteArray()).joinToString("") { "%02x".format(it) }
-                    val parsed = PortalImportParser.parse(text)
+                    val parsed = PortalImportParser.parse(text, courseNames=courseNames)
                     candidate = parsed.copy(key = "$ownerKey/${parsed.key}")
                     preview = parsed.title + "\n\n" + parsed.cards.joinToString("\n\n")
                     status = "已完成解析，请检查后保存。相同账户、相同学季再次保存会更新该快照。"
@@ -357,7 +369,7 @@ class IbarakiPortalActivity : ComponentActivity() {
         }.onFailure { status = "保存失败，原有记录已保留，请重试。" }
     }
 
-    private fun processSync(text: String, authenticated: Boolean) {
+    private fun processSync(text: String, authenticated: Boolean, courseNames: Map<String,String>) {
         val web = browser ?: return
         val target = if (syncStep == -1) "profile" else if (syncStep == 0) "grades" else "Q$syncStep"
         val now = android.os.SystemClock.elapsedRealtime()
@@ -389,7 +401,7 @@ class IbarakiPortalActivity : ComponentActivity() {
                 return
             }
         }
-        val parsed = runCatching { PortalImportParser.parse(text, allowEmptyTimetable = true) }
+        val parsed = runCatching { PortalImportParser.parse(text, allowEmptyTimetable = true, courseNames=courseNames) }
             .onFailure {
                 if (text.isNotBlank()) diagnostic("parse_miss", "type=${it.javaClass.simpleName}")
                 val targetPage = if (syncStep == 0) text.contains("No. | 科目大区分 |")
@@ -553,7 +565,7 @@ class IbarakiPortalActivity : ComponentActivity() {
             val liveSources = com.tyust.course.academic.SchoolLiveCalendar.sources(ownerKey, saved, meetings)
             val liveRooms = readings.filter { it.name.isNotBlank() }.mapNotNull { reading ->
                 liveSources.singleOrNull { source -> source.event.date == reading.date && source.event.lesson.period == reading.period &&
-                    com.tyust.course.academic.SchoolLiveCalendar.matchesName(source.event.lesson.description, reading.name)
+                    com.tyust.course.academic.SchoolLiveCalendar.matchesLesson(source.event.lesson, reading.name)
                 }?.let { source -> com.tyust.course.academic.SchoolClassroomMatch.key(source.key, source.event.lesson.description.substringBefore(' '), reading.date, reading.period) to reading.room }
             }.groupBy({ it.first }, { it.second }).mapNotNull { (key, rooms) -> rooms.distinct().singleOrNull()?.let { key to it } }.toMap()
             val updates = com.tyust.course.academic.SchoolClassroomMatch.updates(ownerKey, saved, readings, SchoolSyncState.profile.value) + liveRooms

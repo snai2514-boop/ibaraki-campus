@@ -13,7 +13,7 @@ object SchoolClassroomMatch {
                 val matches = scoped.flatMap { (snapshot, events) -> events.filter {
                     it.date == r.date && it.lesson.period == r.period &&
                         if (r.code.isNotBlank()) it.lesson.description.substringBefore(' ') == r.code
-                        else SchoolLiveCalendar.matchesName(it.lesson.description, r.name)
+                        else SchoolLiveCalendar.matchesLesson(it.lesson, r.name)
                 }.map { key(snapshot.key, it.lesson.description.substringBefore(' '), r.date, r.period) } }.distinct()
                 // Never choose arbitrarily between courses with the same name and slot.
                 if (matches.size == 1) candidates += matches.single() to r.room

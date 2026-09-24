@@ -50,6 +50,9 @@ fun RegistrationWeekScreen(snapshot: RegistrationSnapshot?, selected: Set<String
             Text(status,maxLines=2,overflow=TextOverflow.Ellipsis,fontSize=12.sp)
         }
         if(native) Text("可跨时间格多选课程，确认一次，全部提交后自动统一查询结果。",fontSize=12.sp,modifier=Modifier.padding(vertical=4.dp))
+        snapshot?.remainingCredits?.takeIf {native && it.toBigDecimalOrNull()?.signum()?.let {n -> n>=0}==true}?.let {
+            Text("学校当前还可登记 $it 学分",fontSize=12.sp,modifier=Modifier.padding(bottom=4.dp))
+        }
         Row(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant)) {
             Spacer(Modifier.width(40.dp))
             (1..5).forEach {Text("星期${"一二三四五"[it-1]}",Modifier.weight(1f).padding(vertical=12.dp),textAlign=TextAlign.Center,fontSize=13.sp)}

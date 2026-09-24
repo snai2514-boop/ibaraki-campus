@@ -37,6 +37,12 @@ class PortalImportParserTest {
         assertEquals("timetable-2026-Q2", result.key)
         assertTrue(result.cards.last().startsWith("星期三 · 第 2 限"))
     }
+    @Test fun exactDomCourseNameIsKeptSeparatelyAndUnrelatedMetadataIsIgnored() {
+        val lesson=PortalImportParser.parse(timetable(),courseNames=mapOf("T5005" to "テスト講義")).lessons.single()
+        assertEquals("テスト講義",lesson.courseName)
+        assertTrue(lesson.description.contains("教員"))
+        assertTrue(PortalImportParser.parse(timetable(),courseNames=mapOf("T5005" to "別の講義")).lessons.single().courseName.isEmpty())
+    }
     @Test fun officialClassSuffixesArePreservedAcrossDepartments() {
         for (code in listOf("T1018-A", "T5008-e", "T1066-H32B", "LA0001", "AN1003")) {
             assertTrue(PortalImportParser.parse(timetable().replace("T5005",code)).lessons.single().description.startsWith("$code "))

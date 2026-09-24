@@ -32,7 +32,7 @@ class RegistrationBatchTest {
         val state=courses.fold(batch()) {b,c -> b.send(c.id)}.verify(setOf("C1","C3"))
         assertEquals(3,state.sentIds.size)
         assertEquals(setOf(courses[0].id,courses[2].id),state.confirmedIds)
-        assertTrue(state.report("统一结果").contains("学校课表未显示登记：课程2"))
+        assertTrue(state.report("统一结果").contains("未登记（学校课表未显示）：课程2"))
         assertFalse(state.report("统一结果").contains("未发送"))
     }
 
@@ -70,6 +70,19 @@ class RegistrationBatchTest {
         assertFalse(state.report("查询超时").contains("已登记"))
         val result=state.verify(emptySet()).verify(setOf("C1"))
         assertEquals(setOf(courses[0].id),result.confirmedIds)
+    }
+
+    @Test fun finalRefusalShowsCompletedOutcomeSchoolReasonAndQuota() {
+        val sent=batch().send(courses[0].id).recordFeedback(courses[0].id,"履修登録可能単位数を超えています")
+        val recovered=RegistrationBatch.recover(sent.courses,sent.attemptedIds,sent.sentIds,sent.feedback)
+        val report=recovered.verify(emptySet()).report("学校查询结果","1.0")
+        assertTrue(report.contains("查询已完成：0 门已登记，1 门未登记"))
+        assertTrue(report.contains("学校当前还可登记 1.0 学分"))
+        assertTrue(report.contains("学校反馈：履修登録可能単位数を超えています"))
+        assertFalse(report.contains("等待统一查询"))
+        assertFalse(report.contains("已发送"))
+        assertFalse(recovered.verify(setOf("C1")).report("完成").contains("学校反馈"))
+        assertFalse(recovered.verify(emptySet()).report("完成").contains("还可登记"))
     }
 
     @Test fun malformedRecoveryCannotInventAttempts() {

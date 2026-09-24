@@ -8,7 +8,7 @@ function read(bodyText, labels, password = false) {
   const document = {
     body: { textContent: bodyText },
     querySelector: () => password ? {} : null,
-    querySelectorAll: selector => selector === 'table' || selector === 'iframe,frame' ? [] : controls
+    querySelectorAll: selector => selector === 'table' || selector === 'table.rishu-koma-inner' || selector === 'iframe,frame' ? [] : controls
   };
   return vm.runInNewContext(script, { document, location: {
     protocol: 'https:', hostname: 'csweb.ibaraki.ac.jp', pathname: '/campusweb/'
@@ -22,3 +22,13 @@ assert.equal(read(prompt, ['変更なし', 'ログアウト']).authenticated, tr
 assert.equal(read('', ['ログイン'], true).needsLogin, true);
 assert.equal(read(prompt + ' confidential', ['変更なし']).text, '');
 console.log('6 school page detection checks passed');
+
+{
+ const table={innerText:'T5009\n確率・統計【情報】\nTeacher Name\n2.0単位\n追加登録',getClientRects:()=>[{}]};
+ const doc={body:{textContent:'課表'},querySelector:()=>null,querySelectorAll:q=>q==='table.rishu-koma-inner'?[table]:[]};
+ const result=vm.runInNewContext(script,{document:doc,location:{protocol:'https:',hostname:'csweb.ibaraki.ac.jp',pathname:'/campusweb/'}});
+ assert.deepEqual(JSON.parse(JSON.stringify(result.timetableNames)),[{code:'T5009',name:'確率・統計【情報】'}]);
+ table.innerText='未登録';
+ assert.equal(vm.runInNewContext(script,{document:doc,location:{protocol:'https:',hostname:'csweb.ibaraki.ac.jp',pathname:'/campusweb/'}}).timetableNames.length,0);
+ console.log('Exact timetable title lines preserved without instructor/action text');
+}

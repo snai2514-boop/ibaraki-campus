@@ -47,3 +47,10 @@ console.log('6 live calendar name/venue checks passed');
  assert.equal(clicks,1);
  console.log('Repeated calendar navigation is suppressed');
 }
+
+for(const [period,name,room] of [[1,'確率・統計【情報】','Ｄ１０２'],[2,'線形代数Ⅱ【情報】','Ｄ１０１'],[4,'システム基礎Ⅰ【情報】','Ｄ１０２']]) {
+ const row=run(`${period}限: ${name} @教育：Ｄ棟-${room}教室`).value.rows[0];
+ assert.equal(row.name,name.normalize('NFKC'));assert.equal(row.period,period);
+ assert.equal(row.room,`教育:D棟-${room.normalize('NFKC')}教室`);
+}
+console.log('Engineering D-building classroom examples are preserved');

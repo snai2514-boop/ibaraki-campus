@@ -64,6 +64,7 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
     var liveMeetings by remember { mutableStateOf<List<SchoolLiveMeeting>>(emptyList()) }
     var schoolDescription by remember { mutableStateOf<String?>(null) }
     var schoolVenue by remember { mutableStateOf("") }
+    var schoolPublishedRoom by remember { mutableStateOf("") }
     var roomText by remember { mutableStateOf("") }
     var roomError by remember { mutableStateOf<String?>(null) }
     DisposableEffect(context) {
@@ -111,6 +112,12 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
         val year=Regex("timetable-(\\d{4})-").find(source.key)?.groupValues?.get(1)?.toIntOrNull() ?: academicYear
         "${source.key}/$code" to deliveryStore?.load(year,code).orEmpty()
     } }
+    fun publishedRoom(event: SchoolCalendarEvent): String {
+        val source=eventSources[event] ?: selected
+        val code=event.lesson.description.substringBefore(' ')
+        return classrooms[SchoolClassroomMatch.key(source,code,event.date,event.lesson.period)]
+            ?: classrooms["$source/$code"].orEmpty()
+    }
     val termModel = remember(selected, events, classrooms, deliveries) { SchoolTermView(quarter, events, academicYear) { event ->
         val code = event.lesson.description.substringBefore(' ')
         val source=eventSources[event] ?: selected
@@ -287,6 +294,9 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
                             val row = model.courses.find { "$selected/${it.description}/${it.day}/${it.period}/${it.location}" == course.id }
                             schoolDescription = row?.description
                             schoolVenue = row?.location.orEmpty()
+                            schoolPublishedRoom=row?.let {r -> events.singleOrNull {e ->
+                                e.date==model.date(week,r.day) && e.lesson.period==r.period && e.lesson.description==r.description
+                            }?.let(::publishedRoom)}.orEmpty()
                             roomText = row?.let { classrooms[roomKey(it.description)] }.orEmpty(); roomError = null
                         } },
                         onExportClick = ::export)
@@ -311,6 +321,8 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
                         Text("第 ${event.lesson.period} 限 · ${IbarakiTimetable.periodTimes[event.lesson.period]?.first}")
                         RawText(event.lesson.description)
                         Text(model.venue(event))
+                        if(model.venue(event).startsWith("线上") && publishedRoom(event).isNotBlank())
+                            Text("学校登记教室：${publishedRoom(event)}（不代表面授，请按授课通知）",style=MaterialTheme.typography.bodySmall)
                         if (event.examPossible) Text("考试可能日，以教师通知为准", style = MaterialTheme.typography.bodySmall)
                     } } }
                 }
@@ -340,6 +352,8 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
         Column {
             RawText(description)
             if (schoolVenue.isNotBlank()) RawText(schoolVenue, Modifier.padding(top = 12.dp))
+            if(schoolVenue.startsWith("线上") && schoolPublishedRoom.isNotBlank())
+                Text("学校登记教室：$schoolPublishedRoom（不代表面授，请按授课通知）",Modifier.padding(top=8.dp))
             val source=sourceKey(description)
             val delivery=deliveries["$source/${description.substringBefore(' ')}"].orEmpty()
             val venue=SchoolCourseVenue.label(source, description,roomText,delivery)

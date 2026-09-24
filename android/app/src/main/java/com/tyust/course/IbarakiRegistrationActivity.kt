@@ -39,6 +39,7 @@ class IbarakiRegistrationActivity : ComponentActivity() {
     private val handler = android.os.Handler(android.os.Looper.getMainLooper())
     private var nativeStage = "start"
     private var nativeScope = ""
+    private var nativeRemainingCredits = ""
     private var nativeSlots = listOf<String>()
     private var nativeIndex = 0
     private var nativeFailures = 0
@@ -74,7 +75,7 @@ class IbarakiRegistrationActivity : ComponentActivity() {
         val activeBatch=batch
         val summary=if(activeBatch!=null) {
             batch=activeBatch.stop()
-            activeBatch.report(message)
+            activeBatch.report(message,nativeRemainingCredits)
         } else message
         if(activeBatch!=null) {
             batchReport=summary
@@ -102,23 +103,32 @@ class IbarakiRegistrationActivity : ComponentActivity() {
     private fun finishBatchVerification(response: JSONObject) {
         val active=batch ?: return stopNative("登记记录无法读取，请重新查询。")
         val codes=response.optJSONArray("registered") ?: return stopNative("学校未返回完整登记结果，请重新查询。")
+        nativeRemainingCredits=response.optString("remainingCredits")
         val updated=active.verify((0 until codes.length()).map {codes.getString(it)}.toSet())
         val message=if(finalReason.isNotBlank()) "$finalReason\n已统一查询学校课表。"
             else "已统一查询学校登记结果。返回首页可同步正式课表。"
-        val report=updated.report(message)
+        val report=updated.report(message,nativeRemainingCredits)
         runCatching {store.completeSubmission(report)}.onFailure {
             stopNative("已查询学校结果，但本机保存失败，可重新查询。");return
         }
         batch=updated;batchReport=report;sent=false;selected=emptySet()
-        snapshot=snapshot?.copy(rows=snapshot!!.rows.map {if(it.id in updated.confirmedIds) it.copy(available=false,status="已登记") else it})
+        snapshot=snapshot?.copy(remainingCredits=nativeRemainingCredits,rows=snapshot!!.rows.map {if(it.id in updated.confirmedIds) it.copy(available=false,status="已登记") else it})
         nativeTarget=null;stopNative(message)
+    }
+
+    private fun recordSchoolFeedback(message: String) {
+        val id=nativeTarget?.id ?: return
+        val active=batch ?: return
+        if(id !in active.attemptedIds || message.isBlank()) return
+        batch=active.recordFeedback(id,message)
+        runCatching {store.savePendingBatch(batch!!,nativeScope)}
     }
 
     private fun finishNativeScan() {
         val count=nativeRows.values.count {it.optBoolean("available")}
         val message="已读取 $count 门可登录课程" + if(nativeFailures>0) "；$nativeFailures 个时间格读取失败，可刷新重试。" else "；点击时间格选择，登记资格以学校最终结果为准。"
         val json=JSONObject().put("ready",true).put("student",student).put("scope",nativeScope)
-            .put("signature","native:$nativeScope").put("message",message).put("rows",JSONArray(nativeRows.values.toList()))
+            .put("signature","native:$nativeScope").put("remainingCredits",nativeRemainingCredits).put("message",message).put("rows",JSONArray(nativeRows.values.toList()))
         runCatching {store.save(json)}.onSuccess {
             snapshot=it; selected=emptySet(); nativeStage="done"; busy=false; readyToSubmit=true; status=message
             com.tyust.course.utils.SyncDiagnostics.record("registration_complete","slots=${nativeSlots.size} failed=$nativeFailures candidates=$count")
@@ -168,6 +178,8 @@ class IbarakiRegistrationActivity : ComponentActivity() {
             if(stamp!=generation && stage!="submitSend") {handler.postDelayed(nativeTick,500);return@evaluateJavascript}
             val response=runCatching {JSONTokener(value).nextValue() as? JSONObject}.getOrNull()
             if(response==null) {nativeReadFailed("未能解析学校课程，请刷新重试。");return@evaluateJavascript}
+            if(stage in setOf("result","resultBack") && generation>dispatchGeneration)
+                recordSchoolFeedback(response.optString("feedback"))
             when(response.optString("kind")) {
                 "error" -> {
                     nativeReadFailed(response.optString("message","课程读取失败，请刷新"))
@@ -196,6 +208,7 @@ class IbarakiRegistrationActivity : ComponentActivity() {
                         nextNative("submitOpen")
                     } else if(stage=="start") {
                         nativeScope=response.getString("scope")
+                        nativeRemainingCredits=response.optString("remainingCredits")
                         val slots=response.getJSONArray("slots")
                         nativeSlots=(0 until slots.length()).map {slots.getJSONObject(it).getString("key")}
                         if(nativeSlots.isEmpty()) finishNativeScan() else nextNative("open")
@@ -289,9 +302,16 @@ class IbarakiRegistrationActivity : ComponentActivity() {
                 }
             }
             webChromeClient=object: WebChromeClient() {
+                override fun onJsAlert(view: WebView, url: String, message: String, result: JsResult): Boolean {
+                    if(!manualWeb && sent && IbarakiPortalPolicy.allowsReading(url)) {
+                        recordSchoolFeedback(message);result.confirm();return true
+                    }
+                    return super.onJsAlert(view,url,message,result)
+                }
                 override fun onJsConfirm(view: WebView, url: String, message: String, result: JsResult): Boolean {
                     if((!sent && !manualWeb) || !IbarakiPortalPolicy.allowsReading(url)) {result.cancel(); return true}
                     if(!manualWeb) {
+                        recordSchoolFeedback(message)
                         result.cancel()
                         handler.post {cancelNativeSubmission()}
                         return true
@@ -384,6 +404,7 @@ class IbarakiRegistrationActivity : ComponentActivity() {
         val report=approved.report("已确认选择，登记结果尚待学校确认。")
         runCatching {store.saveBatchReport(report)}.onFailure {status="登记清单保存失败，未提交。";return}
         batch=approved;batchReport=report;nativeTarget=approved.current
+        nativeRemainingCredits=s.remainingCredits
         nativeScope=s.scope;readyToSubmit=false;busy=true;nativeCancelled=false
         nativePageLoading=true;status="正在重新核对所选课程…";nextNative("submitStart");web.loadUrl(IbarakiPortalPolicy.START_URL)
     }

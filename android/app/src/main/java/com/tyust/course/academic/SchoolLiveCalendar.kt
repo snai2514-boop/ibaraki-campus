@@ -13,6 +13,11 @@ object SchoolLiveCalendar {
     fun normalize(name: String) = java.text.Normalizer.normalize(name, java.text.Normalizer.Form.NFKC)
         .replace('〜', '~').replace(Regex("\\s+"), "")
 
+    /** New snapshots keep the exact visible course-name line separately from the teacher. */
+    fun matchesLesson(lesson: PortalLesson, calendarName: String): Boolean =
+        if(lesson.courseName.isNotBlank()) normalize(lesson.courseName)==normalize(calendarName)
+        else matchesName(lesson.description,calendarName)
+
     /** Timetable cells append instructor names; calendar entries omit that suffix. */
     fun matchesName(description: String, calendarName: String): Boolean {
         val body = java.text.Normalizer.normalize(description.substringAfter(' ').substringBeforeLast(' '), java.text.Normalizer.Form.NFKC).replace('〜', '~')
@@ -39,7 +44,7 @@ object SchoolLiveCalendar {
             val matches = snapshots.filter { it.key.matches(Regex("${Regex.escape(owner)}/timetable-$year-Q[1-4]")) }
                 .flatMap { it.lessons }.filter { lesson ->
                     lesson.period == meeting.period &&
-                        matchesName(lesson.description, meeting.name)
+                        matchesLesson(lesson, meeting.name)
                 }.distinctBy { it.description }
             // Same course in adjacent quarters is fine; different codes with the same name are ambiguous.
             val lesson = matches.singleOrNull() ?: return@mapNotNull null

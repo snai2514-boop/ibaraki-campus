@@ -56,4 +56,17 @@ check('duplicate read-only menu entries use the verified registration flow',()=>
   f.page.body.textContent='HOME';f.page.querySelector=()=>null;f.page.querySelectorAll=()=>[menu,{...menu}];
   assert.equal(f.run({action:'start'}).kind,'navigated');assert.equal(clicks,1);assert.equal(f.submissions(),0);
 });
+check('school remaining credits are distinct from enrolled and annual totals',()=>{
+ const f=fixture();f.page.body.textContent+=' 履修登録上限(年間) 46.0 単位 履修登録済単位数 10.5単位 当学期履修登録 可能単位数 1.0 単位';
+ assert.equal(f.run().remainingCredits,'1.0');
+ f.page.body.textContent=f.page.body.textContent.replace('1.0 単位','0.0 単位');assert.equal(f.run().remainingCredits,'0.0');
+ f.grid();assert.equal(f.run().remainingCredits,'');
+});
+check('visible school refusal is returned for the final batch report',()=>{
+ const f=fixture();f.open();const previous=f.page.querySelectorAll;
+ const error={textContent:'履修登録可能単位数を超えるため登録できません。',getClientRects:()=>[{}]};
+ f.page.querySelectorAll=q=>q==='p,li,span,div'?[error]:previous(q);
+ assert.equal(f.run().feedback,error.textContent);assert.equal(f.submissions(),0);
+ error.getClientRects=()=>[];assert.equal(f.run().feedback,'');
+});
 console.log(`${checks} native registration checks passed`);

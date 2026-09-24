@@ -8,7 +8,7 @@ data class RegistrationCourse(val id: String, val code: String, val name: String
     val credits: String, val status: String, val available: Boolean,
     val teacher: String = "", val remote: String = "", val slotKey: String = "", val signature: String = "", val faculty: String = "")
 data class RegistrationSnapshot(val student: String, val scope: String, val message: String,
-    val signature: String, val rows: List<RegistrationCourse>, val time: Long)
+    val signature: String, val rows: List<RegistrationCourse>, val time: Long, val remainingCredits: String = "")
 data class RegistrationSlot(val day: Int, val period: Int)
 
 object SchoolRegistrationReading {
@@ -73,7 +73,7 @@ class SchoolRegistrationStore(private val context: Context, private val student:
         val rows=(0 until a.length()).map { i -> val r=a.getJSONObject(i)
             RegistrationCourse(r.getString("id"),r.getString("code"),r.getString("name"),r.optString("schedule"),r.optString("credits"),r.optString("status"),r.optBoolean("available"),
                 r.optString("teacher"),r.optString("remote"),r.optString("slotKey"),r.optString("signature"),r.optString("faculty")) }
-        return RegistrationSnapshot(student,j.optString("scope"),j.optString("message"),j.getString("signature"),rows,j.optLong("time"))
+        return RegistrationSnapshot(student,j.optString("scope"),j.optString("message"),j.getString("signature"),rows,j.optLong("time"),j.optString("remainingCredits"))
     }
     fun save(json: JSONObject): RegistrationSnapshot {
         require(json.optBoolean("ready"))
@@ -103,6 +103,7 @@ class SchoolRegistrationStore(private val context: Context, private val student:
         val record=JSONObject().put("scope",scope).put("rows",rows)
             .put("attempted",org.json.JSONArray(batch.attemptedIds.toList()))
             .put("sent",org.json.JSONArray(batch.sentIds.toList()))
+            .put("feedback",JSONObject(batch.feedback as Map<*,*>))
         check(prefs.edit().putBoolean("pending",true).putString("pendingBatch",record.toString())
             .putStringSet("pendingIds",batch.attemptedIds).putString("pendingScope",scope).commit())
     }
@@ -122,7 +123,7 @@ class SchoolRegistrationStore(private val context: Context, private val student:
         fun ids(key: String): Set<String> = j.getJSONArray(key).let {a -> (0 until a.length()).map {a.getString(it)}.toSet()}
         RegistrationBatch.recover((0 until rows.length()).map {i -> rows.getJSONObject(i).let {r ->
             RegistrationCourse(r.getString("id"),r.getString("code"),r.getString("name"),"","","",false)
-        }},ids("attempted"),ids("sent"))
+        }},ids("attempted"),ids("sent"),j.optJSONObject("feedback")?.let {f -> f.keys().asSequence().associateWith {f.getString(it)} }.orEmpty())
     }.getOrNull()
     fun markPending(value: Boolean) {check(prefs.edit().putBoolean("pending",value).commit())}
     fun batchReport(): String = prefs.getString("batchReport", "").orEmpty()

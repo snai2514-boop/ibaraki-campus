@@ -19,10 +19,18 @@
     sessionStorage.removeItem(key); return fail('学校账户已变化，请重新登录后读取');
   }
   if(document.querySelector('input[type=password]')) {sessionStorage.removeItem(key);return fail('学校登录已过期，请重新登录');}
+  // Only explicit visible refusal text, not general page instructions or input values.
+  var feedback=Array.from(document.querySelectorAll('p,li,span,div')).filter(function(n){
+    var v=text(n);
+    return n.getClientRects().length>0 && v.length>0 && v.length<=300 &&
+      /(?:登録|履修).*(?:できません|出来ません|失敗)|(?:上限|可能単位数).*(?:超え|超過|越え)|単位数.*(?:超え|超過|越え)|既に.*登録|時間割.*重複/.test(v);
+  }).map(text).filter(function(v,i,a){return a.indexOf(v)===i;}).slice(0,4).join('\n');
   var term=body.match(/年度・学期\s*\|?\s*(20\d{2})年度\s*([1-4])クォーター/);
   var grid=document.querySelector('table.rishu-koma');
   if(grid && term && identities.length) {
     var scope=term[1]+'-Q'+term[2], slots=[], targets={};
+    var creditMatch=body.normalize('NFKC').match(/当学期履修登録\s*可能単位数\s*([0-9]+(?:\.[0-9]+)?)\s*単位/);
+    var remainingCredits=creditMatch?creditMatch[1]:'';
     var closed=/履修登録期間外|登録期間外|登録できる期間ではありません/.test(body);
     cs.forEach(function(n) {
       var handler=n.getAttribute('onclick') || '';
@@ -50,7 +58,7 @@
       context.slot=request.slot;sessionStorage.setItem(key,JSON.stringify(context));
       return navigate(targets[request.slot]);
     }
-    return {kind:'grid',student:request.student,scope:scope,slots:closed?[]:slots,registered:registered,closed:closed};
+    return {kind:'grid',student:request.student,scope:scope,slots:closed?[]:slots,registered:registered,closed:closed,remainingCredits:remainingCredits,feedback:feedback};
   }
   var context;
   try {context=JSON.parse(sessionStorage.getItem(key) || 'null');} catch(_) {}
@@ -98,7 +106,7 @@
       document.__campusNativeSubmitted=true; buttons[request.id].click();
       return {kind:'sent'};
     }
-    return {kind:'list',student:context.student,scope:context.scope,slot:slot,rows:rows};
+    return {kind:'list',student:context.student,scope:context.scope,slot:slot,rows:rows,feedback:feedback};
   }
   if(request.action==='start') {
     sessionStorage.removeItem(key);

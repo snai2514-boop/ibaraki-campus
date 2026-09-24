@@ -25,3 +25,12 @@ Android release build and lint passed (0 lint errors). JVM suite: 526 tests, 0 f
 - Native registration adapter: 20 checks passed. Registration page adapter: 21 checks passed.
 - Xiaomi 14: signed update installed; live candidate list, offering faculties and the single consolidated confirmation for two courses verified. Confirmation cancelled; no live enrollment was submitted during this verification.
 - Actual university acceptance of a newly submitted batch was not exercised by the developer. A dispatched request is never itself treated as successful enrollment.
+
+
+## Android 1.0.89
+
+- Release build and lint passed; 546 JVM tests, 0 failures/errors, 3 skipped.
+- Native registration adapter: 22 checks passed, including remaining-credit extraction and visible refusal feedback.
+- Timetable extraction and classroom checks cover exact course titles separated from instructors, engineering department qualifiers and conservative ambiguous-name rejection.
+- Xiaomi 14: signed update installed; live classroom synchronization and week-calendar D102 room labels verified. Online delivery remains the primary label; details display the school-listed D101 room with a non-face-to-face disclaimer.
+- Completed batch verification now reports registered/unregistered status and preserves visible school feedback. Unknown outcomes still prohibit automatic resubmission. No live enrollment was submitted as a test.
