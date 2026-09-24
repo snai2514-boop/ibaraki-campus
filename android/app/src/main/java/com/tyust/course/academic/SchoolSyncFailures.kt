@@ -26,7 +26,7 @@ object SchoolSyncFailures {
         reason.contains("超时") -> SchoolSyncFailureKind.TIMEOUT
         reason.contains("登录已过期") -> SchoolSyncFailureKind.AUTH
         reason.contains("保存失败") -> SchoolSyncFailureKind.STORAGE
-        listOf("结构变化", "学分无法识别", "未确定成绩", "分数超出", "合否不一致", "明细学分", "未适配").any(reason::contains) -> SchoolSyncFailureKind.DATA
+        listOf("数据校验失败", "结构变化", "学分无法识别", "未确定成绩", "分数超出", "合否不一致", "明细学分", "未适配").any(reason::contains) -> SchoolSyncFailureKind.DATA
         else -> SchoolSyncFailureKind.UNKNOWN
     }
     @Synchronized fun report(part: String, reason: String, kind: SchoolSyncFailureKind = classify(reason)) {

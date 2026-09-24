@@ -46,6 +46,13 @@ class PortalImportParserTest {
         assertTrue(runCatching { PortalImportParser.parse(timetable().replaceFirst("未登録\n\n", "")) }.isFailure)
         assertTrue(runCatching { PortalImportParser.parse(timetable().replace("1件", "2件")) }.isFailure)
     }
+    @Test fun registrationActionRowsDoNotShiftTheTimetable() {
+        val open = timetable().replace("2.0単位\n\n", "2.0単位\n\n追加登録\n\n")
+            .replace("集中講義など\n", "集中講義など | 集中講義を登録\n")
+        assertEquals(PortalImportParser.parse(timetable()).lessons, PortalImportParser.parse(open).lessons)
+        assertTrue(runCatching { PortalImportParser.parse(open.replaceFirst("未登録\n\n", "")) }.isFailure)
+        assertTrue(runCatching { PortalImportParser.parse(open.replace("1件", "2件")) }.isFailure)
+    }
     @Test fun loginOrUnknownPageCannotClearRecords() {
         assertTrue(runCatching { PortalImportParser.parse("ログイン") }.isFailure)
     }

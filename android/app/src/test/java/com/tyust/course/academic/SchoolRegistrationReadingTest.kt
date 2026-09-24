@@ -25,4 +25,12 @@ class SchoolRegistrationReadingTest {
         assertNull(SchoolRegistrationReading.readOnly(table().replace("1件","2件"),"A123"))
         assertNull(SchoolRegistrationReading.readOnly("ログイン","A123"))
     }
+    @Test fun openGridExplainsDirectSchoolRegistrationWithoutInventingBatchEligibility() {
+        val open=table().replace("件数 |", "登録期限 | 2026年10月1日 23時59分 | 件数 |")
+            .replace("2.0単位\n\n", "2.0単位\n\n追加登録\n\n")
+            .replace("集中講義など\n", "集中講義など | 集中講義を登録\n")
+        val result=SchoolRegistrationReading.readOnly(open,"A123")!!
+        assertTrue(result.message.contains("可登录课程"))
+        assertFalse(result.rows.single().available)
+    }
 }

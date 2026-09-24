@@ -2,12 +2,12 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const script = fs.readFileSync('app/src/main/assets/school-sync-navigation.js', 'utf8');
-function run(target, { labels = [], allGrades = false, host = 'csweb.ibaraki.ac.jp', repeat = 1, hidden = false } = {}) {
+function run(target, { labels = [], allGrades = false, host = 'csweb.ibaraki.ac.jp', repeat = 1, hidden = false, bodyText = "" } = {}) {
   const clicks = [];
   const nodes = labels.map(label => ({ tagName: 'BUTTON', textContent: label, disabled: false,
     getClientRects: () => hidden ? [] : [1], click: () => clicks.push(label) }));
   const radio = { parentElement: { textContent: '過去を含めた全成績' }, click: () => clicks.push('all-grades') };
-  const document = { querySelectorAll: selector => selector === 'iframe,frame' ? [] :
+  const document = { body: {textContent: bodyText}, querySelectorAll: selector => selector === 'iframe,frame' ? [] :
     selector === 'input[type=radio]' ? (allGrades ? [radio] : []) : nodes };
   let result;
   for(let i = 0; i < repeat; i++) result = vm.runInNewContext(script.replace('__TARGET__', JSON.stringify(target)), {
@@ -28,3 +28,9 @@ assert.deepEqual(run('grades', { labels: ['単位修得状況照会'], hidden: t
 assert.deepEqual(run('Q1', { labels: ['履修登録・登録状況照会'], hidden: true }).clicks, ['履修登録・登録状況照会']);
 assert.deepEqual(run('Q1', { labels: ['履修登録確定', '削除'], hidden: true }).clicks, []);
 console.log('12 school navigation checks passed');
+
+assert.deepEqual(run('Q3', { labels: ['3クォーター', '履修登録・登録状況照会'], repeat: 5 }).clicks, ['3クォーター']);
+console.log('Repeated quarter navigation is suppressed');
+
+assert.deepEqual(run("Q3",{labels:["履修登録・登録状況照会"],bodyText:"年度・学期 2026年度 3クォーター"}).clicks,[]);
+console.log("Active quarter does not reopen the module");

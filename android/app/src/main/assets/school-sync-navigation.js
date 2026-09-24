@@ -14,7 +14,11 @@
     for (var doc of docs) {
       var nodes = Array.from(doc.querySelectorAll('a,button,input[type=button],input[type=submit],label'));
       var node = nodes.find(function (n) { return (allowCollapsed || n.getClientRects().length) && !n.disabled && text(n) === label; });
-      if (node) { node.click(); return true; }
+      if (node) {
+        if (doc.__campusSyncNavigated === target) return false;
+        doc.__campusSyncNavigated = target;
+        node.click(); return true;
+      }
     }
     return false;
   }
@@ -39,6 +43,11 @@
     return clickExact('単位修得状況照会', true);
   }
   if (/^Q[1-4]$/.test(target)) {
+    // The active quarter has no link. Do not reopen the whole module on a parse failure.
+    if (docs.some(function(d) {
+      var m = (d.body && d.body.textContent || '').match(/年度・学期\s*20\d{2}年度\s*([1-4])クォーター/);
+      return m && target === 'Q' + m[1];
+    })) return false;
     if (clickExact(target.substring(1) + 'クォーター')) return true;
     // The school's navigation menu may be collapsed after returning from grades.
     // Match the same exact read-only module label used by the visible menu.

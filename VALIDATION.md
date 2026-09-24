@@ -16,3 +16,12 @@ The IPA is unsigned and requires personal Apple signing; no signing key, provisi
 ## 1.0.82 validation
 
 Android release build and lint passed (0 lint errors). JVM suite: 526 tests, 0 failures/errors, 3 skips. iOS Node suite: 31 tests passed, including faculty/cohort checks and theme ZIP validation. Browser preview imported and applied the sample ZIP with a separately colored dialog. Android 1.0.82 was installed as an in-place upgrade on the maintainer device and cold-launched without a new AndroidRuntime crash. These checks do not establish live school registration or all professional graduation conditions. See CREDIT-RULE-AUDIT.md and THEME-PACKS.md.
+
+
+## Android 1.0.88
+
+- `testDebugUnitTest`, `lintRelease`, `assembleRelease`: successful; 543 tests, 0 failures/errors, 3 skipped.
+- 8 batch-state tests cover sending all before final verification, partial acceptance, interrupted dispatch, query-only recovery and duplicate/out-of-order prevention.
+- Native registration adapter: 20 checks passed. Registration page adapter: 21 checks passed.
+- Xiaomi 14: signed update installed; live candidate list, offering faculties and the single consolidated confirmation for two courses verified. Confirmation cancelled; no live enrollment was submitted during this verification.
+- Actual university acceptance of a newly submitted batch was not exercised by the developer. A dispatched request is never itself treated as successful enrollment.

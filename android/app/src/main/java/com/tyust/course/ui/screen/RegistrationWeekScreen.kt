@@ -23,11 +23,20 @@ import com.tyust.course.i18n.LocalizedText as Text
 fun RegistrationWeekScreen(snapshot: RegistrationSnapshot?, selected: Set<String>, status: String,
     enabled: Boolean, busy: Boolean, pending: Boolean, onToggle: (RegistrationCourse, Boolean) -> Unit,
     onRead: () -> Unit, onSubmit: () -> Unit, onBack: () -> Unit, onResultChecked: () -> Unit,
-    onLogin: () -> Unit) {
+    onLogin: () -> Unit, onSchoolWeb: () -> Unit, lastResult: String = "") {
     var choosing by remember { mutableStateOf<List<String>?>(null) }
     var selectionTitle by remember { mutableStateOf("") }
     var info by remember { mutableStateOf(false) }
+    var showingResult by remember { mutableStateOf(false) }
+    var previousResult by remember { mutableStateOf(lastResult) }
+    LaunchedEffect(lastResult,busy) {
+        if(!busy && lastResult.isNotBlank() && lastResult!=previousResult) {
+            choosing=null;showingResult=true;info=true
+        }
+        if(!busy) previousResult=lastResult
+    }
     val rows=snapshot?.rows.orEmpty().filter {it.available}
+    val native=snapshot?.signature?.startsWith("native:")==true
     val slots=remember(rows) {rows.associate {it.id to RegistrationPolicy.slots(it.schedule)}}
     val line=MaterialTheme.colorScheme.outlineVariant
     Column(Modifier.fillMaxSize().safeDrawingPadding().padding(horizontal=12.dp)) {
@@ -37,9 +46,10 @@ fun RegistrationWeekScreen(snapshot: RegistrationSnapshot?, selected: Set<String
             TextButton(onClick=onRead,enabled=!busy && !pending) {Text("刷新")}
         }
         if(busy) LinearProgressIndicator(Modifier.fillMaxWidth())
-        if(status.isNotBlank()) TextButton(onClick={info=true},modifier=Modifier.fillMaxWidth()) {
+        if(status.isNotBlank()) TextButton(onClick={showingResult=false;info=true},modifier=Modifier.fillMaxWidth()) {
             Text(status,maxLines=2,overflow=TextOverflow.Ellipsis,fontSize=12.sp)
         }
+        if(native) Text("可跨时间格多选课程，确认一次，全部提交后自动统一查询结果。",fontSize=12.sp,modifier=Modifier.padding(vertical=4.dp))
         Row(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant)) {
             Spacer(Modifier.width(40.dp))
             (1..5).forEach {Text("星期${"一二三四五"[it-1]}",Modifier.weight(1f).padding(vertical=12.dp),textAlign=TextAlign.Center,fontSize=13.sp)}
@@ -56,9 +66,11 @@ fun RegistrationWeekScreen(snapshot: RegistrationSnapshot?, selected: Set<String
                         Column(Modifier.weight(1f).fillMaxHeight().heightIn(min=112.dp).border(.5.dp,line).padding(2.dp)) {
                             if(entries.size==1) {
                                 val course=entries.single()
-                                Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(4.dp),horizontalAlignment=Alignment.CenterHorizontally) {
-                                    Checkbox(checked=course.id in selected,onCheckedChange={onToggle(course,it)},enabled=!busy && !pending)
+                                Card(onClick={choosing=listOf(course.id);selectionTitle=course.name},modifier=Modifier.fillMaxWidth()) { Column(Modifier.padding(4.dp),horizontalAlignment=Alignment.CenterHorizontally) {
+                                    Checkbox(checked=course.id in selected,onCheckedChange={onToggle(course,it)},enabled=enabled && !busy && !pending)
                                     Text(course.name,fontSize=12.sp,fontWeight=FontWeight.SemiBold,textAlign=TextAlign.Center)
+                                    if(course.faculty.isNotBlank()) Text(course.faculty,fontSize=10.sp,textAlign=TextAlign.Center,maxLines=2,overflow=TextOverflow.Ellipsis)
+                                    if(course.remote in listOf("○","〇","◯","有","あり")) Text("线上",fontSize=10.sp)
                                 } }
                             } else if(entries.size>1) {
                                 Card(onClick={choosing=entries.map {it.id};selectionTitle="星期${"一二三四五"[day-1]} · 第 $period 限"},modifier=Modifier.fillMaxWidth()) {
@@ -78,25 +90,34 @@ fun RegistrationWeekScreen(snapshot: RegistrationSnapshot?, selected: Set<String
         if(unplaced.isNotEmpty()) TextButton(onClick={choosing=unplaced.map {it.id};selectionTitle="周历外／时间待确认"}) {Text("周历外／时间待确认：${unplaced.size} 门")}
         Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically) {
             Text("已选 ${selected.size} 门",Modifier.weight(1f),fontSize=13.sp)
-            FilledTonalButton(onClick=onSubmit,enabled=enabled && !busy && !pending && selected.isNotEmpty()) {Text("一键登录已勾选课程")}
+            FilledTonalButton(onClick=onSubmit,enabled=enabled && !busy && !pending && selected.isNotEmpty()) {Text("登录已选 ${selected.size} 门")}
         }
-        if(pending) TextButton(onClick=onResultChecked) {Text("我已核对学校结果，重新读取")}
+        if(pending) TextButton(onClick=onResultChecked,enabled=!busy) {Text("重新查询登记结果")}
+        if(lastResult.isNotBlank()) TextButton(onClick={showingResult=true;info=true}) {Text("查看登记结果")}
     }
     choosing?.let { ids -> AlertDialog(onDismissRequest={choosing=null},title={Text(selectionTitle)},text={
         Column(Modifier.heightIn(max=420.dp).verticalScroll(rememberScrollState())) {
             val choices=rows.filter {it.id in ids}
             if(choices.isEmpty()) Text("课程状态已变化，请刷新。")
             choices.forEach { course -> Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically) {
-                Checkbox(checked=course.id in selected,onCheckedChange={onToggle(course,it)},enabled=!busy && !pending)
+                Checkbox(checked=course.id in selected,onCheckedChange={onToggle(course,it)},enabled=enabled && !busy && !pending)
                 Column(Modifier.weight(1f).padding(vertical=8.dp)) {
                     Text(course.name,fontWeight=FontWeight.SemiBold)
-                    Text("${course.code} · ${course.credits} 学分",fontSize=12.sp)
+                    if(course.faculty.isNotBlank()) Text("开课学部：${course.faculty}",fontSize=12.sp)
+                    Text(course.code + if(course.credits.isNotBlank()) " · ${course.credits} 学分" else "",fontSize=12.sp)
                     Text(course.schedule,fontSize=12.sp)
+                    if(course.teacher.isNotBlank()) Text(course.teacher,fontSize=12.sp)
+                    if(course.remote.isNotBlank()) Text("学校远隔授课标记：${course.remote}",fontSize=12.sp)
                 }
             } }
         }
     },confirmButton={TextButton(onClick={choosing=null}) {Text("完成")}}) }
-    if(info) AlertDialog(onDismissRequest={info=false},title={Text("履修状况")},text={Text(status)},
+    if(info) AlertDialog(onDismissRequest={info=false},title={Text(if(showingResult) "登记结果" else "履修状况")},text={
+        Column(Modifier.heightIn(max=420.dp).verticalScroll(rememberScrollState())) {Text(if(showingResult) lastResult else status)}
+    },
         confirmButton={TextButton(onClick={info=false}) {Text("关闭")}},
-        dismissButton={if(!enabled && !pending) TextButton(onClick={info=false;onLogin()}) {Text("重新登录学校账户")}})
+        dismissButton={Row {
+            TextButton(onClick={info=false;onSchoolWeb()}) {Text("查看学校原页")}
+            if(!enabled && !pending) TextButton(onClick={info=false;onLogin()}) {Text("重新登录")}
+        }})
 }

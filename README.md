@@ -65,21 +65,21 @@ Contact: **YIN · [snai2514@gmail.com](mailto:snai2514@gmail.com)**
 
 任意浅深色配色、页面与卡片背景、独立弹窗颜色、内置桌面图标和 PNG 启动动画。Custom light/dark colors, backgrounds, dialog colors, bundled icons and PNG startup animations. 配色・背景・ダイアログ・内蔵アイコン・起動アニメーションを変更できます。
 
-## Android 1.0.83
+## Android 1.0.88
 
-修复学校资料确认页导致的同步误报、教室读取超时；保存可离线导出的同步诊断，按学校公布日期读取日历，缩短周历中的教室名称并保留完整地点详情。线上授课标记不会被实体教室覆盖。
+修复学校开放选课后课表解析与 Q3 同步超时。可登录课程直接显示原生周历，支持第 5 限、开课学部、同格和跨格多选。一次确认整份清单后依次发送，全部处理后自动统一查询结果；中断时保存已发送记录，重新打开只查询、不重复提交。学校的资格与学分上限仍然适用。
 
-Android update: more reliable school synchronization, persistent exportable diagnostics, published calendar dates, and compact classroom labels with full details. iOS remains at 1.0.82; these Android fixes are not included in that IPA.
+Android update: native course candidates with offering faculty, fifth-period support and multi-selection. Approve the complete list once, send courses sequentially, then verify the whole batch together. Interrupted batches are recovered with read-only queries and never automatically replayed. iOS remains at 1.0.82; this Android update is not included in that IPA.
 
 ## Downloads
 
 | ダウンロード / 下载 / Download | 直リンク / 直达链接 / Direct link |
 | --- | --- |
-| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.83.apk](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.83/CampusAssistant-Android-1.0.83.apk) |
+| Android APK · Android 7.0+ | [CampusAssistant-Android-1.0.88.apk](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.88/CampusAssistant-Android-1.0.88.apk) |
 | iPhone / iPad · iOS 16+ · 未署名 / 未签名 / unsigned | [CampusAssistant-1.0.82-unsigned.ipa](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.82/CampusAssistant-1.0.82-unsigned.ipa) |
-| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.83-source.zip](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.83/CampusAssistant-1.0.83-source.zip) |
+| Android + iOS ソース / 完整源码 / full source | [CampusAssistant-1.0.88-source.zip](https://github.com/snai2514-boop/ibaraki-campus/releases/download/v1.0.88/CampusAssistant-1.0.88-source.zip) |
 | 最新ソース / 最新源码 / latest source | [ZIP](https://github.com/snai2514-boop/ibaraki-campus/archive/refs/heads/main.zip) · [Android](android/) · [iOS](CampusAssistant/) |
-| 配布一覧 / 发布页 / release page | [v1.0.83](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.83) |
+| 配布一覧 / 发布页 / release page | [v1.0.88](https://github.com/snai2514-boop/ibaraki-campus/releases/tag/v1.0.88) |
 
 ## Preview / 功能预览 / プレビュー
 

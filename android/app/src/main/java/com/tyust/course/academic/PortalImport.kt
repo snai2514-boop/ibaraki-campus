@@ -42,9 +42,13 @@ object PortalImportParser {
         for (period in 1..6) {
             val start = lines.indexOf("${period}限")
             require(start >= 0) { "课表节次不完整，未保存" }
-            val end = if (period < 6) lines.indexOf("${period + 1}限") else lines.indexOf("集中講義など")
+            val end = if (period < 6) lines.indexOf("${period + 1}限") else lines.indexOfFirst {
+                it == "集中講義など" || it == "集中講義など | 集中講義を登録"
+            }
             require(end > start) { "课表节次顺序异常" }
-            val cells = lines.subList(start + 1, end).filter(String::isNotBlank)
+            // During registration the school adds an action row below an existing course.
+            // It is not a seventh weekday or another lesson; retain all other validation.
+            val cells = lines.subList(start + 1, end).filter { it.isNotBlank() && it != "追加登録" }
             require(cells.size == 6) { "课表列数变化，无法确认星期位置" }
             cells.forEachIndexed { day, cell ->
                 if (cell != "未登録") {

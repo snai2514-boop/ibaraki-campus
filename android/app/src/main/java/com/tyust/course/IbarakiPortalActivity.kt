@@ -82,7 +82,9 @@ class IbarakiPortalActivity : ComponentActivity() {
                 return
             }
             if (autoSync && authenticatedOnce && !readable && stepStarted != 0L && android.os.SystemClock.elapsedRealtime() - stepStarted > 35000) {
-                stopSync("学校页面加载超时，已保留本机数据，请检查网络后重试。", SchoolSyncFailureKind.TIMEOUT)
+                browser?.stopLoading()
+                generation++; reading = false
+                finishSyncStep("${com.tyust.course.academic.SchoolSyncFailures.part(syncStep)} 未读取成功：学校页面加载超时，已保留原记录。")
             }
             if (autoSync && syncStep < 9 && readable && !reading && preview == null) readPage(true)
             syncHandler.postDelayed(this, 2500)
@@ -388,7 +390,12 @@ class IbarakiPortalActivity : ComponentActivity() {
             }
         }
         val parsed = runCatching { PortalImportParser.parse(text, allowEmptyTimetable = true) }
-            .onFailure { if (text.isNotBlank()) diagnostic("parse_miss", "type=${it.javaClass.simpleName}"); if (syncStep == 0 && text.contains("No. | 科目大区分 |")) parseIssue = it.message.orEmpty() }.getOrNull()
+            .onFailure {
+                if (text.isNotBlank()) diagnostic("parse_miss", "type=${it.javaClass.simpleName}")
+                val targetPage = if (syncStep == 0) text.contains("No. | 科目大区分 |")
+                    else syncStep in 1..4 && Regex("年度・学期 \\| \\d{4}年度 ${syncStep}クォーター").containsMatchIn(text)
+                if (targetPage) parseIssue = it.message.orEmpty()
+            }.getOrNull()
         val expected = parsed != null && if (syncStep == 0) parsed.key == "grades" else parsed.key.endsWith("-$target")
         if (expected) {
             val student = Regex("学生番号 \\| ([A-Za-z0-9]+)").find(text)?.groupValues?.get(1)
@@ -416,7 +423,7 @@ class IbarakiPortalActivity : ComponentActivity() {
             }
         }
         if (stepStarted != 0L && now - stepStarted > 35000) {
-            finishSyncStep("$target 未读取成功：查询超时，保留旧记录" + if (parseIssue.isNotBlank()) "：$parseIssue" else "")
+            finishSyncStep("$target 未读取成功：" + if (parseIssue.isNotBlank()) "数据校验失败，保留旧记录：$parseIssue" else "查询超时，保留旧记录")
             return
         }
         if (now - lastNavigation < 5000) return
@@ -467,7 +474,7 @@ class IbarakiPortalActivity : ComponentActivity() {
             status = syncResults.joinToString("；")
             // Return to the school home before switching between distinct query modules.
             SchoolSyncState.message.value = status + "；正在同步…"
-            if (syncStep == 0 || syncStep == 1 || syncStep == 5 || syncStep == 6 || syncStep == 7 || syncStep == 8) browser?.loadUrl(IbarakiPortalPolicy.START_URL)
+            if (message.contains("未读取成功") || syncStep == 0 || syncStep == 1 || syncStep == 5 || syncStep == 6 || syncStep == 7 || syncStep == 8) browser?.loadUrl(IbarakiPortalPolicy.START_URL)
         }
     }
 
