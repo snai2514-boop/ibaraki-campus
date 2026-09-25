@@ -34,3 +34,13 @@ Android release build and lint passed (0 lint errors). JVM suite: 526 tests, 0 f
 - Timetable extraction and classroom checks cover exact course titles separated from instructors, engineering department qualifiers and conservative ambiguous-name rejection.
 - Xiaomi 14: signed update installed; live classroom synchronization and week-calendar D102 room labels verified. Online delivery remains the primary label; details display the school-listed D101 room with a non-face-to-face disclaimer.
 - Completed batch verification now reports registered/unregistered status and preserves visible school feedback. Unknown outcomes still prohibit automatic resubmission. No live enrollment was submitted as a test.
+
+
+## Android 1.0.90
+
+- 2026 graduate rules cover master's, doctoral, professional teaching and non-degree identities; agriculture courses have separate module requirements. Other cohorts remain unverified. See android/docs/graduate-support.md.
+- Grade extraction now expands rowspan categories and parses named columns, including missing minor categories and numeric scores. Malformed/incomplete results preserve local data.
+- Graduate records do not use undergraduate static course/calendar fallbacks. School-published live calendar dates remain supported.
+- Signed release build, lint and JVM suite passed: 556 tests, 0 failures/errors, 3 skips. Synthetic DOM checks cover category rowspans and rejection of unsupported colspans.
+- No phone was connected for this release. The agricultural graduate account's actual HTML and live synchronization have not been tested; old screenshots alone do not verify the new parser. No actual enrollment was submitted.
+- Android only; iOS unchanged.

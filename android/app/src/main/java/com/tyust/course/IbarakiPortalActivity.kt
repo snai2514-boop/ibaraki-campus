@@ -297,13 +297,37 @@ class IbarakiPortalActivity : ComponentActivity() {
                 });
                 doc.querySelectorAll('table').forEach(function(table) {
                   if(count>=60000 || !table.getClientRects().length) return;
-                  var rows=[];
+                  var rows=[], carry=[];
+                  var gradeTable=Array.from(table.rows).some(function(row) {
+                    var labels=Array.from(row.cells).map(function(c){return c.textContent.replace(/\s+/g,'');});
+                    return labels.some(function(v){return /^(科目|科目名|授業科目名)$/.test(v);}) && labels.includes('合否') && labels.some(function(v){return /^(単位|単位数)$/.test(v);});
+                  });
                   Array.from(table.rows).slice(0,300).forEach(function(row) {
-                    var cells=Array.from(row.cells).map(function(cell) {
+                    var originals=Array.from(row.cells);
+                    var cells=originals.map(function(cell) {
                       var clone=cell.cloneNode(true);
                       clone.querySelectorAll('input,textarea,select,script,style,table,[hidden]').forEach(function(n){n.remove();});
                       return clone.textContent.replace(/\s+/g,' ').trim().slice(0,500);
                     });
+                    if(gradeTable) {
+                      var expanded=[], column=0, next=[];
+                      function inherited() {
+                        while(carry[column] && carry[column].left>0) {
+                          expanded[column]=carry[column].value;
+                          if(carry[column].left>1) next[column]={value:carry[column].value,left:carry[column].left-1};
+                          column++;
+                        }
+                      }
+                      cells.forEach(function(value,i) {
+                        inherited();
+                        var cell=originals[i];
+                        expanded[column]=value;
+                        if(cell.colSpan>1) expanded[column]='[unsupported grade colspan]';
+                        if(cell.rowSpan>1 && cell.rowSpan<=300) next[column]={value:value,left:cell.rowSpan-1};
+                        column++;
+                      });
+                      inherited(); carry=next; cells=expanded;
+                    }
                     var text=cells.join(' | '); if(text.trim()) rows.push(text);
                   });
                   var text=rows.join('\n'); if(text) { output.push(text); count+=text.length; }
@@ -404,7 +428,7 @@ class IbarakiPortalActivity : ComponentActivity() {
         val parsed = runCatching { PortalImportParser.parse(text, allowEmptyTimetable = true, courseNames=courseNames) }
             .onFailure {
                 if (text.isNotBlank()) diagnostic("parse_miss", "type=${it.javaClass.simpleName}")
-                val targetPage = if (syncStep == 0) text.contains("No. | 科目大区分 |")
+                val targetPage = if (syncStep == 0) text.lines().any(com.tyust.course.academic.SchoolGradeTable::isHeader)
                     else syncStep in 1..4 && Regex("年度・学期 \\| \\d{4}年度 ${syncStep}クォーター").containsMatchIn(text)
                 if (targetPage) parseIssue = it.message.orEmpty()
             }.getOrNull()

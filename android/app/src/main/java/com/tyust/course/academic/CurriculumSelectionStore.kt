@@ -12,11 +12,15 @@ class CurriculumSelectionStore(private val context: Context, private val owner: 
     fun load(): CurriculumScope? {
         if (!file.baseFile.exists() && !File(file.baseFile.path + ".bak").exists()) return null
         val j = JSONObject(file.openRead().bufferedReader().use { it.readText() })
-        return CurriculumScope(j.getString("faculty"), j.getString("department"), j.getInt("cohort"), j.optString("program"))
+        val faculty = j.getString("faculty")
+        val fallback = if(faculty.contains("研究科")) StudyLevel.UNKNOWN else StudyLevel.UNDERGRADUATE
+        val level = StudyLevel.entries.find { it.name == j.optString("level") } ?: fallback
+        return CurriculumScope(faculty, j.getString("department"), j.getInt("cohort"), j.optString("program"), level, j.optString("track"))
     }
     fun save(s: CurriculumScope) {
-        require(s.cohort in 1900..2099 && s.department in UniversityCurricula.departments[s.faculty].orEmpty())
+        require(s.cohort in 1900..2099 && s.department in (UniversityCurricula.departments + GraduateCurricula.departments)[s.faculty].orEmpty())
         val j = JSONObject().put("faculty", s.faculty).put("department", s.department).put("cohort", s.cohort).put("program", s.program)
+            .put("level", s.level.name).put("track", s.track)
         val out = file.startWrite()
         try { out.write(j.toString().toByteArray(Charsets.UTF_8)); file.finishWrite(out) }
         catch(e: Exception) { file.failWrite(out); throw e }

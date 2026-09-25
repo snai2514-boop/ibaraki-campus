@@ -84,6 +84,9 @@ object SchoolAcademicCalendar {
             ?.groupValues?.get(1)?.toInt() ?: error("目前仅核对了 2026 学年度校历")
         require(lesson.day in 1..5 && lesson.period in 1..5) { "该星期或节次尚未适配日历" }
         val code = lesson.description.substringBefore(' ')
+        require(profile == null || !GraduateCurricula.isGraduate(UniversityCurricula.scope(profile))) {
+            "大学院课程请同步学校日历中的实际授课日期"
+        }
         val offering = SchoolCourseOfferings2026.find(code)
             ?: SchoolScienceOfferings2026.find(lesson, quarter, profile?.faculty)
         require(offering?.irregular != true) { "$code 为集中或隔周授课，需核对单独日期" }

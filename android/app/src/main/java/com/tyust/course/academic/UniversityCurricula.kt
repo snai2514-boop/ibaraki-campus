@@ -1,7 +1,8 @@
 package com.tyust.course.academic
 
 /** A curriculum cohort is independent of the student's current year of study. */
-data class CurriculumScope(val faculty: String, val department: String, val cohort: Int?, val program: String = "")
+data class CurriculumScope(val faculty: String, val department: String, val cohort: Int?, val program: String = "",
+    val level: StudyLevel = StudyLevel.UNDERGRADUATE, val track: String = "")
 data class RequirementSummary(val rows: List<Pair<String, Int>>, val source: String, val page: Int,
     val detail: String = "", val detailedInformation2026: Boolean = false, val total: Int = 124)
 
@@ -15,6 +16,8 @@ object UniversityCurricula {
         "地域未来共創学環" to listOf("地域未来共創学環")
     )
     fun scope(p: SchoolStudentProfile): CurriculumScope {
+        if (GraduateCurricula.detectLevel(p.affiliation + " " + p.faculty + " " + p.admissionType) != StudyLevel.UNDERGRADUATE)
+            return GraduateCurricula.scope(p)
         val department = departments[p.faculty]?.filter { p.department.startsWith(it) }?.maxByOrNull { it.length }
             ?: if (p.faculty == "地域未来共創学環") p.faculty else p.department
         return CurriculumScope(p.faculty, department, p.curriculumYear,
@@ -51,6 +54,7 @@ object UniversityCurricula {
     private val engineeringFiles = mapOf(2024 to "2024-course-registration10.pdf", 2025 to "2025-course-registration06.pdf", 2026 to "2026-course-registration03.pdf")
     /** Only reviewed source/cohort pairs can produce numeric requirements. Never fall back to another faculty. */
     fun summary(s: CurriculumScope): RequirementSummary? {
+        if (GraduateCurricula.isGraduate(s)) return null
         if (s.cohort !in 2024..2026 || s.department !in departments[s.faculty].orEmpty()) return null
         if (s.faculty == "工学部") {
             val required = when (s.department) {

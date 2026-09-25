@@ -11,30 +11,7 @@ data class PortalImport(val key: String, val title: String, val cards: List<Stri
 object PortalImportParser {
     fun parse(text: String, allowEmptyTimetable: Boolean = false, courseNames: Map<String, String> = emptyMap()): PortalImport {
         val lines = text.lines().map(String::trim)
-        val gradeHeader = lines.indexOfFirst { it.startsWith("No. | 科目大区分 |") }
-        if (gradeHeader >= 0) {
-            val rows = lines.drop(gradeHeader + 1).takeWhile { it.isNotBlank() }
-            val grades = rows.map { line ->
-                val c = line.split(" | ")
-                require(c.size == 11 && c[0].toIntOrNull() != null) { "成绩表结构变化，未保存" }
-                val credits = c[5].toBigDecimalOrNull()
-                require(credits != null && credits > BigDecimal.ZERO && credits <= BigDecimal.TEN) { "学分无法识别" }
-                require(c[10] in listOf("合", "否")) { "包含未确定成绩，未保存" }
-                val score = c[8].toIntOrNull()
-                require(score == null || score in 0..100) { "分数超出范围" }
-                require(score == null || (score >= 60) == (c[10] == "合")) { "分数与合否不一致，未保存" }
-                PortalGrade(c[4], credits, score, c[9], c[10] == "合", c[6], c[7], c.subList(1, 4).filter(String::isNotBlank).joinToString(" / "))
-            }
-            require(grades.isNotEmpty()) { "成绩为空，保留原记录" }
-            val earned = grades.filter { it.passed }.fold(BigDecimal.ZERO) { sum, g -> sum + g.credits }
-            val reported = Regex("修得単位数 \\| ([0-9.]+)").find(text)?.groupValues?.get(1)?.toBigDecimalOrNull()
-            require(reported != null && earned.compareTo(reported) == 0) { "明细学分与学校总数不一致，请显示全部成绩后读取" }
-            val gpaHeader = lines.indexOfFirst { it == "年度・学期 | 学期GPA | 年間GPA | 通算GPA" }
-            val gpa = if (gpaHeader >= 0) lines.getOrNull(gpaHeader + 1)?.split(" | ")?.takeIf { it.size == 4 }?.last() else null
-            return PortalImport("grades", "学校成绩 · ${grades.size} 门 · 已修 $earned 学分", listOf("学校通算 GPA：${gpa ?: "未提供"}（直接采用学校显示值）") + grades.map {
-                "${it.name}\n${it.credits} 学分 · ${it.score?.toString() ?: "无百分制分数"} · ${it.grade} · ${if (it.passed) "通过" else "未通过"}\n${it.year} · ${it.term}\n${it.category}"
-            }, grades = grades)
-        }
+        SchoolGradeTable.parse(text)?.let { return it }
         val term = Regex("年度・学期 \\| (\\d{4})年度 ([1-4])クォーター").find(text)
             ?: error("当前页尚未适配，请打开学分成绩明细或学季课表")
         require(lines.any { it == "| 月曜日 | 火曜日 | 水曜日 | 木曜日 | 金曜日 | 土曜日" }) { "课表星期结构变化，未保存" }

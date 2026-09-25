@@ -79,6 +79,7 @@ fun SchoolDataScreen(grades: Boolean, onManual: () -> Unit, onBack: (() -> Unit)
     val ruleScope = override ?: profile?.let(UniversityCurricula::scope)
     val ruleSummary = ruleScope?.let(UniversityCurricula::summary)
     val detailedRules = ruleSummary?.detailedInformation2026 == true
+    val graduate = ruleScope?.let(GraduateCurricula::isGraduate) == true
 
     GlassPageScaffold(title = if (grades) "学分与 GPA" else "学校课表", subtitle = "已保存到本机", onBack = onBack) { padding ->
         LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -97,7 +98,8 @@ fun SchoolDataScreen(grades: Boolean, onManual: () -> Unit, onBack: (() -> Unit)
                 selectionRevision++
             } }
             if (grades && detailedRules) item { EnrollmentCapCard() }
-            if (grades && ruleScope != null) item { EnrollmentRulesCard(item?.grades.orEmpty(), ruleScope) }
+            if (grades && ruleScope != null && !graduate) item { EnrollmentRulesCard(item?.grades.orEmpty(), ruleScope) }
+            if (grades && ruleScope != null && graduate) item { GraduateProgressCard(ruleScope, item?.grades) }
             error?.let { item { Text(it, color = MaterialTheme.colorScheme.error) } }
             if (!loading && snapshots.isEmpty() && error == null) item { Text("暂无数据，请点击“资料更新”。") }
             items(snapshots.indices.toList()) { i ->
@@ -129,13 +131,15 @@ fun SchoolDataScreen(grades: Boolean, onManual: () -> Unit, onBack: (() -> Unit)
                         Text("${it.name} · ${it.credits.stripTrailingZeros().toPlainString()} 学分")
                     }
                 }
-                } else item { Text("课程分类按学校原文显示，毕业归类尚待核对。") }
+                } else if(!graduate) item { Text("课程分类按学校原文显示，毕业归类尚待核对。") }
                 item { Text("课程成绩", style = MaterialTheme.typography.titleLarge) }
                 items(item.grades) { g ->
                     Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp)) {
                         RawText(g.name, style = MaterialTheme.typography.titleMedium)
                         Text("${g.credits} 学分 · ${g.score?.toString() ?: "无百分制分数"} · ${g.grade} · ${if (g.passed) "通过" else "未通过"}")
                         Text("${g.year} · ${g.term}\n${g.category}", style = MaterialTheme.typography.bodySmall)
+                        if(graduate && ruleScope != null) Text(if(!g.passed) "不合格 · 不计学分" else "修了类别：" + GraduateCurricula.classify(ruleScope,g).label,
+                            style = MaterialTheme.typography.bodySmall)
                         if (ruleScope != null && ruleSummary != null) {
                         val classification = UniversityCourseClassification.classify(ruleScope, g.name, g.category, courseCatalog, credits = g.credits)
                         Text(if (!g.passed) "未通过 · 不计学分" else "毕业类别：" +

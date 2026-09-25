@@ -32,3 +32,17 @@ console.log('6 school page detection checks passed');
  assert.equal(vm.runInNewContext(script,{document:doc,location:{protocol:'https:',hostname:'csweb.ibaraki.ac.jp',pathname:'/campusweb/'}}).timetableNames.length,0);
  console.log('Exact timetable title lines preserved without instructor/action text');
 }
+
+{
+ const cell=(textContent,rowSpan=1,colSpan=1)=>({textContent,rowSpan,colSpan,cloneNode(){return {textContent,querySelectorAll:()=>[]}}});
+ const header=['No.','科目大区分','科目名','単位数','修得年度','修得学期','評語','合否'];
+ const table={getClientRects:()=>[{}],rows:[{cells:header.map(v=>cell(v))},
+  {cells:[cell('1'),cell('専攻科目',2),cell('研究 A'),cell('2'),cell('2026'),cell('前期'),cell('A'),cell('合')]},
+  {cells:['2','研究 B','2','2026','前期','A','合'].map(v=>cell(v))}]};
+ const doc={body:{textContent:'成績'},querySelector:()=>null,querySelectorAll:q=>q==='table'?[table]:[]};
+ const result=vm.runInNewContext(script,{document:doc,location:{protocol:'https:',hostname:'csweb.ibaraki.ac.jp',pathname:'/campusweb/'}});
+ assert.ok(result.text.includes('2 | 専攻科目 | 研究 B | 2 | 2026 | 前期 | A | 合'));
+ table.rows[1].cells[1].colSpan=2;
+ assert.ok(vm.runInNewContext(script,{document:doc,location:{protocol:'https:',hostname:'csweb.ibaraki.ac.jp',pathname:'/campusweb/'}}).text.includes('[unsupported grade colspan]'));
+ console.log('Graduate category rowspan expansion and unsupported colspan checks passed');
+}

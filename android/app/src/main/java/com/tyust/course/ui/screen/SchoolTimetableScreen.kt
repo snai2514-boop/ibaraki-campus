@@ -93,6 +93,8 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
         finally { loading = false }
     }
     val academicYear = Regex("timetable-(\\d{4})-Q").find(selected)?.groupValues?.get(1)?.toIntOrNull() ?: 2026
+    val graduateProfile = profile?.let { GraduateCurricula.isGraduate(UniversityCurricula.scope(it)) } == true
+    fun yearLabel(n: Int) = if(graduateProfile) "在籍第 $n 年" else listOf("大一", "大二", "大三", "大四")[n - 1]
     val admissionYear = profile?.admissionYear ?: profile?.curriculumYear ?: academicYear
     val studyYear = academicYear - admissionYear + 1
     val ownerPrefix = profile?.let { UniversityCurricula.owner(it) + "/" } ?: selected.substringBeforeLast('/', "").let { if(it.isBlank()) "" else "$it/" }
@@ -228,9 +230,9 @@ fun SchoolTimetableScreen(onBack: () -> Unit, home: Boolean = false) {
                 }) { Text((date.ifBlank { "选择日期" }) + " ▾", style = MaterialTheme.typography.titleLarge) }
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box {
-                        TextButton(onClick = { yearMenu = true }) { Text(if(studyYear in 1..4) listOf("大一", "大二", "大三", "大四")[studyYear - 1] + " ▾" else "$academicYear ▾") }
+                        TextButton(onClick = { yearMenu = true }) { Text(if(studyYear in 1..4) yearLabel(studyYear) + " ▾" else "$academicYear ▾") }
                         DropdownMenu(yearMenu, { yearMenu = false }) {
-                            (1..4).forEach { year -> DropdownMenuItem(text = { Row { Text(listOf("大一", "大二", "大三", "大四")[year - 1]); RawText(" · ${admissionYear + year - 1}") } }, onClick = {
+                            (1..4).forEach { year -> DropdownMenuItem(text = { Row { Text(yearLabel(year)); RawText(" · ${admissionYear + year - 1}") } }, onClick = {
                                 selectTerm("${ownerPrefix}timetable-${admissionYear + year - 1}-Q$quarter"); yearMenu = false
                             }) }
                         }

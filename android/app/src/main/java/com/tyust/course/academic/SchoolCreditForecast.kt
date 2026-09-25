@@ -26,6 +26,7 @@ object SchoolCreditForecast {
             ?: when (value.trim()) { "前期" -> 2; "後期", "后期" -> 4; else -> null }
     }
     fun calculate(grade: PortalImport, snapshots: List<PortalImport>, year: Int, quarters: Set<Int>, faculty: String? = null): CreditForecast {
+        val graduate = faculty?.let { it.contains("研究科") || it.contains("大学院") } == true
         val owner = grade.key.substringBeforeLast('/', "")
         val tables = snapshots.filter { it.key.substringBeforeLast('/', "") == owner &&
             Regex("timetable-$year-Q[1-4]").matches(it.key.substringAfterLast('/')) }
@@ -54,13 +55,13 @@ object SchoolCreditForecast {
             // Never guess duration from the last timetable currently downloaded.
             val explicit = identity.third
             val resultQuarters = matchingGrades.mapNotNull { gradeQuarter(it.term) }.distinct()
-            val namedEnds = if (year == 2026) meetings.mapNotNull { (q, lesson) ->
+            val namedEnds = if (year == 2026 && !graduate) meetings.mapNotNull { (q, lesson) ->
                 SchoolScienceOfferings2026.find(lesson, q, faculty)?.term?.let {
                     when(it) { "前期" -> 2; "後期" -> 4; else -> it.take(1).toIntOrNull() }
                 }
             }.distinct().singleOrNull() else null
             val ends = if (explicit != null) listOf(explicit) else if (resultQuarters.isNotEmpty()) resultQuarters
-                else listOf((SchoolAcademicCalendar.creditQuarter(year, code, d) ?: namedEnds)?.takeIf { (it - 1) / 2 == identity.second })
+                else listOf((SchoolAcademicCalendar.creditQuarter(if (graduate) 0 else year, code, d) ?: namedEnds)?.takeIf { (it - 1) / 2 == identity.second })
             ends.map { q ->
                 ForecastCourse(code, courseName, credits, q, if (variants.size != 1 || credits <= BigDecimal.ZERO || q == null) "待核对，不计预览" else "预计新增") to observed
             }

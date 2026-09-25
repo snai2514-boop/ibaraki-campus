@@ -25,8 +25,9 @@ object SchoolStudentProfileParser {
         val number = values["学生番号"]?.takeIf { Regex("[A-Za-z0-9]{4,24}").matches(it) } ?: return null
         val name = values["学生氏名"]?.takeIf { it.isNotBlank() && it.length <= 100 } ?: return null
         val affiliation = values["所属"].orEmpty()
-        val faculty = Regex("^(.+?(?:学部|学環))").find(affiliation)?.value.orEmpty()
-        val department = if (faculty.isNotEmpty()) affiliation.removePrefix(faculty).trim() else ""
+        val faculty = GraduateCurricula.faculty(affiliation)
+            ?: Regex("^(.+?(?:研究科|学部|学環))").find(affiliation.removePrefix("茨城大学").removePrefix("大学院"))?.value.orEmpty()
+        val department = if (faculty.isNotEmpty()) affiliation.substringAfter(faculty, affiliation).trim() else ""
         fun dateYear(key: String) = values[key]?.let {
             Regex("^((?:19|20)\\d{2})(?:年|[-/])").find(java.text.Normalizer.normalize(it, java.text.Normalizer.Form.NFKC))?.groupValues?.get(1)?.toIntOrNull()
         }
